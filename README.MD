@@ -1,101 +1,181 @@
-Primeiro commit (27/07) iniciando o repositório do desafio
+# Desafio - Análise de Logs Spark EMR com IA Generativa
 
-Escopo:
- 
-Objetivo
- 
-Desenvolver uma solução que, a partir do log stderr de uma execução Spark no EMR (plano lógico, execução por executor, uso de memória, RDDs, estágios e tasks), produza um relatório técnico estruturado com classificação da execução, métricas de desempenho, gargalos identificados, recomendações de otimização e um score de qualidade — usando um assistente de IA como camada de raciocínio sobre dados já estruturados, nunca sobre o log bruto.
- 
- 
-Contexto
- 
-O stderr é o log gerado pelo próprio engine Spark: plano lógico, execução por executor, uso de memória, RDDs, ciclo de vida de estágios e tasks, exceptions e status final da aplicação.
- 
-É nele que vivem os sinais de performance — mas também é o log mais verboso e mais difícil de tratar:
- 
-	1.	Pode chegar a volumes grandes em execuções longas;
-	2.	Contém eventos multi-linha (stack traces, mensagens quebradas);
-	3.	Se vier via log aggregation do YARN, mistura os logs de múltiplos executores/containers em um único arquivo;
- 
- 
-O candidato deve documentar explicitamente as premissas assumidas sobre versão e verbosidade do log utilizado.
- 
- 
-Objetivo técnico
- 
-A partir do stderr, utilizando investigação técnica e IA Generativa, o candidato deve:
- 
-	•	extrair e estruturar eventos e métricas relevantes;
-	•	segmentar corretamente por executor/container, quando aplicável;
-	•	calcular métricas derivadas de performance;
-	•	usar um assistente de IA para interpretar o resumo estruturado e gerar classificação, gargalos e recomendações;
-	•	calcular um score de qualidade de forma determinística;
-	•	validar a própria análise antes de considerá-la pronta;
-	•	tratar dados potencialmente sensíveis antes de qualquer envio ao assistente.
- 
- 
-Escopo do desafio
- 
- 
-Etapa 1 — Entendimento do problema
- 
-Mapear a estrutura do stderr (formato, eventos típicos, variações);
-documentar as premissas assumidas (versão Spark/EMR, nível de verbosidade, se o log é single-container ou agregado);
-identificar o universo de eventos relevantes: início/fim de estágio, duração de tasks, GC, shuffle, spill, exceptions, status final.
- 
- 
-Etapa 2 — Parsing e estruturação
- 
-extração estruturada de eventos (regex, parser dedicado, ou lib de log parsing);
-tratamento de eventos multi-linha (stack traces, mensagens quebradas);
-segmentação por executor/container quando o log vier agregado;
- 
-antes de qualquer envio ao assistente: mascarar/redigir dados potencialmente sensíveis;
-projeto para escalar: não assumir que o arquivo inteiro cabe confortavelmente em memória (streaming/chunking quando fizer sentido).
- 
- 
-Etapa 3 — Agregação e feature engineering
- 
-Métricas mínimas de referência:
-duração total e por estágio;
-GC time ratio;
-shuffle read/write;
-spill (memória/disco);
-skew (razão entre task mais lenta e mediana, por estágio);
-executor lost / task retries / stage failures.
- 
- 
-Etapa 4 — Uso de IA Generativa como camada de raciocínio
- 
-O assistente recebe apenas o resumo estruturado e mascarado, nunca o log bruto;
-gera classificação, gargalos priorizados (com evidência) e recomendações específicas;
-O candidato deve documentar pelo menos um caso em que discordou, corrigiu ou descartou uma sugestão do assistente — evidência de senso crítico.
- 
-Enviar o log bruto (ou grande parte dele, mascarado ou não) diretamente ao assistente será contabilizado como não entrega.
- 
- 
-Etapa 5 — Scoring
- 
- 
-Score de qualidade (0–100) com metodologia determinística e documentada.
- 
- 
-Etapa 6 — Validação da solução
- 
- 
-Comparar a leitura manual do candidato sobre os 3 logs de referência com o output do pipeline, reportando divergências;
-medir precisão/cobertura da extração automática frente a uma amostra anotada manualmente;
-na apresentação, testar contra um log não visto previamente.
- 
- 
-Etapa 7 Entregáveis
- 
- 
-Código-fonte organizado em módulos (repositório Git).
-README.md com: como executar; 
-premissas de versão/verbosidade assumidas; 
-decisões de arquitetura; 
-justificativa das métricas; 
-metodologia do score; 
-resultado da validação; casos em que o assistente foi corrigido/descartado.
-Relatório gerado para os 3 logs de referência + o log holdout.
+> **Primeiro commit:** 27/07/2026  
+> Início do repositório do desafio.
+
+---
+
+# Escopo
+
+## Objetivo
+
+Desenvolver uma solução que, a partir do log **stderr** de uma execução **Spark no EMR** (plano lógico, execução por executor, uso de memória, RDDs, estágios e tasks), produza um relatório técnico estruturado contendo:
+
+- Classificação da execução;
+- Métricas de desempenho;
+- Gargalos identificados;
+- Recomendações de otimização;
+- Score de qualidade.
+
+A solução deve utilizar um assistente de **IA Generativa** apenas como camada de raciocínio sobre dados previamente estruturados, **nunca sobre o log bruto**.
+
+---
+
+# Contexto
+
+O `stderr` é o log gerado pelo próprio engine Spark e contém informações como:
+
+- Plano lógico;
+- Execução por executor;
+- Uso de memória;
+- RDDs;
+- Ciclo de vida de estágios (stages) e tasks;
+- Exceptions;
+- Status final da aplicação.
+
+Esse log concentra praticamente todos os sinais de performance da aplicação, mas também apresenta desafios importantes:
+
+1. Pode atingir grandes volumes em execuções longas;
+2. Contém eventos multilinha (stack traces e mensagens quebradas);
+3. Quando agregado pelo YARN, pode reunir logs de múltiplos executores/containers em um único arquivo.
+
+> **Importante:** o candidato deve documentar explicitamente as premissas assumidas sobre a versão do Spark/EMR e o nível de verbosidade do log utilizado.
+
+---
+
+# Objetivo Técnico
+
+A partir do `stderr`, utilizando investigação técnica e IA Generativa, a solução deve ser capaz de:
+
+- Extrair e estruturar eventos e métricas relevantes;
+- Segmentar corretamente por executor/container, quando necessário;
+- Calcular métricas derivadas de performance;
+- Utilizar um assistente de IA para interpretar o resumo estruturado e gerar:
+  - classificação;
+  - gargalos;
+  - recomendações;
+- Calcular um score de qualidade de forma determinística;
+- Validar a própria análise antes de considerá-la concluída;
+- Tratar dados potencialmente sensíveis antes de qualquer envio ao assistente.
+
+---
+
+# Escopo do Desafio
+
+## Etapa 1 — Entendimento do Problema
+
+- Mapear a estrutura do `stderr`;
+- Documentar as premissas assumidas:
+  - versão do Spark/EMR;
+  - nível de verbosidade;
+  - log single-container ou agregado;
+- Identificar os principais eventos:
+  - início/fim de estágio;
+  - duração das tasks;
+  - GC;
+  - shuffle;
+  - spill;
+  - exceptions;
+  - status final.
+
+---
+
+## Etapa 2 — Parsing e Estruturação
+
+Implementar:
+
+- Extração estruturada dos eventos (regex, parser dedicado ou biblioteca especializada);
+- Tratamento de eventos multilinha (stack traces e mensagens quebradas);
+- Segmentação por executor/container quando o log estiver agregado;
+- Mascaramento/redação de dados sensíveis antes do envio ao assistente;
+- Arquitetura escalável, sem assumir que todo o arquivo cabe em memória (streaming/chunking quando apropriado).
+
+---
+
+## Etapa 3 — Agregação e Feature Engineering
+
+Implementar, no mínimo, as seguintes métricas:
+
+- Duração total da execução;
+- Duração por estágio;
+- GC Time Ratio;
+- Shuffle Read;
+- Shuffle Write;
+- Spill em memória;
+- Spill em disco;
+- Skew (razão entre a task mais lenta e a mediana do estágio);
+- Executor Lost;
+- Task Retries;
+- Stage Failures.
+
+---
+
+## Etapa 4 — Uso da IA Generativa
+
+O assistente deve receber **apenas o resumo estruturado e mascarado**, nunca o log bruto.
+
+A IA deverá gerar:
+
+- Classificação da execução;
+- Gargalos priorizados com evidências;
+- Recomendações específicas de otimização.
+
+Além disso, o candidato deve documentar pelo menos **um caso** em que:
+
+- discordou da IA;
+- corrigiu uma sugestão;
+- descartou uma recomendação.
+
+Isso servirá como evidência de senso crítico.
+
+> **Importante:** enviar o log bruto (ou grande parte dele), mascarado ou não, diretamente ao assistente será considerado **não entrega**.
+
+---
+
+## Etapa 5 — Scoring
+
+Implementar um **Score de Qualidade (0–100)** utilizando uma metodologia:
+
+- determinística;
+- documentada;
+- reproduzível.
+
+---
+
+## Etapa 6 — Validação da Solução
+
+Realizar validações por meio de:
+
+- Comparação entre a leitura manual dos três logs de referência e a saída do pipeline;
+- Relato das divergências encontradas;
+- Medição da precisão e cobertura da extração automática frente a uma amostra anotada manualmente;
+- Demonstração da solução utilizando um log inédito (holdout).
+
+---
+
+## Etapa 7 — Entregáveis
+
+O projeto deverá conter:
+
+### Código
+
+- Repositório Git organizado em módulos.
+
+### README.md
+
+Deve conter:
+
+- Como executar o projeto;
+- Premissas de versão e verbosidade;
+- Decisões de arquitetura;
+- Justificativa das métricas utilizadas;
+- Metodologia do Score de Qualidade;
+- Resultado da validação;
+- Casos em que o assistente foi corrigido ou descartado.
+
+### Relatórios
+
+Gerar um relatório para:
+
+- Os 3 logs de referência;
+- O log de validação (holdout).
