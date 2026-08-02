@@ -1,0 +1,18 @@
+# Variáveis de ambiente
+.env
+
+# Ambiente virtual
+.venv/
+venv/
+env/
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Saídas do projeto (opcional)
+log_agregado.json
+
+log_REF_TRACKING_sucesso.txt
+log_REP_FAT_DELTA_interrompido.txt
