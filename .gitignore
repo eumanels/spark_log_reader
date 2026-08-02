@@ -17,3 +17,5 @@ log_agregado.json
 log_REF_TRACKING_sucesso.txt
 log_REP_FAT_DELTA_interrompido.txtlog_REF_TRACKING_sucesso.txt
 log_REP_FAT_DELTA_interrompido.txt
+__pycache__/
+*.pyc
