@@ -128,8 +128,6 @@ Além disso, o candidato deve documentar pelo menos **um caso** em que:
 
 Isso servirá como evidência de senso crítico.
 
-> **Importante:** enviar o log bruto (ou grande parte dele), mascarado ou não, diretamente ao assistente será considerado **não entrega**.
-
 ---
 
 ## Etapa 5 — Scoring
