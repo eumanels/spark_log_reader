@@ -1,0 +1,4929 @@
+{
+  "stages": [
+    {
+      "stage_id": "0",
+      "num_tasks": 1,
+      "duration_s": 4.367,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 2370,
+        "max": 2370,
+        "mean": 2370,
+        "median": 2370,
+        "p95": 2370
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 2370,
+          "total": 2370
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "2",
+      "num_tasks": 50,
+      "duration_s": 2.837,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 61,
+        "max": 2794,
+        "mean": 1108.6,
+        "median": 126.0,
+        "p95": 2792
+      },
+      "tasks_per_executor": {
+        "3": 34,
+        "2": 8,
+        "1": 8
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 338.5,
+          "total": 11509
+        },
+        "2": {
+          "mean": 2697.9,
+          "total": 21583
+        },
+        "1": {
+          "mean": 2792.2,
+          "total": 22338
+        }
+      },
+      "skew_ratio": 22.17
+    },
+    {
+      "stage_id": "5",
+      "num_tasks": 1,
+      "duration_s": 0.165,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 154,
+        "max": 154,
+        "mean": 154,
+        "median": 154,
+        "p95": 154
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 154,
+          "total": 154
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "7",
+      "num_tasks": 50,
+      "duration_s": 0.25,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 15,
+        "max": 231,
+        "mean": 105.3,
+        "median": 31.0,
+        "p95": 229
+      },
+      "tasks_per_executor": {
+        "1": 8,
+        "3": 34,
+        "2": 8
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 199.5,
+          "total": 1596
+        },
+        "3": {
+          "mean": 54.1,
+          "total": 1839
+        },
+        "2": {
+          "mean": 229,
+          "total": 1832
+        }
+      },
+      "skew_ratio": 7.45
+    },
+    {
+      "stage_id": "8",
+      "num_tasks": 1,
+      "duration_s": 1.05,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 1041,
+        "max": 1041,
+        "mean": 1041,
+        "median": 1041,
+        "p95": 1041
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 1041,
+          "total": 1041
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "10",
+      "num_tasks": 1,
+      "duration_s": 0.057,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 52,
+        "max": 52,
+        "mean": 52,
+        "median": 52,
+        "p95": 52
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 52,
+          "total": 52
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "11",
+      "num_tasks": 8,
+      "duration_s": 0.818,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 249,
+        "max": 802,
+        "mean": 435.4,
+        "median": 345.0,
+        "p95": 802
+      },
+      "tasks_per_executor": {
+        "3": 3,
+        "2": 3,
+        "1": 2
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 262.3,
+          "total": 787
+        },
+        "2": {
+          "mean": 364,
+          "total": 1092
+        },
+        "1": {
+          "mean": 802,
+          "total": 1604
+        }
+      },
+      "skew_ratio": 2.32
+    },
+    {
+      "stage_id": "13",
+      "num_tasks": 50,
+      "duration_s": 0.37,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 48,
+        "max": 356,
+        "mean": 161.2,
+        "median": 90.5,
+        "p95": 272
+      },
+      "tasks_per_executor": {
+        "3": 19,
+        "2": 16,
+        "1": 15
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 137.4,
+          "total": 2611
+        },
+        "2": {
+          "mean": 168.1,
+          "total": 2689
+        },
+        "1": {
+          "mean": 184.1,
+          "total": 2761
+        }
+      },
+      "skew_ratio": 3.93
+    },
+    {
+      "stage_id": "16",
+      "num_tasks": 1,
+      "duration_s": 0.071,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 62,
+        "max": 62,
+        "mean": 62,
+        "median": 62,
+        "p95": 62
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 62,
+          "total": 62
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "18",
+      "num_tasks": 50,
+      "duration_s": 0.091,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 11,
+        "max": 65,
+        "mean": 36.4,
+        "median": 35.0,
+        "p95": 62
+      },
+      "tasks_per_executor": {
+        "1": 15,
+        "2": 16,
+        "3": 19
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 39.3,
+          "total": 590
+        },
+        "2": {
+          "mean": 38.2,
+          "total": 612
+        },
+        "3": {
+          "mean": 32.6,
+          "total": 619
+        }
+      },
+      "skew_ratio": 1.86
+    },
+    {
+      "stage_id": "19",
+      "num_tasks": 1,
+      "duration_s": 0.151,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 141,
+        "max": 141,
+        "mean": 141,
+        "median": 141,
+        "p95": 141
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 141,
+          "total": 141
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "21",
+      "num_tasks": 1,
+      "duration_s": 0.025,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 21,
+        "max": 21,
+        "mean": 21,
+        "median": 21,
+        "p95": 21
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 21,
+          "total": 21
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "22",
+      "num_tasks": 10,
+      "duration_s": 0.608,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 97,
+        "max": 594,
+        "mean": 177,
+        "median": 120.5,
+        "p95": 193
+      },
+      "tasks_per_executor": {
+        "1": 4,
+        "3": 3,
+        "2": 3
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 273.8,
+          "total": 1095
+        },
+        "3": {
+          "mean": 103.3,
+          "total": 310
+        },
+        "2": {
+          "mean": 121.7,
+          "total": 365
+        }
+      },
+      "skew_ratio": 4.93
+    },
+    {
+      "stage_id": "24",
+      "num_tasks": 50,
+      "duration_s": 0.256,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 43,
+        "max": 247,
+        "mean": 84.4,
+        "median": 81.5,
+        "p95": 108
+      },
+      "tasks_per_executor": {
+        "1": 16,
+        "2": 16,
+        "3": 18
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 91.1,
+          "total": 1457
+        },
+        "2": {
+          "mean": 84.7,
+          "total": 1355
+        },
+        "3": {
+          "mean": 78.3,
+          "total": 1410
+        }
+      },
+      "skew_ratio": 3.03
+    },
+    {
+      "stage_id": "27",
+      "num_tasks": 1,
+      "duration_s": 0.067,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 58,
+        "max": 58,
+        "mean": 58,
+        "median": 58,
+        "p95": 58
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 58,
+          "total": 58
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "29",
+      "num_tasks": 50,
+      "duration_s": 0.066,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 10,
+        "max": 42,
+        "mean": 23.2,
+        "median": 21.0,
+        "p95": 38
+      },
+      "tasks_per_executor": {
+        "1": 16,
+        "3": 18,
+        "2": 16
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 24.5,
+          "total": 392
+        },
+        "3": {
+          "mean": 21.1,
+          "total": 380
+        },
+        "2": {
+          "mean": 24.3,
+          "total": 389
+        }
+      },
+      "skew_ratio": 2.0
+    },
+    {
+      "stage_id": "30",
+      "num_tasks": 1,
+      "duration_s": 0.14,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 137,
+        "max": 137,
+        "mean": 137,
+        "median": 137,
+        "p95": 137
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 137,
+          "total": 137
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "32",
+      "num_tasks": 1,
+      "duration_s": 0.023,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 20,
+        "max": 20,
+        "mean": 20,
+        "median": 20,
+        "p95": 20
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 20,
+          "total": 20
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "33",
+      "num_tasks": 2,
+      "duration_s": 0.15,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 115,
+        "max": 146,
+        "mean": 130.5,
+        "median": 130.5,
+        "p95": 115
+      },
+      "tasks_per_executor": {
+        "1": 1,
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 146,
+          "total": 146
+        },
+        "2": {
+          "mean": 115,
+          "total": 115
+        }
+      },
+      "skew_ratio": 1.12
+    },
+    {
+      "stage_id": "35",
+      "num_tasks": 50,
+      "duration_s": 0.25,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 50,
+        "max": 240,
+        "mean": 73.5,
+        "median": 70.5,
+        "p95": 86
+      },
+      "tasks_per_executor": {
+        "2": 17,
+        "1": 16,
+        "3": 17
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 79.4,
+          "total": 1350
+        },
+        "1": {
+          "mean": 70.4,
+          "total": 1127
+        },
+        "3": {
+          "mean": 70.6,
+          "total": 1200
+        }
+      },
+      "skew_ratio": 3.4
+    },
+    {
+      "stage_id": "38",
+      "num_tasks": 1,
+      "duration_s": 0.04,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 33,
+        "max": 33,
+        "mean": 33,
+        "median": 33,
+        "p95": 33
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 33,
+          "total": 33
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "40",
+      "num_tasks": 50,
+      "duration_s": 0.066,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 10,
+        "max": 41,
+        "mean": 22.4,
+        "median": 20.5,
+        "p95": 38
+      },
+      "tasks_per_executor": {
+        "3": 17,
+        "2": 17,
+        "1": 16
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 21.1,
+          "total": 359
+        },
+        "2": {
+          "mean": 23.9,
+          "total": 406
+        },
+        "1": {
+          "mean": 22.2,
+          "total": 356
+        }
+      },
+      "skew_ratio": 2.0
+    },
+    {
+      "stage_id": "41",
+      "num_tasks": 1,
+      "duration_s": 0.102,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 98,
+        "max": 98,
+        "mean": 98,
+        "median": 98,
+        "p95": 98
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 98,
+          "total": 98
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "43",
+      "num_tasks": 1,
+      "duration_s": 0.019,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 15,
+        "max": 15,
+        "mean": 15,
+        "median": 15,
+        "p95": 15
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 15,
+          "total": 15
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "44",
+      "num_tasks": 10,
+      "duration_s": 0.209,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 148,
+        "max": 205,
+        "mean": 169,
+        "median": 166.0,
+        "p95": 188
+      },
+      "tasks_per_executor": {
+        "1": 4,
+        "2": 3,
+        "3": 3
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 169,
+          "total": 676
+        },
+        "2": {
+          "mean": 168.3,
+          "total": 505
+        },
+        "3": {
+          "mean": 169.7,
+          "total": 509
+        }
+      },
+      "skew_ratio": 1.23
+    },
+    {
+      "stage_id": "46",
+      "num_tasks": 50,
+      "duration_s": 0.386,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 56,
+        "max": 268,
+        "mean": 160.4,
+        "median": 87.5,
+        "p95": 266
+      },
+      "tasks_per_executor": {
+        "2": 16,
+        "1": 18,
+        "3": 16
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 173.8,
+          "total": 2781
+        },
+        "1": {
+          "mean": 148.6,
+          "total": 2675
+        },
+        "3": {
+          "mean": 160.1,
+          "total": 2562
+        }
+      },
+      "skew_ratio": 3.06
+    },
+    {
+      "stage_id": "49",
+      "num_tasks": 1,
+      "duration_s": 0.027,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 23,
+        "max": 23,
+        "mean": 23,
+        "median": 23,
+        "p95": 23
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 23,
+          "total": 23
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "50",
+      "num_tasks": 9,
+      "duration_s": 0.242,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 171,
+        "max": 239,
+        "mean": 202.3,
+        "median": 199,
+        "p95": 233
+      },
+      "tasks_per_executor": {
+        "2": 3,
+        "1": 3,
+        "3": 3
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 207,
+          "total": 621
+        },
+        "1": {
+          "mean": 205.7,
+          "total": 617
+        },
+        "3": {
+          "mean": 194.3,
+          "total": 583
+        }
+      },
+      "skew_ratio": 1.2
+    },
+    {
+      "stage_id": "52",
+      "num_tasks": 50,
+      "duration_s": 0.233,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 54,
+        "max": 126,
+        "mean": 96.5,
+        "median": 92.5,
+        "p95": 124
+      },
+      "tasks_per_executor": {
+        "1": 18,
+        "3": 16,
+        "2": 16
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 88.1,
+          "total": 1585
+        },
+        "3": {
+          "mean": 101.4,
+          "total": 1622
+        },
+        "2": {
+          "mean": 101.1,
+          "total": 1618
+        }
+      },
+      "skew_ratio": 1.36
+    },
+    {
+      "stage_id": "55",
+      "num_tasks": 1,
+      "duration_s": 0.019,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 16,
+        "max": 16,
+        "mean": 16,
+        "median": 16,
+        "p95": 16
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 16,
+          "total": 16
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "56",
+      "num_tasks": 6,
+      "duration_s": 0.142,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 88,
+        "max": 138,
+        "mean": 113.2,
+        "median": 110.0,
+        "p95": 135
+      },
+      "tasks_per_executor": {
+        "3": 2,
+        "2": 2,
+        "1": 2
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 116.5,
+          "total": 233
+        },
+        "2": {
+          "mean": 121.5,
+          "total": 243
+        },
+        "1": {
+          "mean": 101.5,
+          "total": 203
+        }
+      },
+      "skew_ratio": 1.25
+    },
+    {
+      "stage_id": "58",
+      "num_tasks": 50,
+      "duration_s": 0.188,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 43,
+        "max": 108,
+        "mean": 74.8,
+        "median": 71.5,
+        "p95": 105
+      },
+      "tasks_per_executor": {
+        "3": 17,
+        "2": 16,
+        "1": 17
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 72.1,
+          "total": 1226
+        },
+        "2": {
+          "mean": 83,
+          "total": 1328
+        },
+        "1": {
+          "mean": 69.9,
+          "total": 1188
+        }
+      },
+      "skew_ratio": 1.51
+    },
+    {
+      "stage_id": "61",
+      "num_tasks": 1,
+      "duration_s": 0.038,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 23,
+        "max": 23,
+        "mean": 23,
+        "median": 23,
+        "p95": 23
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 23,
+          "total": 23
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "62",
+      "num_tasks": 7,
+      "duration_s": 0.169,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 80,
+        "max": 166,
+        "mean": 116.9,
+        "median": 108,
+        "p95": 136
+      },
+      "tasks_per_executor": {
+        "1": 3,
+        "3": 2,
+        "2": 2
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 116.7,
+          "total": 350
+        },
+        "3": {
+          "mean": 129.5,
+          "total": 259
+        },
+        "2": {
+          "mean": 104.5,
+          "total": 209
+        }
+      },
+      "skew_ratio": 1.54
+    },
+    {
+      "stage_id": "64",
+      "num_tasks": 50,
+      "duration_s": 0.172,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 33,
+        "max": 83,
+        "mean": 61.5,
+        "median": 65.0,
+        "p95": 82
+      },
+      "tasks_per_executor": {
+        "3": 19,
+        "1": 16,
+        "2": 15
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 57.5,
+          "total": 1093
+        },
+        "1": {
+          "mean": 65.2,
+          "total": 1044
+        },
+        "2": {
+          "mean": 62.5,
+          "total": 938
+        }
+      },
+      "skew_ratio": 1.28
+    },
+    {
+      "stage_id": "67",
+      "num_tasks": 1,
+      "duration_s": 0.017,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 15,
+        "max": 15,
+        "mean": 15,
+        "median": 15,
+        "p95": 15
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 15,
+          "total": 15
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "68",
+      "num_tasks": 5,
+      "duration_s": 0.275,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 99,
+        "max": 271,
+        "mean": 196,
+        "median": 240,
+        "p95": 252
+      },
+      "tasks_per_executor": {
+        "2": 2,
+        "3": 2,
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 185,
+          "total": 370
+        },
+        "3": {
+          "mean": 185,
+          "total": 370
+        },
+        "1": {
+          "mean": 240,
+          "total": 240
+        }
+      },
+      "skew_ratio": 1.13
+    },
+    {
+      "stage_id": "70",
+      "num_tasks": 50,
+      "duration_s": 0.167,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 36,
+        "max": 94,
+        "mean": 63.4,
+        "median": 62.0,
+        "p95": 80
+      },
+      "tasks_per_executor": {
+        "2": 16,
+        "3": 18,
+        "1": 16
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 66.1,
+          "total": 1057
+        },
+        "3": {
+          "mean": 56.2,
+          "total": 1011
+        },
+        "1": {
+          "mean": 68.8,
+          "total": 1100
+        }
+      },
+      "skew_ratio": 1.52
+    },
+    {
+      "stage_id": "73",
+      "num_tasks": 1,
+      "duration_s": 0.037,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 30,
+        "max": 30,
+        "mean": 30,
+        "median": 30,
+        "p95": 30
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 30,
+          "total": 30
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "75",
+      "num_tasks": 50,
+      "duration_s": 0.085,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 16,
+        "max": 47,
+        "mean": 27.6,
+        "median": 26.0,
+        "p95": 42
+      },
+      "tasks_per_executor": {
+        "3": 16,
+        "2": 16,
+        "1": 18
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 25.2,
+          "total": 403
+        },
+        "2": {
+          "mean": 34,
+          "total": 544
+        },
+        "1": {
+          "mean": 24.1,
+          "total": 433
+        }
+      },
+      "skew_ratio": 1.81
+    },
+    {
+      "stage_id": "78",
+      "num_tasks": 1,
+      "duration_s": 0.035,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 28,
+        "max": 28,
+        "mean": 28,
+        "median": 28,
+        "p95": 28
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 28,
+          "total": 28
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "80",
+      "num_tasks": 50,
+      "duration_s": 0.048,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 8,
+        "max": 28,
+        "mean": 16,
+        "median": 13.5,
+        "p95": 26
+      },
+      "tasks_per_executor": {
+        "3": 16,
+        "2": 16,
+        "1": 18
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 15.6,
+          "total": 249
+        },
+        "2": {
+          "mean": 18.4,
+          "total": 295
+        },
+        "1": {
+          "mean": 14.2,
+          "total": 256
+        }
+      },
+      "skew_ratio": 2.07
+    },
+    {
+      "stage_id": "82",
+      "num_tasks": 50,
+      "duration_s": 0.132,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 16,
+        "max": 88,
+        "mean": 52.3,
+        "median": 36.5,
+        "p95": 87
+      },
+      "tasks_per_executor": {
+        "3": 16,
+        "1": 18,
+        "2": 16
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 52.3,
+          "total": 837
+        },
+        "1": {
+          "mean": 49.7,
+          "total": 895
+        },
+        "2": {
+          "mean": 55.1,
+          "total": 881
+        }
+      },
+      "skew_ratio": 2.41
+    },
+    {
+      "stage_id": "84",
+      "num_tasks": 50,
+      "duration_s": 0.071,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 11,
+        "max": 48,
+        "mean": 26.7,
+        "median": 21.0,
+        "p95": 44
+      },
+      "tasks_per_executor": {
+        "3": 17,
+        "1": 17,
+        "2": 16
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 27.8,
+          "total": 473
+        },
+        "1": {
+          "mean": 26.4,
+          "total": 449
+        },
+        "2": {
+          "mean": 25.9,
+          "total": 415
+        }
+      },
+      "skew_ratio": 2.29
+    },
+    {
+      "stage_id": "86",
+      "num_tasks": 50,
+      "duration_s": 0.074,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 10,
+        "max": 47,
+        "mean": 26.4,
+        "median": 21.5,
+        "p95": 43
+      },
+      "tasks_per_executor": {
+        "2": 15,
+        "3": 19,
+        "1": 16
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 25.1,
+          "total": 377
+        },
+        "3": {
+          "mean": 24,
+          "total": 456
+        },
+        "1": {
+          "mean": 30.3,
+          "total": 485
+        }
+      },
+      "skew_ratio": 2.19
+    },
+    {
+      "stage_id": "87",
+      "num_tasks": 1023,
+      "duration_s": 53.815,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 16,
+        "max": 11963,
+        "mean": 1114.2,
+        "median": 124,
+        "p95": 7280
+      },
+      "tasks_per_executor": {
+        "3": 291,
+        "2": 387,
+        "1": 345
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 1325.0,
+          "total": 385584
+        },
+        "2": {
+          "mean": 996.5,
+          "total": 385647
+        },
+        "1": {
+          "mean": 1068.4,
+          "total": 368599
+        }
+      },
+      "skew_ratio": 96.48
+    },
+    {
+      "stage_id": "88",
+      "num_tasks": 1007,
+      "duration_s": 121.978,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 22,
+        "max": 30379,
+        "mean": 3111.6,
+        "median": 1777,
+        "p95": 8709
+      },
+      "tasks_per_executor": {
+        "1": 134,
+        "3": 133,
+        "2": 144,
+        "6": 22,
+        "7": 60,
+        "5": 70,
+        "18": 9,
+        "4": 10,
+        "14": 13,
+        "19": 10,
+        "15": 10,
+        "12": 10,
+        "10": 12,
+        "13": 14,
+        "8": 13,
+        "17": 12,
+        "11": 12,
+        "30": 8,
+        "16": 34,
+        "31": 10,
+        "35": 11,
+        "44": 42,
+        "42": 22,
+        "36": 25,
+        "46": 31,
+        "41": 28,
+        "40": 16,
+        "32": 13,
+        "27": 20,
+        "23": 11,
+        "48": 8,
+        "47": 16,
+        "29": 8,
+        "38": 8,
+        "49": 8
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 2950.8,
+          "total": 395411
+        },
+        "3": {
+          "mean": 2827.4,
+          "total": 376041
+        },
+        "2": {
+          "mean": 2587.9,
+          "total": 372654
+        },
+        "6": {
+          "mean": 5158.1,
+          "total": 113478
+        },
+        "7": {
+          "mean": 1751.5,
+          "total": 105091
+        },
+        "5": {
+          "mean": 1452.1,
+          "total": 101649
+        },
+        "18": {
+          "mean": 7690.1,
+          "total": 69211
+        },
+        "4": {
+          "mean": 6677,
+          "total": 66770
+        },
+        "14": {
+          "mean": 5181.8,
+          "total": 67363
+        },
+        "19": {
+          "mean": 6551.2,
+          "total": 65512
+        },
+        "15": {
+          "mean": 6909.6,
+          "total": 69096
+        },
+        "12": {
+          "mean": 6769.1,
+          "total": 67691
+        },
+        "10": {
+          "mean": 5820.5,
+          "total": 69846
+        },
+        "13": {
+          "mean": 5002.1,
+          "total": 70029
+        },
+        "8": {
+          "mean": 5488.3,
+          "total": 71348
+        },
+        "17": {
+          "mean": 5897.8,
+          "total": 70774
+        },
+        "11": {
+          "mean": 6353.5,
+          "total": 76242
+        },
+        "30": {
+          "mean": 8272.6,
+          "total": 66181
+        },
+        "16": {
+          "mean": 2123.5,
+          "total": 72198
+        },
+        "31": {
+          "mean": 6804.7,
+          "total": 68047
+        },
+        "35": {
+          "mean": 6426.5,
+          "total": 70692
+        },
+        "44": {
+          "mean": 1324.8,
+          "total": 55641
+        },
+        "42": {
+          "mean": 2804.2,
+          "total": 61693
+        },
+        "36": {
+          "mean": 2417.6,
+          "total": 60441
+        },
+        "46": {
+          "mean": 1755.4,
+          "total": 54418
+        },
+        "41": {
+          "mean": 1994.8,
+          "total": 55854
+        },
+        "40": {
+          "mean": 3641.1,
+          "total": 58257
+        },
+        "32": {
+          "mean": 7722.9,
+          "total": 100398
+        },
+        "27": {
+          "mean": 2290.9,
+          "total": 45819
+        },
+        "23": {
+          "mean": 5243.5,
+          "total": 57678
+        },
+        "48": {
+          "mean": 2387.4,
+          "total": 19099
+        },
+        "47": {
+          "mean": 981.4,
+          "total": 15703
+        },
+        "29": {
+          "mean": 1748.4,
+          "total": 13987
+        },
+        "38": {
+          "mean": 1767.1,
+          "total": 14137
+        },
+        "49": {
+          "mean": 1871.1,
+          "total": 14969
+        }
+      },
+      "skew_ratio": 17.1
+    },
+    {
+      "stage_id": "89",
+      "num_tasks": 41,
+      "duration_s": 94.961,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 74,
+        "max": 1104,
+        "mean": 339.6,
+        "median": 309,
+        "p95": 532
+      },
+      "tasks_per_executor": {
+        "29": 8,
+        "5": 3,
+        "2": 4,
+        "44": 2,
+        "46": 2,
+        "32": 1,
+        "3": 4,
+        "7": 1,
+        "1": 1,
+        "48": 6,
+        "40": 1,
+        "27": 3,
+        "36": 1,
+        "41": 2,
+        "42": 1,
+        "16": 1
+      },
+      "executor_duration_ms": {
+        "29": {
+          "mean": 426.2,
+          "total": 3410
+        },
+        "5": {
+          "mean": 446,
+          "total": 1338
+        },
+        "2": {
+          "mean": 124,
+          "total": 496
+        },
+        "44": {
+          "mean": 300,
+          "total": 600
+        },
+        "46": {
+          "mean": 288.5,
+          "total": 577
+        },
+        "32": {
+          "mean": 381,
+          "total": 381
+        },
+        "3": {
+          "mean": 101.8,
+          "total": 407
+        },
+        "7": {
+          "mean": 298,
+          "total": 298
+        },
+        "1": {
+          "mean": 157,
+          "total": 157
+        },
+        "48": {
+          "mean": 530.5,
+          "total": 3183
+        },
+        "40": {
+          "mean": 424,
+          "total": 424
+        },
+        "27": {
+          "mean": 351.3,
+          "total": 1054
+        },
+        "36": {
+          "mean": 309,
+          "total": 309
+        },
+        "41": {
+          "mean": 289.5,
+          "total": 579
+        },
+        "42": {
+          "mean": 305,
+          "total": 305
+        },
+        "16": {
+          "mean": 406,
+          "total": 406
+        }
+      },
+      "skew_ratio": 3.57
+    },
+    {
+      "stage_id": "90",
+      "num_tasks": 827,
+      "duration_s": 99.495,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 19,
+        "max": 4920,
+        "mean": 357.1,
+        "median": 133,
+        "p95": 2179
+      },
+      "tasks_per_executor": {
+        "48": 33,
+        "18": 38,
+        "27": 28,
+        "23": 4,
+        "3": 46,
+        "2": 63,
+        "47": 65,
+        "38": 69,
+        "5": 21,
+        "7": 24,
+        "1": 32,
+        "4": 47,
+        "29": 71,
+        "46": 9,
+        "44": 20,
+        "41": 15,
+        "36": 4,
+        "42": 6,
+        "32": 5,
+        "40": 4,
+        "14": 25,
+        "16": 6,
+        "19": 80,
+        "45": 8,
+        "6": 14,
+        "15": 23,
+        "49": 30,
+        "12": 17,
+        "13": 13,
+        "10": 7
+      },
+      "executor_duration_ms": {
+        "48": {
+          "mean": 845.9,
+          "total": 27914
+        },
+        "18": {
+          "mean": 480.9,
+          "total": 18273
+        },
+        "27": {
+          "mean": 321.4,
+          "total": 8999
+        },
+        "23": {
+          "mean": 1086,
+          "total": 4344
+        },
+        "3": {
+          "mean": 253.8,
+          "total": 11677
+        },
+        "2": {
+          "mean": 196.3,
+          "total": 12367
+        },
+        "47": {
+          "mean": 316.3,
+          "total": 20559
+        },
+        "38": {
+          "mean": 335.8,
+          "total": 23170
+        },
+        "5": {
+          "mean": 319.9,
+          "total": 6717
+        },
+        "7": {
+          "mean": 379.1,
+          "total": 9098
+        },
+        "1": {
+          "mean": 375.9,
+          "total": 12028
+        },
+        "4": {
+          "mean": 381.7,
+          "total": 17939
+        },
+        "29": {
+          "mean": 234.8,
+          "total": 16672
+        },
+        "46": {
+          "mean": 625.8,
+          "total": 5632
+        },
+        "44": {
+          "mean": 299.1,
+          "total": 5983
+        },
+        "41": {
+          "mean": 397.4,
+          "total": 5961
+        },
+        "36": {
+          "mean": 908,
+          "total": 3632
+        },
+        "42": {
+          "mean": 296.2,
+          "total": 1777
+        },
+        "32": {
+          "mean": 411.4,
+          "total": 2057
+        },
+        "40": {
+          "mean": 582.8,
+          "total": 2331
+        },
+        "14": {
+          "mean": 613.2,
+          "total": 15331
+        },
+        "16": {
+          "mean": 335.5,
+          "total": 2013
+        },
+        "19": {
+          "mean": 176.1,
+          "total": 14089
+        },
+        "45": {
+          "mean": 1491.9,
+          "total": 11935
+        },
+        "6": {
+          "mean": 420.2,
+          "total": 5883
+        },
+        "15": {
+          "mean": 369.7,
+          "total": 8502
+        },
+        "49": {
+          "mean": 465.4,
+          "total": 13963
+        },
+        "12": {
+          "mean": 272.1,
+          "total": 4625
+        },
+        "13": {
+          "mean": 87.7,
+          "total": 1140
+        },
+        "10": {
+          "mean": 99,
+          "total": 693
+        }
+      },
+      "skew_ratio": 36.99
+    },
+    {
+      "stage_id": "95",
+      "num_tasks": 1000,
+      "duration_s": 105.062,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 11299,
+        "max": 54296,
+        "mean": 36763.5,
+        "median": 38242.5,
+        "p95": 49118
+      },
+      "tasks_per_executor": {
+        "10": 16,
+        "30": 24,
+        "5": 24,
+        "39": 16,
+        "50": 24,
+        "33": 16,
+        "9": 16,
+        "44": 16,
+        "22": 16,
+        "1": 16,
+        "43": 16,
+        "11": 16,
+        "23": 16,
+        "6": 16,
+        "12": 20,
+        "31": 17,
+        "20": 20,
+        "21": 24,
+        "46": 24,
+        "47": 24,
+        "42": 16,
+        "28": 16,
+        "37": 16,
+        "24": 20,
+        "35": 16,
+        "8": 24,
+        "4": 21,
+        "40": 16,
+        "29": 19,
+        "32": 24,
+        "14": 28,
+        "38": 21,
+        "7": 32,
+        "34": 24,
+        "26": 21,
+        "3": 16,
+        "13": 32,
+        "18": 16,
+        "49": 16,
+        "17": 16,
+        "45": 22,
+        "27": 17,
+        "25": 24,
+        "36": 16,
+        "15": 16,
+        "16": 18,
+        "41": 24,
+        "19": 24,
+        "2": 32,
+        "48": 20
+      },
+      "executor_duration_ms": {
+        "10": {
+          "mean": 43498.2,
+          "total": 695972
+        },
+        "30": {
+          "mean": 32470.0,
+          "total": 779279
+        },
+        "5": {
+          "mean": 32464.5,
+          "total": 779147
+        },
+        "39": {
+          "mean": 42754.1,
+          "total": 684065
+        },
+        "50": {
+          "mean": 31756.6,
+          "total": 762158
+        },
+        "33": {
+          "mean": 42157.9,
+          "total": 674526
+        },
+        "9": {
+          "mean": 50955.6,
+          "total": 815289
+        },
+        "44": {
+          "mean": 42423.8,
+          "total": 678781
+        },
+        "22": {
+          "mean": 42838.2,
+          "total": 685412
+        },
+        "1": {
+          "mean": 45144.1,
+          "total": 722305
+        },
+        "43": {
+          "mean": 42243.3,
+          "total": 675893
+        },
+        "11": {
+          "mean": 42128.4,
+          "total": 674055
+        },
+        "23": {
+          "mean": 41720.1,
+          "total": 667521
+        },
+        "6": {
+          "mean": 43012.7,
+          "total": 688203
+        },
+        "12": {
+          "mean": 36846.3,
+          "total": 736927
+        },
+        "31": {
+          "mean": 40331.6,
+          "total": 685637
+        },
+        "20": {
+          "mean": 36422.9,
+          "total": 728458
+        },
+        "21": {
+          "mean": 32795.0,
+          "total": 787079
+        },
+        "46": {
+          "mean": 32938.7,
+          "total": 790528
+        },
+        "47": {
+          "mean": 34715.8,
+          "total": 833180
+        },
+        "42": {
+          "mean": 42355.4,
+          "total": 677686
+        },
+        "28": {
+          "mean": 41978.1,
+          "total": 671650
+        },
+        "37": {
+          "mean": 41700.6,
+          "total": 667210
+        },
+        "24": {
+          "mean": 37350.1,
+          "total": 747001
+        },
+        "35": {
+          "mean": 41611.2,
+          "total": 665779
+        },
+        "8": {
+          "mean": 34922.7,
+          "total": 838145
+        },
+        "4": {
+          "mean": 36274.2,
+          "total": 761758
+        },
+        "40": {
+          "mean": 42431.6,
+          "total": 678906
+        },
+        "29": {
+          "mean": 38301.5,
+          "total": 727728
+        },
+        "32": {
+          "mean": 34543.3,
+          "total": 829040
+        },
+        "14": {
+          "mean": 26883.3,
+          "total": 752733
+        },
+        "38": {
+          "mean": 35866.8,
+          "total": 753202
+        },
+        "7": {
+          "mean": 25947.7,
+          "total": 830326
+        },
+        "34": {
+          "mean": 34611.5,
+          "total": 830677
+        },
+        "26": {
+          "mean": 36490.8,
+          "total": 766307
+        },
+        "3": {
+          "mean": 44413.8,
+          "total": 710620
+        },
+        "13": {
+          "mean": 25839.2,
+          "total": 826854
+        },
+        "18": {
+          "mean": 42323.4,
+          "total": 677175
+        },
+        "49": {
+          "mean": 42001.5,
+          "total": 672024
+        },
+        "17": {
+          "mean": 42783.5,
+          "total": 684536
+        },
+        "45": {
+          "mean": 35657.0,
+          "total": 784455
+        },
+        "27": {
+          "mean": 40437,
+          "total": 687429
+        },
+        "25": {
+          "mean": 34608.6,
+          "total": 830606
+        },
+        "36": {
+          "mean": 42060.1,
+          "total": 672962
+        },
+        "15": {
+          "mean": 43061.8,
+          "total": 688988
+        },
+        "16": {
+          "mean": 39707.9,
+          "total": 714742
+        },
+        "41": {
+          "mean": 32769.5,
+          "total": 786468
+        },
+        "19": {
+          "mean": 34237.2,
+          "total": 821692
+        },
+        "2": {
+          "mean": 22745.8,
+          "total": 727867
+        },
+        "48": {
+          "mean": 36727.3,
+          "total": 734547
+        }
+      },
+      "skew_ratio": 1.42
+    },
+    {
+      "stage_id": "97",
+      "num_tasks": 50,
+      "duration_s": 0.062,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 6,
+        "max": 44,
+        "mean": 22.8,
+        "median": 22.0,
+        "p95": 41
+      },
+      "tasks_per_executor": {
+        "2": 16,
+        "1": 16,
+        "3": 18
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 22.8,
+          "total": 365
+        },
+        "1": {
+          "mean": 23.8,
+          "total": 380
+        },
+        "3": {
+          "mean": 21.8,
+          "total": 393
+        }
+      },
+      "skew_ratio": 2.0
+    },
+    {
+      "stage_id": "98",
+      "num_tasks": 6,
+      "duration_s": 0.672,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 459,
+        "max": 668,
+        "mean": 591.3,
+        "median": 612.5,
+        "p95": 648
+      },
+      "tasks_per_executor": {
+        "39": 1,
+        "43": 1,
+        "31": 1,
+        "21": 1,
+        "18": 1,
+        "22": 1
+      },
+      "executor_duration_ms": {
+        "39": {
+          "mean": 648,
+          "total": 648
+        },
+        "43": {
+          "mean": 668,
+          "total": 668
+        },
+        "31": {
+          "mean": 630,
+          "total": 630
+        },
+        "21": {
+          "mean": 548,
+          "total": 548
+        },
+        "18": {
+          "mean": 459,
+          "total": 459
+        },
+        "22": {
+          "mean": 595,
+          "total": 595
+        }
+      },
+      "skew_ratio": 1.09
+    },
+    {
+      "stage_id": "100",
+      "num_tasks": 1,
+      "duration_s": 0.481,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 472,
+        "max": 472,
+        "mean": 472,
+        "median": 472,
+        "p95": 472
+      },
+      "tasks_per_executor": {
+        "39": 1
+      },
+      "executor_duration_ms": {
+        "39": {
+          "mean": 472,
+          "total": 472
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "102",
+      "num_tasks": 50,
+      "duration_s": 0.684,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 148,
+        "max": 668,
+        "mean": 464.6,
+        "median": 505.0,
+        "p95": 608
+      },
+      "tasks_per_executor": {
+        "39": 8,
+        "21": 8,
+        "43": 8,
+        "31": 8,
+        "17": 1,
+        "19": 1,
+        "45": 1,
+        "26": 1,
+        "15": 1,
+        "33": 1,
+        "23": 1,
+        "50": 1,
+        "40": 1,
+        "38": 1,
+        "49": 1,
+        "25": 1,
+        "20": 1,
+        "32": 1,
+        "10": 1,
+        "5": 1,
+        "6": 1,
+        "27": 1
+      },
+      "executor_duration_ms": {
+        "39": {
+          "mean": 150,
+          "total": 1200
+        },
+        "21": {
+          "mean": 507.1,
+          "total": 4057
+        },
+        "43": {
+          "mean": 499,
+          "total": 3992
+        },
+        "31": {
+          "mean": 472.9,
+          "total": 3783
+        },
+        "17": {
+          "mean": 532,
+          "total": 532
+        },
+        "19": {
+          "mean": 530,
+          "total": 530
+        },
+        "45": {
+          "mean": 668,
+          "total": 668
+        },
+        "26": {
+          "mean": 580,
+          "total": 580
+        },
+        "15": {
+          "mean": 540,
+          "total": 540
+        },
+        "33": {
+          "mean": 608,
+          "total": 608
+        },
+        "23": {
+          "mean": 524,
+          "total": 524
+        },
+        "50": {
+          "mean": 554,
+          "total": 554
+        },
+        "40": {
+          "mean": 554,
+          "total": 554
+        },
+        "38": {
+          "mean": 531,
+          "total": 531
+        },
+        "49": {
+          "mean": 664,
+          "total": 664
+        },
+        "25": {
+          "mean": 632,
+          "total": 632
+        },
+        "20": {
+          "mean": 566,
+          "total": 566
+        },
+        "32": {
+          "mean": 534,
+          "total": 534
+        },
+        "10": {
+          "mean": 533,
+          "total": 533
+        },
+        "5": {
+          "mean": 547,
+          "total": 547
+        },
+        "6": {
+          "mean": 561,
+          "total": 561
+        },
+        "27": {
+          "mean": 542,
+          "total": 542
+        }
+      },
+      "skew_ratio": 1.32
+    },
+    {
+      "stage_id": "105",
+      "num_tasks": 1,
+      "duration_s": 0.521,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 510,
+        "max": 510,
+        "mean": 510,
+        "median": 510,
+        "p95": 510
+      },
+      "tasks_per_executor": {
+        "4": 1
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 510,
+          "total": 510
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "106",
+      "num_tasks": 7,
+      "duration_s": 0.514,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 91,
+        "max": 511,
+        "mean": 335.6,
+        "median": 396,
+        "p95": 491
+      },
+      "tasks_per_executor": {
+        "46": 1,
+        "43": 1,
+        "13": 1,
+        "15": 1,
+        "38": 1,
+        "6": 1,
+        "22": 1
+      },
+      "executor_duration_ms": {
+        "46": {
+          "mean": 298,
+          "total": 298
+        },
+        "43": {
+          "mean": 158,
+          "total": 158
+        },
+        "13": {
+          "mean": 491,
+          "total": 491
+        },
+        "15": {
+          "mean": 511,
+          "total": 511
+        },
+        "38": {
+          "mean": 396,
+          "total": 396
+        },
+        "6": {
+          "mean": 404,
+          "total": 404
+        },
+        "22": {
+          "mean": 91,
+          "total": 91
+        }
+      },
+      "skew_ratio": 1.29
+    },
+    {
+      "stage_id": "107",
+      "num_tasks": 1,
+      "duration_s": 0.699,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 696,
+        "max": 696,
+        "mean": 696,
+        "median": 696,
+        "p95": 696
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 696,
+          "total": 696
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "108",
+      "num_tasks": 10000,
+      "duration_s": 3.721,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 10,
+        "max": 509,
+        "mean": 146.5,
+        "median": 147.0,
+        "p95": 205
+      },
+      "tasks_per_executor": {
+        "4": 215,
+        "47": 200,
+        "40": 208,
+        "5": 222,
+        "45": 201,
+        "8": 199,
+        "2": 200,
+        "26": 208,
+        "17": 206,
+        "41": 200,
+        "21": 207,
+        "28": 192,
+        "24": 192,
+        "32": 208,
+        "30": 195,
+        "34": 192,
+        "49": 200,
+        "39": 215,
+        "20": 200,
+        "14": 200,
+        "25": 200,
+        "38": 199,
+        "36": 200,
+        "46": 200,
+        "43": 207,
+        "18": 200,
+        "35": 195,
+        "16": 192,
+        "48": 192,
+        "9": 184,
+        "13": 200,
+        "23": 200,
+        "10": 200,
+        "11": 192,
+        "1": 200,
+        "15": 200,
+        "7": 192,
+        "44": 192,
+        "42": 192,
+        "12": 196,
+        "27": 200,
+        "29": 196,
+        "6": 200,
+        "50": 200,
+        "31": 200,
+        "22": 192,
+        "33": 200,
+        "19": 203,
+        "3": 224,
+        "37": 192
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 136.5,
+          "total": 29341
+        },
+        "47": {
+          "mean": 146.7,
+          "total": 29331
+        },
+        "40": {
+          "mean": 140.9,
+          "total": 29297
+        },
+        "5": {
+          "mean": 132.1,
+          "total": 29323
+        },
+        "45": {
+          "mean": 145.6,
+          "total": 29261
+        },
+        "8": {
+          "mean": 147.4,
+          "total": 29335
+        },
+        "2": {
+          "mean": 146.6,
+          "total": 29311
+        },
+        "26": {
+          "mean": 141.2,
+          "total": 29373
+        },
+        "17": {
+          "mean": 142.3,
+          "total": 29323
+        },
+        "41": {
+          "mean": 146.8,
+          "total": 29354
+        },
+        "21": {
+          "mean": 141.3,
+          "total": 29256
+        },
+        "28": {
+          "mean": 153.0,
+          "total": 29378
+        },
+        "24": {
+          "mean": 153.0,
+          "total": 29368
+        },
+        "32": {
+          "mean": 140.7,
+          "total": 29268
+        },
+        "30": {
+          "mean": 150.3,
+          "total": 29299
+        },
+        "34": {
+          "mean": 152.4,
+          "total": 29252
+        },
+        "49": {
+          "mean": 146.2,
+          "total": 29245
+        },
+        "39": {
+          "mean": 136.4,
+          "total": 29327
+        },
+        "20": {
+          "mean": 146.4,
+          "total": 29275
+        },
+        "14": {
+          "mean": 146.6,
+          "total": 29310
+        },
+        "25": {
+          "mean": 146.8,
+          "total": 29363
+        },
+        "38": {
+          "mean": 147.3,
+          "total": 29318
+        },
+        "36": {
+          "mean": 146.8,
+          "total": 29355
+        },
+        "46": {
+          "mean": 146.3,
+          "total": 29269
+        },
+        "43": {
+          "mean": 141.4,
+          "total": 29267
+        },
+        "18": {
+          "mean": 146.3,
+          "total": 29256
+        },
+        "35": {
+          "mean": 150.2,
+          "total": 29280
+        },
+        "16": {
+          "mean": 152.7,
+          "total": 29315
+        },
+        "48": {
+          "mean": 152.4,
+          "total": 29253
+        },
+        "9": {
+          "mean": 159.2,
+          "total": 29302
+        },
+        "13": {
+          "mean": 146.3,
+          "total": 29255
+        },
+        "23": {
+          "mean": 146.6,
+          "total": 29328
+        },
+        "10": {
+          "mean": 146.5,
+          "total": 29298
+        },
+        "11": {
+          "mean": 153.0,
+          "total": 29371
+        },
+        "1": {
+          "mean": 146.6,
+          "total": 29323
+        },
+        "15": {
+          "mean": 146.3,
+          "total": 29261
+        },
+        "7": {
+          "mean": 152.5,
+          "total": 29271
+        },
+        "44": {
+          "mean": 152.2,
+          "total": 29217
+        },
+        "42": {
+          "mean": 152.5,
+          "total": 29278
+        },
+        "12": {
+          "mean": 149.5,
+          "total": 29305
+        },
+        "27": {
+          "mean": 146.2,
+          "total": 29230
+        },
+        "29": {
+          "mean": 149.4,
+          "total": 29283
+        },
+        "6": {
+          "mean": 146.2,
+          "total": 29245
+        },
+        "50": {
+          "mean": 146.4,
+          "total": 29290
+        },
+        "31": {
+          "mean": 146.6,
+          "total": 29325
+        },
+        "22": {
+          "mean": 152.9,
+          "total": 29350
+        },
+        "33": {
+          "mean": 146.6,
+          "total": 29319
+        },
+        "19": {
+          "mean": 144.2,
+          "total": 29273
+        },
+        "3": {
+          "mean": 130.8,
+          "total": 29295
+        },
+        "37": {
+          "mean": 152.7,
+          "total": 29326
+        }
+      },
+      "skew_ratio": 3.46
+    },
+    {
+      "stage_id": "111",
+      "num_tasks": 1000,
+      "duration_s": 0.469,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 9,
+        "max": 417,
+        "mean": 172.5,
+        "median": 169.5,
+        "p95": 362
+      },
+      "tasks_per_executor": {
+        "2": 34,
+        "46": 27,
+        "49": 24,
+        "25": 16,
+        "16": 16,
+        "38": 20,
+        "27": 24,
+        "45": 16,
+        "13": 16,
+        "15": 26,
+        "14": 25,
+        "43": 24,
+        "32": 18,
+        "12": 18,
+        "20": 27,
+        "44": 16,
+        "21": 26,
+        "22": 16,
+        "37": 16,
+        "26": 26,
+        "19": 28,
+        "35": 18,
+        "6": 17,
+        "39": 44,
+        "34": 17,
+        "47": 16,
+        "31": 16,
+        "1": 25,
+        "41": 16,
+        "29": 17,
+        "17": 16,
+        "30": 17,
+        "8": 16,
+        "4": 41,
+        "50": 16,
+        "11": 16,
+        "18": 16,
+        "42": 16,
+        "10": 16,
+        "33": 16,
+        "3": 25,
+        "5": 18,
+        "23": 16,
+        "9": 14,
+        "48": 16,
+        "7": 16,
+        "28": 16,
+        "24": 16,
+        "40": 16,
+        "36": 16
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 104.7,
+          "total": 3561
+        },
+        "46": {
+          "mean": 125.9,
+          "total": 3398
+        },
+        "49": {
+          "mean": 150.3,
+          "total": 3607
+        },
+        "25": {
+          "mean": 208.1,
+          "total": 3329
+        },
+        "16": {
+          "mean": 213.1,
+          "total": 3409
+        },
+        "38": {
+          "mean": 173.9,
+          "total": 3478
+        },
+        "27": {
+          "mean": 146.4,
+          "total": 3514
+        },
+        "45": {
+          "mean": 222.2,
+          "total": 3556
+        },
+        "13": {
+          "mean": 207.5,
+          "total": 3320
+        },
+        "15": {
+          "mean": 133.2,
+          "total": 3463
+        },
+        "14": {
+          "mean": 138.0,
+          "total": 3449
+        },
+        "43": {
+          "mean": 150.2,
+          "total": 3605
+        },
+        "32": {
+          "mean": 186.4,
+          "total": 3355
+        },
+        "12": {
+          "mean": 191.4,
+          "total": 3446
+        },
+        "20": {
+          "mean": 131.9,
+          "total": 3562
+        },
+        "44": {
+          "mean": 213.9,
+          "total": 3423
+        },
+        "21": {
+          "mean": 134.3,
+          "total": 3491
+        },
+        "22": {
+          "mean": 226.1,
+          "total": 3617
+        },
+        "37": {
+          "mean": 218.7,
+          "total": 3499
+        },
+        "26": {
+          "mean": 134.0,
+          "total": 3485
+        },
+        "19": {
+          "mean": 126.2,
+          "total": 3533
+        },
+        "35": {
+          "mean": 188.4,
+          "total": 3392
+        },
+        "6": {
+          "mean": 199.7,
+          "total": 3395
+        },
+        "39": {
+          "mean": 78.7,
+          "total": 3461
+        },
+        "34": {
+          "mean": 197.9,
+          "total": 3365
+        },
+        "47": {
+          "mean": 213.9,
+          "total": 3422
+        },
+        "31": {
+          "mean": 211.1,
+          "total": 3378
+        },
+        "1": {
+          "mean": 136.6,
+          "total": 3415
+        },
+        "41": {
+          "mean": 216,
+          "total": 3456
+        },
+        "29": {
+          "mean": 199.9,
+          "total": 3399
+        },
+        "17": {
+          "mean": 216.7,
+          "total": 3467
+        },
+        "30": {
+          "mean": 199.3,
+          "total": 3388
+        },
+        "8": {
+          "mean": 218.6,
+          "total": 3497
+        },
+        "4": {
+          "mean": 82.6,
+          "total": 3387
+        },
+        "50": {
+          "mean": 209.6,
+          "total": 3353
+        },
+        "11": {
+          "mean": 223.6,
+          "total": 3577
+        },
+        "18": {
+          "mean": 209.9,
+          "total": 3359
+        },
+        "42": {
+          "mean": 214.3,
+          "total": 3429
+        },
+        "10": {
+          "mean": 210.6,
+          "total": 3369
+        },
+        "33": {
+          "mean": 211.3,
+          "total": 3381
+        },
+        "3": {
+          "mean": 133.2,
+          "total": 3329
+        },
+        "5": {
+          "mean": 188.8,
+          "total": 3398
+        },
+        "23": {
+          "mean": 210.7,
+          "total": 3371
+        },
+        "9": {
+          "mean": 251.9,
+          "total": 3527
+        },
+        "48": {
+          "mean": 220.9,
+          "total": 3534
+        },
+        "7": {
+          "mean": 216.8,
+          "total": 3468
+        },
+        "28": {
+          "mean": 220.5,
+          "total": 3528
+        },
+        "24": {
+          "mean": 219.3,
+          "total": 3509
+        },
+        "40": {
+          "mean": 213.7,
+          "total": 3419
+        },
+        "36": {
+          "mean": 214.1,
+          "total": 3425
+        }
+      },
+      "skew_ratio": 2.46
+    },
+    {
+      "stage_id": "114",
+      "num_tasks": 1000,
+      "duration_s": 0.494,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 3,
+        "max": 469,
+        "mean": 103.9,
+        "median": 92.0,
+        "p95": 211
+      },
+      "tasks_per_executor": {
+        "22": 16,
+        "7": 16,
+        "6": 17,
+        "21": 26,
+        "8": 16,
+        "19": 28,
+        "18": 16,
+        "11": 16,
+        "2": 34,
+        "14": 25,
+        "20": 27,
+        "47": 16,
+        "16": 16,
+        "15": 26,
+        "29": 17,
+        "46": 27,
+        "17": 16,
+        "48": 16,
+        "9": 14,
+        "34": 17,
+        "38": 20,
+        "43": 24,
+        "31": 16,
+        "30": 17,
+        "36": 16,
+        "35": 18,
+        "3": 25,
+        "44": 16,
+        "49": 24,
+        "33": 16,
+        "39": 44,
+        "27": 24,
+        "50": 16,
+        "37": 16,
+        "45": 16,
+        "12": 18,
+        "42": 16,
+        "26": 26,
+        "32": 18,
+        "4": 41,
+        "1": 25,
+        "10": 16,
+        "5": 18,
+        "41": 16,
+        "24": 16,
+        "28": 16,
+        "40": 16,
+        "25": 16,
+        "13": 16,
+        "23": 16
+      },
+      "executor_duration_ms": {
+        "22": {
+          "mean": 116.8,
+          "total": 1868
+        },
+        "7": {
+          "mean": 109.9,
+          "total": 1758
+        },
+        "6": {
+          "mean": 65.6,
+          "total": 1115
+        },
+        "21": {
+          "mean": 80.7,
+          "total": 2099
+        },
+        "8": {
+          "mean": 118,
+          "total": 1888
+        },
+        "19": {
+          "mean": 80.6,
+          "total": 2258
+        },
+        "18": {
+          "mean": 110.1,
+          "total": 1761
+        },
+        "11": {
+          "mean": 129,
+          "total": 2064
+        },
+        "2": {
+          "mean": 113.2,
+          "total": 3849
+        },
+        "14": {
+          "mean": 82.0,
+          "total": 2051
+        },
+        "20": {
+          "mean": 80.6,
+          "total": 2177
+        },
+        "47": {
+          "mean": 111.8,
+          "total": 1789
+        },
+        "16": {
+          "mean": 131.8,
+          "total": 2108
+        },
+        "15": {
+          "mean": 73.5,
+          "total": 1910
+        },
+        "29": {
+          "mean": 102.4,
+          "total": 1740
+        },
+        "46": {
+          "mean": 81.9,
+          "total": 2211
+        },
+        "17": {
+          "mean": 113.4,
+          "total": 1814
+        },
+        "48": {
+          "mean": 122.2,
+          "total": 1956
+        },
+        "9": {
+          "mean": 139.9,
+          "total": 1959
+        },
+        "34": {
+          "mean": 110.3,
+          "total": 1875
+        },
+        "38": {
+          "mean": 100.5,
+          "total": 2011
+        },
+        "43": {
+          "mean": 77.6,
+          "total": 1863
+        },
+        "31": {
+          "mean": 111.7,
+          "total": 1787
+        },
+        "30": {
+          "mean": 115.1,
+          "total": 1956
+        },
+        "36": {
+          "mean": 114.1,
+          "total": 1825
+        },
+        "35": {
+          "mean": 111.2,
+          "total": 2002
+        },
+        "3": {
+          "mean": 75.9,
+          "total": 1897
+        },
+        "44": {
+          "mean": 122.5,
+          "total": 1960
+        },
+        "49": {
+          "mean": 93.4,
+          "total": 2242
+        },
+        "33": {
+          "mean": 116.8,
+          "total": 1868
+        },
+        "39": {
+          "mean": 54.5,
+          "total": 2396
+        },
+        "27": {
+          "mean": 94.6,
+          "total": 2270
+        },
+        "50": {
+          "mean": 112.1,
+          "total": 1793
+        },
+        "37": {
+          "mean": 131.6,
+          "total": 2106
+        },
+        "45": {
+          "mean": 138,
+          "total": 2208
+        },
+        "12": {
+          "mean": 115.8,
+          "total": 2085
+        },
+        "42": {
+          "mean": 130.6,
+          "total": 2090
+        },
+        "26": {
+          "mean": 87.6,
+          "total": 2277
+        },
+        "32": {
+          "mean": 115.2,
+          "total": 2074
+        },
+        "4": {
+          "mean": 58.6,
+          "total": 2404
+        },
+        "1": {
+          "mean": 148.6,
+          "total": 3715
+        },
+        "10": {
+          "mean": 129.4,
+          "total": 2071
+        },
+        "5": {
+          "mean": 118.1,
+          "total": 2126
+        },
+        "41": {
+          "mean": 128.1,
+          "total": 2050
+        },
+        "24": {
+          "mean": 128.2,
+          "total": 2052
+        },
+        "28": {
+          "mean": 136.1,
+          "total": 2177
+        },
+        "40": {
+          "mean": 132.1,
+          "total": 2114
+        },
+        "25": {
+          "mean": 133.4,
+          "total": 2135
+        },
+        "13": {
+          "mean": 126.3,
+          "total": 2021
+        },
+        "23": {
+          "mean": 130,
+          "total": 2080
+        }
+      },
+      "skew_ratio": 5.1
+    },
+    {
+      "stage_id": "118",
+      "num_tasks": 1,
+      "duration_s": 0.038,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 35,
+        "max": 35,
+        "mean": 35,
+        "median": 35,
+        "p95": 35
+      },
+      "tasks_per_executor": {
+        "15": 1
+      },
+      "executor_duration_ms": {
+        "15": {
+          "mean": 35,
+          "total": 35
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "121",
+      "num_tasks": 1000,
+      "duration_s": 0.258,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 3,
+        "max": 169,
+        "mean": 80.5,
+        "median": 76.0,
+        "p95": 149
+      },
+      "tasks_per_executor": {
+        "44": 16,
+        "20": 27,
+        "21": 26,
+        "39": 44,
+        "9": 14,
+        "3": 25,
+        "4": 41,
+        "1": 25,
+        "11": 16,
+        "17": 16,
+        "30": 17,
+        "41": 16,
+        "15": 26,
+        "29": 17,
+        "35": 18,
+        "40": 16,
+        "2": 34,
+        "46": 27,
+        "43": 24,
+        "23": 16,
+        "47": 16,
+        "25": 16,
+        "16": 16,
+        "37": 16,
+        "27": 24,
+        "12": 18,
+        "31": 16,
+        "28": 16,
+        "5": 18,
+        "13": 16,
+        "8": 16,
+        "38": 20,
+        "45": 16,
+        "14": 25,
+        "33": 16,
+        "34": 17,
+        "49": 24,
+        "36": 16,
+        "50": 16,
+        "22": 16,
+        "19": 28,
+        "32": 18,
+        "18": 16,
+        "24": 16,
+        "6": 17,
+        "48": 16,
+        "10": 16,
+        "26": 26,
+        "42": 16,
+        "7": 16
+      },
+      "executor_duration_ms": {
+        "44": {
+          "mean": 63.8,
+          "total": 1021
+        },
+        "20": {
+          "mean": 65.3,
+          "total": 1762
+        },
+        "21": {
+          "mean": 63.9,
+          "total": 1661
+        },
+        "39": {
+          "mean": 44.4,
+          "total": 1952
+        },
+        "9": {
+          "mean": 86,
+          "total": 1204
+        },
+        "3": {
+          "mean": 61.9,
+          "total": 1547
+        },
+        "4": {
+          "mean": 48,
+          "total": 1968
+        },
+        "1": {
+          "mean": 62.6,
+          "total": 1564
+        },
+        "11": {
+          "mean": 86.6,
+          "total": 1385
+        },
+        "17": {
+          "mean": 82.8,
+          "total": 1324
+        },
+        "30": {
+          "mean": 81.6,
+          "total": 1387
+        },
+        "41": {
+          "mean": 78.5,
+          "total": 1256
+        },
+        "15": {
+          "mean": 68.6,
+          "total": 1784
+        },
+        "29": {
+          "mean": 84.2,
+          "total": 1432
+        },
+        "35": {
+          "mean": 84.1,
+          "total": 1514
+        },
+        "40": {
+          "mean": 91.4,
+          "total": 1462
+        },
+        "2": {
+          "mean": 56.7,
+          "total": 1928
+        },
+        "46": {
+          "mean": 67.7,
+          "total": 1827
+        },
+        "43": {
+          "mean": 75.0,
+          "total": 1801
+        },
+        "23": {
+          "mean": 87.6,
+          "total": 1402
+        },
+        "47": {
+          "mean": 89.9,
+          "total": 1438
+        },
+        "25": {
+          "mean": 88.7,
+          "total": 1419
+        },
+        "16": {
+          "mean": 90.9,
+          "total": 1455
+        },
+        "37": {
+          "mean": 90.3,
+          "total": 1445
+        },
+        "27": {
+          "mean": 76.8,
+          "total": 1842
+        },
+        "12": {
+          "mean": 85.8,
+          "total": 1545
+        },
+        "31": {
+          "mean": 89.2,
+          "total": 1428
+        },
+        "28": {
+          "mean": 102.8,
+          "total": 1644
+        },
+        "5": {
+          "mean": 86.2,
+          "total": 1552
+        },
+        "13": {
+          "mean": 88.8,
+          "total": 1421
+        },
+        "8": {
+          "mean": 93.4,
+          "total": 1495
+        },
+        "38": {
+          "mean": 89.7,
+          "total": 1793
+        },
+        "45": {
+          "mean": 104,
+          "total": 1664
+        },
+        "14": {
+          "mean": 74.8,
+          "total": 1869
+        },
+        "33": {
+          "mean": 98.9,
+          "total": 1582
+        },
+        "34": {
+          "mean": 93.6,
+          "total": 1592
+        },
+        "49": {
+          "mean": 78.2,
+          "total": 1878
+        },
+        "36": {
+          "mean": 105.1,
+          "total": 1682
+        },
+        "50": {
+          "mean": 101,
+          "total": 1616
+        },
+        "22": {
+          "mean": 110.7,
+          "total": 1771
+        },
+        "19": {
+          "mean": 68.0,
+          "total": 1905
+        },
+        "32": {
+          "mean": 93.3,
+          "total": 1679
+        },
+        "18": {
+          "mean": 104.5,
+          "total": 1672
+        },
+        "24": {
+          "mean": 111.3,
+          "total": 1781
+        },
+        "6": {
+          "mean": 93.8,
+          "total": 1595
+        },
+        "48": {
+          "mean": 107,
+          "total": 1712
+        },
+        "10": {
+          "mean": 96.7,
+          "total": 1547
+        },
+        "26": {
+          "mean": 73.3,
+          "total": 1906
+        },
+        "42": {
+          "mean": 104.9,
+          "total": 1678
+        },
+        "7": {
+          "mean": 108.4,
+          "total": 1735
+        }
+      },
+      "skew_ratio": 2.22
+    },
+    {
+      "stage_id": "125",
+      "num_tasks": 1,
+      "duration_s": 0.057,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 54,
+        "max": 54,
+        "mean": 54,
+        "median": 54,
+        "p95": 54
+      },
+      "tasks_per_executor": {
+        "25": 1
+      },
+      "executor_duration_ms": {
+        "25": {
+          "mean": 54,
+          "total": 54
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "127",
+      "num_tasks": 50,
+      "duration_s": 0.614,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 184,
+        "max": 604,
+        "mean": 391.5,
+        "median": 514.5,
+        "p95": 543
+      },
+      "tasks_per_executor": {
+        "15": 8,
+        "46": 8,
+        "43": 8,
+        "13": 8,
+        "41": 1,
+        "7": 1,
+        "38": 1,
+        "24": 1,
+        "11": 1,
+        "33": 1,
+        "3": 1,
+        "5": 1,
+        "12": 1,
+        "34": 1,
+        "6": 1,
+        "40": 1,
+        "4": 1,
+        "29": 1,
+        "36": 1,
+        "16": 1,
+        "23": 1,
+        "47": 1
+      },
+      "executor_duration_ms": {
+        "15": {
+          "mean": 225,
+          "total": 1800
+        },
+        "46": {
+          "mean": 518.1,
+          "total": 4145
+        },
+        "43": {
+          "mean": 197,
+          "total": 1576
+        },
+        "13": {
+          "mean": 515.1,
+          "total": 4121
+        },
+        "41": {
+          "mean": 543,
+          "total": 543
+        },
+        "7": {
+          "mean": 549,
+          "total": 549
+        },
+        "38": {
+          "mean": 208,
+          "total": 208
+        },
+        "24": {
+          "mean": 534,
+          "total": 534
+        },
+        "11": {
+          "mean": 604,
+          "total": 604
+        },
+        "33": {
+          "mean": 185,
+          "total": 185
+        },
+        "3": {
+          "mean": 524,
+          "total": 524
+        },
+        "5": {
+          "mean": 203,
+          "total": 203
+        },
+        "12": {
+          "mean": 532,
+          "total": 532
+        },
+        "34": {
+          "mean": 541,
+          "total": 541
+        },
+        "6": {
+          "mean": 451,
+          "total": 451
+        },
+        "40": {
+          "mean": 190,
+          "total": 190
+        },
+        "4": {
+          "mean": 513,
+          "total": 513
+        },
+        "29": {
+          "mean": 524,
+          "total": 524
+        },
+        "36": {
+          "mean": 530,
+          "total": 530
+        },
+        "16": {
+          "mean": 594,
+          "total": 594
+        },
+        "23": {
+          "mean": 184,
+          "total": 184
+        },
+        "47": {
+          "mean": 523,
+          "total": 523
+        }
+      },
+      "skew_ratio": 1.17
+    },
+    {
+      "stage_id": "130",
+      "num_tasks": 1000,
+      "duration_s": 0.547,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 5,
+        "max": 455,
+        "mean": 146.2,
+        "median": 135.5,
+        "p95": 316
+      },
+      "tasks_per_executor": {
+        "20": 27,
+        "27": 24,
+        "40": 16,
+        "25": 16,
+        "32": 18,
+        "22": 16,
+        "2": 34,
+        "5": 18,
+        "33": 16,
+        "28": 16,
+        "29": 17,
+        "17": 16,
+        "23": 16,
+        "9": 14,
+        "1": 25,
+        "47": 16,
+        "8": 16,
+        "4": 41,
+        "12": 18,
+        "48": 16,
+        "37": 16,
+        "36": 16,
+        "18": 16,
+        "10": 16,
+        "24": 16,
+        "16": 16,
+        "19": 28,
+        "42": 16,
+        "11": 16,
+        "35": 18,
+        "41": 16,
+        "45": 16,
+        "30": 17,
+        "26": 26,
+        "3": 25,
+        "38": 20,
+        "39": 44,
+        "7": 16,
+        "49": 24,
+        "14": 25,
+        "6": 17,
+        "31": 16,
+        "50": 16,
+        "34": 17,
+        "44": 16,
+        "21": 26,
+        "43": 24,
+        "15": 26,
+        "13": 16,
+        "46": 27
+      },
+      "executor_duration_ms": {
+        "20": {
+          "mean": 110.9,
+          "total": 2994
+        },
+        "27": {
+          "mean": 139.2,
+          "total": 3340
+        },
+        "40": {
+          "mean": 95.4,
+          "total": 1526
+        },
+        "25": {
+          "mean": 189.9,
+          "total": 3038
+        },
+        "32": {
+          "mean": 117,
+          "total": 2106
+        },
+        "22": {
+          "mean": 209.3,
+          "total": 3349
+        },
+        "2": {
+          "mean": 107.6,
+          "total": 3660
+        },
+        "5": {
+          "mean": 114.2,
+          "total": 2055
+        },
+        "33": {
+          "mean": 95.8,
+          "total": 1532
+        },
+        "28": {
+          "mean": 209.7,
+          "total": 3355
+        },
+        "29": {
+          "mean": 161.8,
+          "total": 2751
+        },
+        "17": {
+          "mean": 179.4,
+          "total": 2870
+        },
+        "23": {
+          "mean": 106.4,
+          "total": 1703
+        },
+        "9": {
+          "mean": 225.9,
+          "total": 3162
+        },
+        "1": {
+          "mean": 141.8,
+          "total": 3545
+        },
+        "47": {
+          "mean": 170.1,
+          "total": 2721
+        },
+        "8": {
+          "mean": 203.3,
+          "total": 3253
+        },
+        "4": {
+          "mean": 81.9,
+          "total": 3357
+        },
+        "12": {
+          "mean": 162.4,
+          "total": 2923
+        },
+        "48": {
+          "mean": 208,
+          "total": 3328
+        },
+        "37": {
+          "mean": 203.9,
+          "total": 3263
+        },
+        "36": {
+          "mean": 168.8,
+          "total": 2701
+        },
+        "18": {
+          "mean": 186.3,
+          "total": 2981
+        },
+        "10": {
+          "mean": 186.6,
+          "total": 2986
+        },
+        "24": {
+          "mean": 173,
+          "total": 2768
+        },
+        "16": {
+          "mean": 189.7,
+          "total": 3035
+        },
+        "19": {
+          "mean": 125.3,
+          "total": 3509
+        },
+        "42": {
+          "mean": 201.5,
+          "total": 3224
+        },
+        "11": {
+          "mean": 189.4,
+          "total": 3030
+        },
+        "35": {
+          "mean": 185.4,
+          "total": 3338
+        },
+        "41": {
+          "mean": 175.9,
+          "total": 2814
+        },
+        "45": {
+          "mean": 210,
+          "total": 3360
+        },
+        "30": {
+          "mean": 198.3,
+          "total": 3371
+        },
+        "26": {
+          "mean": 134.5,
+          "total": 3497
+        },
+        "3": {
+          "mean": 133.2,
+          "total": 3331
+        },
+        "38": {
+          "mean": 143.4,
+          "total": 2869
+        },
+        "39": {
+          "mean": 84.9,
+          "total": 3737
+        },
+        "7": {
+          "mean": 187.6,
+          "total": 3001
+        },
+        "49": {
+          "mean": 146.3,
+          "total": 3511
+        },
+        "14": {
+          "mean": 144.8,
+          "total": 3619
+        },
+        "6": {
+          "mean": 175.2,
+          "total": 2978
+        },
+        "31": {
+          "mean": 203.8,
+          "total": 3260
+        },
+        "50": {
+          "mean": 187.7,
+          "total": 3003
+        },
+        "34": {
+          "mean": 174.4,
+          "total": 2965
+        },
+        "44": {
+          "mean": 203.6,
+          "total": 3258
+        },
+        "21": {
+          "mean": 136.6,
+          "total": 3552
+        },
+        "43": {
+          "mean": 112.9,
+          "total": 2709
+        },
+        "15": {
+          "mean": 97.7,
+          "total": 2539
+        },
+        "13": {
+          "mean": 40.5,
+          "total": 648
+        },
+        "46": {
+          "mean": 28.1,
+          "total": 759
+        }
+      },
+      "skew_ratio": 3.36
+    },
+    {
+      "stage_id": "133",
+      "num_tasks": 1,
+      "duration_s": 0.027,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 25,
+        "max": 25,
+        "mean": 25,
+        "median": 25,
+        "p95": 25
+      },
+      "tasks_per_executor": {
+        "40": 1
+      },
+      "executor_duration_ms": {
+        "40": {
+          "mean": 25,
+          "total": 25
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "137",
+      "num_tasks": 1,
+      "duration_s": 0.135,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 131,
+        "max": 131,
+        "mean": 131,
+        "median": 131,
+        "p95": 131
+      },
+      "tasks_per_executor": {
+        "45": 1
+      },
+      "executor_duration_ms": {
+        "45": {
+          "mean": 131,
+          "total": 131
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "142",
+      "num_tasks": 1,
+      "duration_s": 0.029,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 24,
+        "max": 24,
+        "mean": 24,
+        "median": 24,
+        "p95": 24
+      },
+      "tasks_per_executor": {
+        "45": 1
+      },
+      "executor_duration_ms": {
+        "45": {
+          "mean": 24,
+          "total": 24
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "144",
+      "num_tasks": 50,
+      "duration_s": 0.105,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 33,
+        "max": 96,
+        "mean": 53.2,
+        "median": 40.5,
+        "p95": 93
+      },
+      "tasks_per_executor": {
+        "12": 1,
+        "36": 1,
+        "7": 1,
+        "38": 1,
+        "34": 1,
+        "47": 1,
+        "24": 1,
+        "15": 8,
+        "16": 1,
+        "29": 1,
+        "40": 1,
+        "23": 1,
+        "5": 1,
+        "43": 8,
+        "11": 1,
+        "6": 1,
+        "41": 1,
+        "4": 1,
+        "46": 8,
+        "3": 1,
+        "33": 1,
+        "13": 8
+      },
+      "executor_duration_ms": {
+        "12": {
+          "mean": 34,
+          "total": 34
+        },
+        "36": {
+          "mean": 34,
+          "total": 34
+        },
+        "7": {
+          "mean": 39,
+          "total": 39
+        },
+        "38": {
+          "mean": 36,
+          "total": 36
+        },
+        "34": {
+          "mean": 39,
+          "total": 39
+        },
+        "47": {
+          "mean": 35,
+          "total": 35
+        },
+        "24": {
+          "mean": 36,
+          "total": 36
+        },
+        "15": {
+          "mean": 45.6,
+          "total": 365
+        },
+        "16": {
+          "mean": 43,
+          "total": 43
+        },
+        "29": {
+          "mean": 37,
+          "total": 37
+        },
+        "40": {
+          "mean": 37,
+          "total": 37
+        },
+        "23": {
+          "mean": 39,
+          "total": 39
+        },
+        "5": {
+          "mean": 33,
+          "total": 33
+        },
+        "43": {
+          "mean": 57.6,
+          "total": 461
+        },
+        "11": {
+          "mean": 87,
+          "total": 87
+        },
+        "6": {
+          "mean": 40,
+          "total": 40
+        },
+        "41": {
+          "mean": 38,
+          "total": 38
+        },
+        "4": {
+          "mean": 37,
+          "total": 37
+        },
+        "46": {
+          "mean": 48.4,
+          "total": 387
+        },
+        "3": {
+          "mean": 35,
+          "total": 35
+        },
+        "33": {
+          "mean": 36,
+          "total": 36
+        },
+        "13": {
+          "mean": 91.2,
+          "total": 730
+        }
+      },
+      "skew_ratio": 2.37
+    },
+    {
+      "stage_id": "147",
+      "num_tasks": 1000,
+      "duration_s": 0.359,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 6,
+        "max": 228,
+        "mean": 104.1,
+        "median": 111.0,
+        "p95": 192
+      },
+      "tasks_per_executor": {
+        "46": 27,
+        "27": 24,
+        "3": 25,
+        "35": 18,
+        "10": 16,
+        "50": 16,
+        "40": 16,
+        "24": 16,
+        "47": 16,
+        "37": 16,
+        "49": 24,
+        "12": 18,
+        "14": 25,
+        "29": 17,
+        "5": 18,
+        "7": 16,
+        "9": 14,
+        "20": 27,
+        "15": 26,
+        "41": 16,
+        "33": 16,
+        "22": 16,
+        "28": 16,
+        "45": 16,
+        "2": 34,
+        "31": 16,
+        "17": 16,
+        "18": 16,
+        "21": 26,
+        "34": 17,
+        "32": 18,
+        "43": 24,
+        "26": 26,
+        "44": 16,
+        "6": 17,
+        "19": 28,
+        "25": 16,
+        "8": 16,
+        "48": 16,
+        "42": 16,
+        "39": 44,
+        "4": 41,
+        "30": 17,
+        "1": 25,
+        "23": 16,
+        "11": 16,
+        "36": 16,
+        "38": 20,
+        "16": 16,
+        "13": 16
+      },
+      "executor_duration_ms": {
+        "46": {
+          "mean": 70.4,
+          "total": 1901
+        },
+        "27": {
+          "mean": 100.4,
+          "total": 2410
+        },
+        "3": {
+          "mean": 61.6,
+          "total": 1540
+        },
+        "35": {
+          "mean": 85.7,
+          "total": 1543
+        },
+        "10": {
+          "mean": 104.3,
+          "total": 1669
+        },
+        "50": {
+          "mean": 67.8,
+          "total": 1084
+        },
+        "40": {
+          "mean": 128.3,
+          "total": 2053
+        },
+        "24": {
+          "mean": 120.3,
+          "total": 1925
+        },
+        "47": {
+          "mean": 60.6,
+          "total": 969
+        },
+        "37": {
+          "mean": 112.2,
+          "total": 1795
+        },
+        "49": {
+          "mean": 101.6,
+          "total": 2438
+        },
+        "12": {
+          "mean": 63.3,
+          "total": 1140
+        },
+        "14": {
+          "mean": 100.8,
+          "total": 2519
+        },
+        "29": {
+          "mean": 125.6,
+          "total": 2135
+        },
+        "5": {
+          "mean": 62.9,
+          "total": 1132
+        },
+        "7": {
+          "mean": 137.1,
+          "total": 2194
+        },
+        "9": {
+          "mean": 160.4,
+          "total": 2246
+        },
+        "20": {
+          "mean": 91.4,
+          "total": 2468
+        },
+        "15": {
+          "mean": 91.8,
+          "total": 2387
+        },
+        "41": {
+          "mean": 92.6,
+          "total": 1482
+        },
+        "33": {
+          "mean": 146.6,
+          "total": 2346
+        },
+        "22": {
+          "mean": 151,
+          "total": 2416
+        },
+        "28": {
+          "mean": 140.1,
+          "total": 2242
+        },
+        "45": {
+          "mean": 143,
+          "total": 2288
+        },
+        "2": {
+          "mean": 76.9,
+          "total": 2613
+        },
+        "31": {
+          "mean": 121.5,
+          "total": 1944
+        },
+        "17": {
+          "mean": 131.5,
+          "total": 2104
+        },
+        "18": {
+          "mean": 111.9,
+          "total": 1790
+        },
+        "21": {
+          "mean": 92.3,
+          "total": 2400
+        },
+        "34": {
+          "mean": 127.4,
+          "total": 2165
+        },
+        "32": {
+          "mean": 122.8,
+          "total": 2211
+        },
+        "43": {
+          "mean": 99.9,
+          "total": 2398
+        },
+        "26": {
+          "mean": 97.2,
+          "total": 2528
+        },
+        "44": {
+          "mean": 116.2,
+          "total": 1860
+        },
+        "6": {
+          "mean": 121.9,
+          "total": 2073
+        },
+        "19": {
+          "mean": 88.3,
+          "total": 2472
+        },
+        "25": {
+          "mean": 119.5,
+          "total": 1912
+        },
+        "8": {
+          "mean": 131.7,
+          "total": 2107
+        },
+        "48": {
+          "mean": 136.6,
+          "total": 2186
+        },
+        "42": {
+          "mean": 131.6,
+          "total": 2105
+        },
+        "39": {
+          "mean": 59.7,
+          "total": 2628
+        },
+        "4": {
+          "mean": 65.3,
+          "total": 2677
+        },
+        "30": {
+          "mean": 141.4,
+          "total": 2403
+        },
+        "1": {
+          "mean": 99.0,
+          "total": 2474
+        },
+        "23": {
+          "mean": 131.6,
+          "total": 2105
+        },
+        "11": {
+          "mean": 147.1,
+          "total": 2354
+        },
+        "36": {
+          "mean": 122.1,
+          "total": 1953
+        },
+        "38": {
+          "mean": 121.8,
+          "total": 2436
+        },
+        "16": {
+          "mean": 139.9,
+          "total": 2239
+        },
+        "13": {
+          "mean": 105.6,
+          "total": 1689
+        }
+      },
+      "skew_ratio": 2.05
+    },
+    {
+      "stage_id": "150",
+      "num_tasks": 1,
+      "duration_s": 0.176,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 144,
+        "max": 144,
+        "mean": 144,
+        "median": 144,
+        "p95": 144
+      },
+      "tasks_per_executor": {
+        "5": 1
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 144,
+          "total": 144
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "154",
+      "num_tasks": 1,
+      "duration_s": 0.077,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 74,
+        "max": 74,
+        "mean": 74,
+        "median": 74,
+        "p95": 74
+      },
+      "tasks_per_executor": {
+        "15": 1
+      },
+      "executor_duration_ms": {
+        "15": {
+          "mean": 74,
+          "total": 74
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "159",
+      "num_tasks": 1,
+      "duration_s": 0.015,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 13,
+        "max": 13,
+        "mean": 13,
+        "median": 13,
+        "p95": 13
+      },
+      "tasks_per_executor": {
+        "15": 1
+      },
+      "executor_duration_ms": {
+        "15": {
+          "mean": 13,
+          "total": 13
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "161",
+      "num_tasks": 50,
+      "duration_s": 0.099,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 61,
+        "max": 91,
+        "mean": 71.9,
+        "median": 71.0,
+        "p95": 83
+      },
+      "tasks_per_executor": {
+        "46": 8,
+        "24": 1,
+        "15": 8,
+        "4": 1,
+        "12": 1,
+        "47": 1,
+        "33": 1,
+        "34": 1,
+        "13": 8,
+        "43": 8,
+        "5": 1,
+        "41": 1,
+        "23": 1,
+        "7": 1,
+        "36": 1,
+        "38": 1,
+        "29": 1,
+        "3": 1,
+        "11": 1,
+        "6": 1,
+        "40": 1,
+        "16": 1
+      },
+      "executor_duration_ms": {
+        "46": {
+          "mean": 69.2,
+          "total": 554
+        },
+        "24": {
+          "mean": 79,
+          "total": 79
+        },
+        "15": {
+          "mean": 67.9,
+          "total": 543
+        },
+        "4": {
+          "mean": 74,
+          "total": 74
+        },
+        "12": {
+          "mean": 71,
+          "total": 71
+        },
+        "47": {
+          "mean": 66,
+          "total": 66
+        },
+        "33": {
+          "mean": 73,
+          "total": 73
+        },
+        "34": {
+          "mean": 66,
+          "total": 66
+        },
+        "13": {
+          "mean": 69.4,
+          "total": 555
+        },
+        "43": {
+          "mean": 81.4,
+          "total": 651
+        },
+        "5": {
+          "mean": 67,
+          "total": 67
+        },
+        "41": {
+          "mean": 63,
+          "total": 63
+        },
+        "23": {
+          "mean": 65,
+          "total": 65
+        },
+        "7": {
+          "mean": 82,
+          "total": 82
+        },
+        "36": {
+          "mean": 71,
+          "total": 71
+        },
+        "38": {
+          "mean": 74,
+          "total": 74
+        },
+        "29": {
+          "mean": 77,
+          "total": 77
+        },
+        "3": {
+          "mean": 61,
+          "total": 61
+        },
+        "11": {
+          "mean": 76,
+          "total": 76
+        },
+        "6": {
+          "mean": 66,
+          "total": 66
+        },
+        "40": {
+          "mean": 80,
+          "total": 80
+        },
+        "16": {
+          "mean": 79,
+          "total": 79
+        }
+      },
+      "skew_ratio": 1.28
+    },
+    {
+      "stage_id": "164",
+      "num_tasks": 1000,
+      "duration_s": 0.244,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 6,
+        "max": 141,
+        "mean": 74.0,
+        "median": 73.0,
+        "p95": 120
+      },
+      "tasks_per_executor": {
+        "20": 27,
+        "2": 34,
+        "28": 16,
+        "9": 14,
+        "47": 16,
+        "50": 16,
+        "4": 41,
+        "18": 16,
+        "45": 16,
+        "12": 18,
+        "37": 16,
+        "7": 16,
+        "1": 25,
+        "49": 24,
+        "14": 25,
+        "25": 16,
+        "36": 16,
+        "38": 20,
+        "8": 16,
+        "17": 16,
+        "30": 17,
+        "3": 25,
+        "22": 16,
+        "33": 16,
+        "48": 16,
+        "23": 16,
+        "10": 16,
+        "26": 26,
+        "39": 44,
+        "27": 24,
+        "19": 28,
+        "41": 16,
+        "40": 16,
+        "35": 18,
+        "6": 17,
+        "31": 16,
+        "21": 26,
+        "5": 18,
+        "34": 17,
+        "44": 16,
+        "29": 17,
+        "32": 18,
+        "42": 16,
+        "24": 16,
+        "16": 16,
+        "11": 16,
+        "46": 27,
+        "15": 26,
+        "13": 16,
+        "43": 24
+      },
+      "executor_duration_ms": {
+        "20": {
+          "mean": 62.9,
+          "total": 1698
+        },
+        "2": {
+          "mean": 54.3,
+          "total": 1846
+        },
+        "28": {
+          "mean": 81.9,
+          "total": 1311
+        },
+        "9": {
+          "mean": 83.8,
+          "total": 1173
+        },
+        "47": {
+          "mean": 77.2,
+          "total": 1235
+        },
+        "50": {
+          "mean": 79.1,
+          "total": 1266
+        },
+        "4": {
+          "mean": 46.0,
+          "total": 1887
+        },
+        "18": {
+          "mean": 80.7,
+          "total": 1291
+        },
+        "45": {
+          "mean": 81,
+          "total": 1296
+        },
+        "12": {
+          "mean": 76.5,
+          "total": 1377
+        },
+        "37": {
+          "mean": 80.3,
+          "total": 1285
+        },
+        "7": {
+          "mean": 81.1,
+          "total": 1298
+        },
+        "1": {
+          "mean": 68.0,
+          "total": 1701
+        },
+        "49": {
+          "mean": 68.8,
+          "total": 1652
+        },
+        "14": {
+          "mean": 67.1,
+          "total": 1678
+        },
+        "25": {
+          "mean": 79.2,
+          "total": 1268
+        },
+        "36": {
+          "mean": 79.8,
+          "total": 1276
+        },
+        "38": {
+          "mean": 73.8,
+          "total": 1477
+        },
+        "8": {
+          "mean": 86.9,
+          "total": 1390
+        },
+        "17": {
+          "mean": 81.9,
+          "total": 1310
+        },
+        "30": {
+          "mean": 83.8,
+          "total": 1424
+        },
+        "3": {
+          "mean": 66,
+          "total": 1650
+        },
+        "22": {
+          "mean": 90.5,
+          "total": 1448
+        },
+        "33": {
+          "mean": 84.1,
+          "total": 1345
+        },
+        "48": {
+          "mean": 90.2,
+          "total": 1444
+        },
+        "23": {
+          "mean": 82.6,
+          "total": 1322
+        },
+        "10": {
+          "mean": 82.8,
+          "total": 1325
+        },
+        "26": {
+          "mean": 66.4,
+          "total": 1726
+        },
+        "39": {
+          "mean": 43.7,
+          "total": 1924
+        },
+        "27": {
+          "mean": 70.6,
+          "total": 1694
+        },
+        "19": {
+          "mean": 62.7,
+          "total": 1756
+        },
+        "41": {
+          "mean": 82.1,
+          "total": 1313
+        },
+        "40": {
+          "mean": 92.2,
+          "total": 1476
+        },
+        "35": {
+          "mean": 89.5,
+          "total": 1611
+        },
+        "6": {
+          "mean": 85.2,
+          "total": 1448
+        },
+        "31": {
+          "mean": 86.8,
+          "total": 1389
+        },
+        "21": {
+          "mean": 69.6,
+          "total": 1810
+        },
+        "5": {
+          "mean": 86.2,
+          "total": 1551
+        },
+        "34": {
+          "mean": 87.3,
+          "total": 1484
+        },
+        "44": {
+          "mean": 97.1,
+          "total": 1554
+        },
+        "29": {
+          "mean": 89.1,
+          "total": 1515
+        },
+        "32": {
+          "mean": 85.2,
+          "total": 1534
+        },
+        "42": {
+          "mean": 88.8,
+          "total": 1420
+        },
+        "24": {
+          "mean": 93.8,
+          "total": 1500
+        },
+        "16": {
+          "mean": 91.7,
+          "total": 1467
+        },
+        "11": {
+          "mean": 96.4,
+          "total": 1543
+        },
+        "46": {
+          "mean": 56.1,
+          "total": 1514
+        },
+        "15": {
+          "mean": 57.5,
+          "total": 1495
+        },
+        "13": {
+          "mean": 76.1,
+          "total": 1218
+        },
+        "43": {
+          "mean": 59.6,
+          "total": 1430
+        }
+      },
+      "skew_ratio": 1.93
+    },
+    {
+      "stage_id": "167",
+      "num_tasks": 1,
+      "duration_s": 0.119,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 58,
+        "max": 58,
+        "mean": 58,
+        "median": 58,
+        "p95": 58
+      },
+      "tasks_per_executor": {
+        "47": 1
+      },
+      "executor_duration_ms": {
+        "47": {
+          "mean": 58,
+          "total": 58
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "171",
+      "num_tasks": 1,
+      "duration_s": 0.131,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 129,
+        "max": 129,
+        "mean": 129,
+        "median": 129,
+        "p95": 129
+      },
+      "tasks_per_executor": {
+        "42": 1
+      },
+      "executor_duration_ms": {
+        "42": {
+          "mean": 129,
+          "total": 129
+        }
+      },
+      "skew_ratio": 1.0
+    }
+  ],
+  "eventos_esparsos": {
+    "task_start": 21150,
+    "task_finish": 21150,
+    "block_added": 1022,
+    "broadcast_stored": 277,
+    "stage_submit": 77,
+    "taskset_removed": 77,
+    "stage_finish": 77,
+    "executor_not_found": 50,
+    "executor_registered": 50,
+    "job_start": 35,
+    "job_finish": 34,
+    "shuffle_partition_advisory": 15,
+    "executor_backlog_request": 9,
+    "raw_warn_error": 2,
+    "app_final_status": 1
+  },
+  "status_final": [
+    {
+      "ts": "26/08/18 06:15:23",
+      "level": "INFO",
+      "component": "SparkContext",
+      "event_type": "app_final_status",
+      "data": {
+        "exit_code": "0"
+      }
+    }
+  ],
+  "raw_warn_error": [
+    {
+      "ts": "26/08/18 06:09:21",
+      "level": "WARN",
+      "component": "MetricsConfig",
+      "event_type": "raw_warn_error",
+      "data": {
+        "msg": "Cannot locate configuration: tried hadoop-metrics2-s3a-file-system.properties,hadoop-metrics2.properties",
+        "stack_trace": [
+          "Files path_1 from /tmp/spark-[host_1]-ba47-448a-9c3e-[host_2]/gov_env.tar.gz to /home/hadoop/environment",
+          "Files path_2 from /tmp/spark-[host_1]-ba47-448a-9c3e-[host_2]/libs_python.zip to /home/hadoop/libs_python.zip",
+          "Files path_3 from /tmp/spark-[host_1]-ba47-448a-9c3e-[host_2]/gov_utils.zip to /home/hadoop/gov_utils.zip",
+          "Files path_4 from /tmp/spark-[host_1]-ba47-448a-9c3e-[host_2]/utils.zip to /home/hadoop/utils.zip"
+        ]
+      }
+    },
+    {
+      "ts": "26/08/18 06:09:53",
+      "level": "WARN",
+      "component": "SparkStringUtils",
+      "event_type": "raw_warn_error",
+      "data": {
+        "msg": "Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'."
+      }
+    }
+  ]
+}

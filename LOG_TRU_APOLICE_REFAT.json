@@ -1,0 +1,1784 @@
+{
+  "stages": [
+    {
+      "stage_id": "0",
+      "num_tasks": 1,
+      "duration_s": 1.223,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 913,
+        "max": 913,
+        "mean": 913,
+        "median": 913,
+        "p95": 913
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 913,
+          "total": 913
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "1",
+      "num_tasks": 1,
+      "duration_s": 2.935,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 2868,
+        "max": 2868,
+        "mean": 2868,
+        "median": 2868,
+        "p95": 2868
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 2868,
+          "total": 2868
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "3",
+      "num_tasks": 50,
+      "duration_s": 4.895,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 64,
+        "max": 4819,
+        "mean": 1435.3,
+        "median": 198.0,
+        "p95": 4814
+      },
+      "tasks_per_executor": {
+        "2": 34,
+        "1": 8,
+        "3": 8
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 384.8,
+          "total": 13084
+        },
+        "1": {
+          "mean": 4813.5,
+          "total": 38508
+        },
+        "3": {
+          "mean": 2521.4,
+          "total": 20171
+        }
+      },
+      "skew_ratio": 24.34
+    },
+    {
+      "stage_id": "6",
+      "num_tasks": 1,
+      "duration_s": 0.194,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 169,
+        "max": 169,
+        "mean": 169,
+        "median": 169,
+        "p95": 169
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 169,
+          "total": 169
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "8",
+      "num_tasks": 50,
+      "duration_s": 1.106,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 40,
+        "max": 1074,
+        "mean": 357.4,
+        "median": 70.5,
+        "p95": 1070
+      },
+      "tasks_per_executor": {
+        "3": 8,
+        "2": 34,
+        "1": 8
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 604.9,
+          "total": 4839
+        },
+        "2": {
+          "mean": 132.1,
+          "total": 4490
+        },
+        "1": {
+          "mean": 1067.8,
+          "total": 8542
+        }
+      },
+      "skew_ratio": 15.23
+    },
+    {
+      "stage_id": "9",
+      "num_tasks": 192,
+      "duration_s": 4.035,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 192,
+        "max": 2233,
+        "mean": 482.4,
+        "median": 331.0,
+        "p95": 1542
+      },
+      "tasks_per_executor": {
+        "1": 42,
+        "3": 68,
+        "2": 82
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 734.1,
+          "total": 30831
+        },
+        "3": {
+          "mean": 457.1,
+          "total": 31084
+        },
+        "2": {
+          "mean": 374.4,
+          "total": 30700
+        }
+      },
+      "skew_ratio": 6.75
+    },
+    {
+      "stage_id": "11",
+      "num_tasks": 1,
+      "duration_s": 0.069,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 54,
+        "max": 54,
+        "mean": 54,
+        "median": 54,
+        "p95": 54
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 54,
+          "total": 54
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "12",
+      "num_tasks": 192,
+      "duration_s": 146.665,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 17521,
+        "max": 41739,
+        "mean": 25446.8,
+        "median": 24911.5,
+        "p95": 38727
+      },
+      "tasks_per_executor": {
+        "2": 49,
+        "1": 40,
+        "3": 50,
+        "4": 21,
+        "5": 16,
+        "6": 16
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 20516.5,
+          "total": 1005310
+        },
+        "1": {
+          "mean": 27971.9,
+          "total": 1118875
+        },
+        "3": {
+          "mean": 20656.1,
+          "total": 1032806
+        },
+        "4": {
+          "mean": 32648.9,
+          "total": 685626
+        },
+        "5": {
+          "mean": 31109.3,
+          "total": 497749
+        },
+        "6": {
+          "mean": 34088.3,
+          "total": 545413
+        }
+      },
+      "skew_ratio": 1.68
+    },
+    {
+      "stage_id": "13",
+      "num_tasks": 2,
+      "duration_s": 0.646,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 292,
+        "max": 628,
+        "mean": 460,
+        "median": 460.0,
+        "p95": 292
+      },
+      "tasks_per_executor": {
+        "4": 1,
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 628,
+          "total": 628
+        },
+        "3": {
+          "mean": 292,
+          "total": 292
+        }
+      },
+      "skew_ratio": 1.37
+    },
+    {
+      "stage_id": "15",
+      "num_tasks": 50,
+      "duration_s": 1.387,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 49,
+        "max": 1361,
+        "mean": 750.9,
+        "median": 384.0,
+        "p95": 1357
+      },
+      "tasks_per_executor": {
+        "3": 8,
+        "4": 8,
+        "6": 8,
+        "2": 10,
+        "1": 8,
+        "5": 8
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 265.5,
+          "total": 2124
+        },
+        "4": {
+          "mean": 1188.2,
+          "total": 9506
+        },
+        "6": {
+          "mean": 1356.4,
+          "total": 10851
+        },
+        "2": {
+          "mean": 216.6,
+          "total": 2166
+        },
+        "1": {
+          "mean": 380.6,
+          "total": 3045
+        },
+        "5": {
+          "mean": 1231.5,
+          "total": 9852
+        }
+      },
+      "skew_ratio": 3.54
+    },
+    {
+      "stage_id": "16",
+      "num_tasks": 1,
+      "duration_s": 0.37,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 363,
+        "max": 363,
+        "mean": 363,
+        "median": 363,
+        "p95": 363
+      },
+      "tasks_per_executor": {
+        "5": 1
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 363,
+          "total": 363
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "18",
+      "num_tasks": 50,
+      "duration_s": 0.453,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 71,
+        "max": 427,
+        "mean": 260.5,
+        "median": 186.0,
+        "p95": 424
+      },
+      "tasks_per_executor": {
+        "5": 8,
+        "1": 8,
+        "4": 8,
+        "3": 8,
+        "2": 10,
+        "6": 8
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 352.1,
+          "total": 2817
+        },
+        "1": {
+          "mean": 184,
+          "total": 1472
+        },
+        "4": {
+          "mean": 355.1,
+          "total": 2841
+        },
+        "3": {
+          "mean": 157.6,
+          "total": 1261
+        },
+        "2": {
+          "mean": 125.3,
+          "total": 1253
+        },
+        "6": {
+          "mean": 422.5,
+          "total": 3380
+        }
+      },
+      "skew_ratio": 2.3
+    },
+    {
+      "stage_id": "19",
+      "num_tasks": 9,
+      "duration_s": 0.401,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 156,
+        "max": 394,
+        "mean": 284.4,
+        "median": 304,
+        "p95": 393
+      },
+      "tasks_per_executor": {
+        "6": 2,
+        "2": 2,
+        "4": 2,
+        "1": 1,
+        "5": 1,
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "6": {
+          "mean": 393.5,
+          "total": 787
+        },
+        "2": {
+          "mean": 187.5,
+          "total": 375
+        },
+        "4": {
+          "mean": 283.5,
+          "total": 567
+        },
+        "1": {
+          "mean": 366,
+          "total": 366
+        },
+        "5": {
+          "mean": 304,
+          "total": 304
+        },
+        "3": {
+          "mean": 161,
+          "total": 161
+        }
+      },
+      "skew_ratio": 1.3
+    },
+    {
+      "stage_id": "21",
+      "num_tasks": 50,
+      "duration_s": 0.235,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 81,
+        "max": 208,
+        "mean": 142.8,
+        "median": 137.5,
+        "p95": 206
+      },
+      "tasks_per_executor": {
+        "2": 10,
+        "4": 8,
+        "1": 8,
+        "3": 8,
+        "5": 8,
+        "6": 8
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 102.8,
+          "total": 1028
+        },
+        "4": {
+          "mean": 148.9,
+          "total": 1191
+        },
+        "1": {
+          "mean": 134.6,
+          "total": 1077
+        },
+        "3": {
+          "mean": 114.1,
+          "total": 913
+        },
+        "5": {
+          "mean": 162.9,
+          "total": 1303
+        },
+        "6": {
+          "mean": 203.8,
+          "total": 1630
+        }
+      },
+      "skew_ratio": 1.51
+    },
+    {
+      "stage_id": "22",
+      "num_tasks": 151,
+      "duration_s": 9.305,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 1830,
+        "max": 3653,
+        "mean": 2575.4,
+        "median": 2499,
+        "p95": 3200
+      },
+      "tasks_per_executor": {
+        "1": 24,
+        "2": 27,
+        "3": 27,
+        "6": 24,
+        "5": 26,
+        "4": 23
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 2760.5,
+          "total": 66253
+        },
+        "2": {
+          "mean": 2342.4,
+          "total": 63246
+        },
+        "3": {
+          "mean": 2345.9,
+          "total": 63338
+        },
+        "6": {
+          "mean": 2590.7,
+          "total": 62177
+        },
+        "5": {
+          "mean": 2460.7,
+          "total": 63979
+        },
+        "4": {
+          "mean": 3038.7,
+          "total": 69890
+        }
+      },
+      "skew_ratio": 1.46
+    },
+    {
+      "stage_id": "23",
+      "num_tasks": 171,
+      "duration_s": 29.556,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 2187,
+        "max": 7616,
+        "mean": 4847.3,
+        "median": 4666,
+        "p95": 7107
+      },
+      "tasks_per_executor": {
+        "3": 33,
+        "2": 35,
+        "4": 25,
+        "6": 25,
+        "5": 29,
+        "1": 24
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 4135.5,
+          "total": 136471
+        },
+        "2": {
+          "mean": 3927.3,
+          "total": 137454
+        },
+        "4": {
+          "mean": 5388.2,
+          "total": 134705
+        },
+        "6": {
+          "mean": 5806.0,
+          "total": 145149
+        },
+        "5": {
+          "mean": 4916.3,
+          "total": 142573
+        },
+        "1": {
+          "mean": 5522.4,
+          "total": 132538
+        }
+      },
+      "skew_ratio": 1.63
+    },
+    {
+      "stage_id": "24",
+      "num_tasks": 148,
+      "duration_s": 35.328,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 20,
+        "max": 10860,
+        "mean": 2352,
+        "median": 1222.0,
+        "p95": 7149
+      },
+      "tasks_per_executor": {
+        "6": 16,
+        "5": 17,
+        "2": 61,
+        "1": 19,
+        "3": 18,
+        "4": 17
+      },
+      "executor_duration_ms": {
+        "6": {
+          "mean": 3709,
+          "total": 59344
+        },
+        "5": {
+          "mean": 3174.5,
+          "total": 53967
+        },
+        "2": {
+          "mean": 970.2,
+          "total": 59185
+        },
+        "1": {
+          "mean": 3101.8,
+          "total": 58934
+        },
+        "3": {
+          "mean": 3392.1,
+          "total": 61057
+        },
+        "4": {
+          "mean": 3271.1,
+          "total": 55609
+        }
+      },
+      "skew_ratio": 8.89
+    },
+    {
+      "stage_id": "28",
+      "num_tasks": 192,
+      "duration_s": 19.78,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 2237,
+        "max": 8698,
+        "mean": 4588.8,
+        "median": 4318.5,
+        "p95": 7034
+      },
+      "tasks_per_executor": {
+        "1": 27,
+        "4": 25,
+        "2": 45,
+        "3": 35,
+        "6": 27,
+        "5": 33
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 5364.7,
+          "total": 144848
+        },
+        "4": {
+          "mean": 6010.4,
+          "total": 150259
+        },
+        "2": {
+          "mean": 3212.9,
+          "total": 144582
+        },
+        "3": {
+          "mean": 4335.3,
+          "total": 151734
+        },
+        "6": {
+          "mean": 5216.3,
+          "total": 140841
+        },
+        "5": {
+          "mean": 4508.5,
+          "total": 148782
+        }
+      },
+      "skew_ratio": 2.01
+    },
+    {
+      "stage_id": "29",
+      "num_tasks": 2,
+      "duration_s": 0.247,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 194,
+        "max": 242,
+        "mean": 218,
+        "median": 218.0,
+        "p95": 194
+      },
+      "tasks_per_executor": {
+        "6": 1,
+        "5": 1
+      },
+      "executor_duration_ms": {
+        "6": {
+          "mean": 194,
+          "total": 194
+        },
+        "5": {
+          "mean": 242,
+          "total": 242
+        }
+      },
+      "skew_ratio": 1.11
+    },
+    {
+      "stage_id": "30",
+      "num_tasks": 1,
+      "duration_s": 0.477,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 466,
+        "max": 466,
+        "mean": 466,
+        "median": 466,
+        "p95": 466
+      },
+      "tasks_per_executor": {
+        "6": 1
+      },
+      "executor_duration_ms": {
+        "6": {
+          "mean": 466,
+          "total": 466
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "31",
+      "num_tasks": 10000,
+      "duration_s": 6.951,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 6,
+        "max": 242,
+        "mean": 33.2,
+        "median": 30.0,
+        "p95": 53
+      },
+      "tasks_per_executor": {
+        "4": 1649,
+        "1": 1600,
+        "5": 1622,
+        "2": 1706,
+        "6": 1675,
+        "3": 1748
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 33.6,
+          "total": 55399
+        },
+        "1": {
+          "mean": 34.6,
+          "total": 55378
+        },
+        "5": {
+          "mean": 34.1,
+          "total": 55348
+        },
+        "2": {
+          "mean": 32.5,
+          "total": 55373
+        },
+        "6": {
+          "mean": 33.1,
+          "total": 55413
+        },
+        "3": {
+          "mean": 31.7,
+          "total": 55325
+        }
+      },
+      "skew_ratio": 8.07
+    },
+    {
+      "stage_id": "34",
+      "num_tasks": 192,
+      "duration_s": 0.319,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 10,
+        "max": 271,
+        "mean": 72.5,
+        "median": 37.0,
+        "p95": 235
+      },
+      "tasks_per_executor": {
+        "4": 24,
+        "3": 44,
+        "5": 32,
+        "1": 21,
+        "2": 42,
+        "6": 29
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 95.9,
+          "total": 2302
+        },
+        "3": {
+          "mean": 52.3,
+          "total": 2300
+        },
+        "5": {
+          "mean": 73,
+          "total": 2336
+        },
+        "1": {
+          "mean": 112.0,
+          "total": 2353
+        },
+        "2": {
+          "mean": 55.4,
+          "total": 2327
+        },
+        "6": {
+          "mean": 79.6,
+          "total": 2309
+        }
+      },
+      "skew_ratio": 7.32
+    },
+    {
+      "stage_id": "37",
+      "num_tasks": 192,
+      "duration_s": 0.145,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 5,
+        "max": 102,
+        "mean": 30.1,
+        "median": 20.0,
+        "p95": 92
+      },
+      "tasks_per_executor": {
+        "3": 44,
+        "5": 32,
+        "2": 42,
+        "4": 24,
+        "1": 21,
+        "6": 29
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 20.0,
+          "total": 878
+        },
+        "5": {
+          "mean": 33.5,
+          "total": 1071
+        },
+        "2": {
+          "mean": 19.3,
+          "total": 811
+        },
+        "4": {
+          "mean": 44.2,
+          "total": 1062
+        },
+        "1": {
+          "mean": 42.7,
+          "total": 896
+        },
+        "6": {
+          "mean": 36.8,
+          "total": 1068
+        }
+      },
+      "skew_ratio": 5.1
+    },
+    {
+      "stage_id": "41",
+      "num_tasks": 1,
+      "duration_s": 0.032,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 18,
+        "max": 18,
+        "mean": 18,
+        "median": 18,
+        "p95": 18
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 18,
+          "total": 18
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "44",
+      "num_tasks": 192,
+      "duration_s": 0.147,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 6,
+        "max": 58,
+        "mean": 31.2,
+        "median": 31.0,
+        "p95": 48
+      },
+      "tasks_per_executor": {
+        "1": 21,
+        "5": 32,
+        "2": 42,
+        "6": 29,
+        "3": 44,
+        "4": 24
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 42.3,
+          "total": 889
+        },
+        "5": {
+          "mean": 32.9,
+          "total": 1053
+        },
+        "2": {
+          "mean": 26.5,
+          "total": 1114
+        },
+        "6": {
+          "mean": 33.8,
+          "total": 979
+        },
+        "3": {
+          "mean": 25.1,
+          "total": 1106
+        },
+        "4": {
+          "mean": 35.0,
+          "total": 841
+        }
+      },
+      "skew_ratio": 1.87
+    },
+    {
+      "stage_id": "48",
+      "num_tasks": 1,
+      "duration_s": 0.039,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 20,
+        "max": 20,
+        "mean": 20,
+        "median": 20,
+        "p95": 20
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 20,
+          "total": 20
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "50",
+      "num_tasks": 50,
+      "duration_s": 0.311,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 44,
+        "max": 300,
+        "mean": 218.3,
+        "median": 203.0,
+        "p95": 290
+      },
+      "tasks_per_executor": {
+        "5": 8,
+        "6": 8,
+        "4": 8,
+        "2": 10,
+        "3": 8,
+        "1": 8
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 273.4,
+          "total": 2187
+        },
+        "6": {
+          "mean": 288.6,
+          "total": 2309
+        },
+        "4": {
+          "mean": 284.5,
+          "total": 2276
+        },
+        "2": {
+          "mean": 132.5,
+          "total": 1325
+        },
+        "3": {
+          "mean": 155.4,
+          "total": 1243
+        },
+        "1": {
+          "mean": 196.6,
+          "total": 1573
+        }
+      },
+      "skew_ratio": 1.48
+    },
+    {
+      "stage_id": "53",
+      "num_tasks": 192,
+      "duration_s": 0.328,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 5,
+        "max": 100,
+        "mean": 30.2,
+        "median": 15.5,
+        "p95": 92
+      },
+      "tasks_per_executor": {
+        "2": 42,
+        "3": 44,
+        "1": 21,
+        "5": 32,
+        "4": 24,
+        "6": 29
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 17.4,
+          "total": 732
+        },
+        "3": {
+          "mean": 19.2,
+          "total": 843
+        },
+        "1": {
+          "mean": 39.0,
+          "total": 818
+        },
+        "5": {
+          "mean": 32,
+          "total": 1024
+        },
+        "4": {
+          "mean": 48.0,
+          "total": 1153
+        },
+        "6": {
+          "mean": 42.3,
+          "total": 1228
+        }
+      },
+      "skew_ratio": 6.45
+    },
+    {
+      "stage_id": "56",
+      "num_tasks": 1,
+      "duration_s": 0.025,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 16,
+        "max": 16,
+        "mean": 16,
+        "median": 16,
+        "p95": 16
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 16,
+          "total": 16
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "58",
+      "num_tasks": 1,
+      "duration_s": 0.019,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 16,
+        "max": 16,
+        "mean": 16,
+        "median": 16,
+        "p95": 16
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 16,
+          "total": 16
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "60",
+      "num_tasks": 50,
+      "duration_s": 0.084,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 30,
+        "max": 73,
+        "mean": 49.0,
+        "median": 47.0,
+        "p95": 61
+      },
+      "tasks_per_executor": {
+        "5": 8,
+        "3": 8,
+        "1": 8,
+        "6": 8,
+        "2": 10,
+        "4": 8
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 46.5,
+          "total": 372
+        },
+        "3": {
+          "mean": 39.9,
+          "total": 319
+        },
+        "1": {
+          "mean": 52.1,
+          "total": 417
+        },
+        "6": {
+          "mean": 54.2,
+          "total": 434
+        },
+        "2": {
+          "mean": 41.9,
+          "total": 419
+        },
+        "4": {
+          "mean": 61,
+          "total": 488
+        }
+      },
+      "skew_ratio": 1.55
+    },
+    {
+      "stage_id": "63",
+      "num_tasks": 192,
+      "duration_s": 0.165,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 8,
+        "max": 78,
+        "mean": 32.4,
+        "median": 24.0,
+        "p95": 72
+      },
+      "tasks_per_executor": {
+        "2": 42,
+        "1": 21,
+        "4": 24,
+        "3": 44,
+        "6": 29,
+        "5": 32
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 24.0,
+          "total": 1009
+        },
+        "1": {
+          "mean": 41.9,
+          "total": 880
+        },
+        "4": {
+          "mean": 38.1,
+          "total": 915
+        },
+        "3": {
+          "mean": 27.3,
+          "total": 1202
+        },
+        "6": {
+          "mean": 38.1,
+          "total": 1106
+        },
+        "5": {
+          "mean": 34.5,
+          "total": 1104
+        }
+      },
+      "skew_ratio": 3.25
+    },
+    {
+      "stage_id": "66",
+      "num_tasks": 1,
+      "duration_s": 0.093,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 34,
+        "max": 34,
+        "mean": 34,
+        "median": 34,
+        "p95": 34
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 34,
+          "total": 34
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "68",
+      "num_tasks": 1,
+      "duration_s": 0.017,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 13,
+        "max": 13,
+        "mean": 13,
+        "median": 13,
+        "p95": 13
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 13,
+          "total": 13
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "70",
+      "num_tasks": 50,
+      "duration_s": 0.089,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 35,
+        "max": 74,
+        "mean": 52.2,
+        "median": 50.0,
+        "p95": 74
+      },
+      "tasks_per_executor": {
+        "3": 8,
+        "4": 8,
+        "1": 8,
+        "6": 8,
+        "2": 10,
+        "5": 8
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 39.5,
+          "total": 316
+        },
+        "4": {
+          "mean": 56.9,
+          "total": 455
+        },
+        "1": {
+          "mean": 70.4,
+          "total": 563
+        },
+        "6": {
+          "mean": 55.8,
+          "total": 446
+        },
+        "2": {
+          "mean": 41.7,
+          "total": 417
+        },
+        "5": {
+          "mean": 51.9,
+          "total": 415
+        }
+      },
+      "skew_ratio": 1.48
+    },
+    {
+      "stage_id": "73",
+      "num_tasks": 192,
+      "duration_s": 0.124,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 5,
+        "max": 44,
+        "mean": 20.5,
+        "median": 19.0,
+        "p95": 37
+      },
+      "tasks_per_executor": {
+        "3": 44,
+        "2": 42,
+        "5": 32,
+        "6": 29,
+        "4": 24,
+        "1": 21
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 19.3,
+          "total": 851
+        },
+        "2": {
+          "mean": 17.6,
+          "total": 738
+        },
+        "5": {
+          "mean": 22.5,
+          "total": 720
+        },
+        "6": {
+          "mean": 19.1,
+          "total": 554
+        },
+        "4": {
+          "mean": 22.4,
+          "total": 537
+        },
+        "1": {
+          "mean": 25.9,
+          "total": 543
+        }
+      },
+      "skew_ratio": 2.32
+    },
+    {
+      "stage_id": "76",
+      "num_tasks": 1,
+      "duration_s": 0.023,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 19,
+        "max": 19,
+        "mean": 19,
+        "median": 19,
+        "p95": 19
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 19,
+          "total": 19
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "78",
+      "num_tasks": 1,
+      "duration_s": 0.094,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 83,
+        "max": 83,
+        "mean": 83,
+        "median": 83,
+        "p95": 83
+      },
+      "tasks_per_executor": {
+        "5": 1
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 83,
+          "total": 83
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "80",
+      "num_tasks": 50,
+      "duration_s": 0.167,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 11,
+        "max": 150,
+        "mean": 117.8,
+        "median": 127.0,
+        "p95": 149
+      },
+      "tasks_per_executor": {
+        "1": 8,
+        "2": 10,
+        "5": 8,
+        "4": 8,
+        "3": 8,
+        "6": 8
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 126.5,
+          "total": 1012
+        },
+        "2": {
+          "mean": 73.3,
+          "total": 733
+        },
+        "5": {
+          "mean": 128.5,
+          "total": 1028
+        },
+        "4": {
+          "mean": 145.1,
+          "total": 1161
+        },
+        "3": {
+          "mean": 96,
+          "total": 768
+        },
+        "6": {
+          "mean": 148.6,
+          "total": 1189
+        }
+      },
+      "skew_ratio": 1.18
+    },
+    {
+      "stage_id": "83",
+      "num_tasks": 1,
+      "duration_s": 0.302,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 286,
+        "max": 286,
+        "mean": 286,
+        "median": 286,
+        "p95": 286
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 286,
+          "total": 286
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "84",
+      "num_tasks": 1,
+      "duration_s": 0.323,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 319,
+        "max": 319,
+        "mean": 319,
+        "median": 319,
+        "p95": 319
+      },
+      "tasks_per_executor": {
+        "4": 1
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 319,
+          "total": 319
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "86",
+      "num_tasks": 50,
+      "duration_s": 0.184,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 26,
+        "max": 175,
+        "mean": 111.6,
+        "median": 73.0,
+        "p95": 174
+      },
+      "tasks_per_executor": {
+        "4": 8,
+        "2": 10,
+        "5": 8,
+        "3": 8,
+        "6": 8,
+        "1": 8
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 174,
+          "total": 1392
+        },
+        "2": {
+          "mean": 47.8,
+          "total": 478
+        },
+        "5": {
+          "mean": 156.5,
+          "total": 1252
+        },
+        "3": {
+          "mean": 72.8,
+          "total": 582
+        },
+        "6": {
+          "mean": 165.6,
+          "total": 1325
+        },
+        "1": {
+          "mean": 68.8,
+          "total": 550
+        }
+      },
+      "skew_ratio": 2.4
+    },
+    {
+      "stage_id": "89",
+      "num_tasks": 1,
+      "duration_s": 0.076,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 55,
+        "max": 55,
+        "mean": 55,
+        "median": 55,
+        "p95": 55
+      },
+      "tasks_per_executor": {
+        "4": 1
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 55,
+          "total": 55
+        }
+      },
+      "skew_ratio": 1.0
+    },
+    {
+      "stage_id": "90",
+      "num_tasks": 144,
+      "duration_s": 1.668,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 59,
+        "max": 1505,
+        "mean": 452.3,
+        "median": 82.5,
+        "p95": 1351
+      },
+      "tasks_per_executor": {
+        "5": 15,
+        "3": 34,
+        "6": 16,
+        "4": 8,
+        "2": 55,
+        "1": 16
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 722.5,
+          "total": 10838
+        },
+        "3": {
+          "mean": 322.3,
+          "total": 10958
+        },
+        "6": {
+          "mean": 685.7,
+          "total": 10971
+        },
+        "4": {
+          "mean": 1355.4,
+          "total": 10843
+        },
+        "2": {
+          "mean": 192.6,
+          "total": 10591
+        },
+        "1": {
+          "mean": 683.3,
+          "total": 10933
+        }
+      },
+      "skew_ratio": 18.24
+    },
+    {
+      "stage_id": "92",
+      "num_tasks": 50,
+      "duration_s": 0.109,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 6,
+        "max": 100,
+        "mean": 83.5,
+        "median": 92.0,
+        "p95": 98
+      },
+      "tasks_per_executor": {
+        "3": 8,
+        "2": 10,
+        "4": 8,
+        "5": 8,
+        "6": 8,
+        "1": 8
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 69.6,
+          "total": 557
+        },
+        "2": {
+          "mean": 59.4,
+          "total": 594
+        },
+        "4": {
+          "mean": 97.8,
+          "total": 782
+        },
+        "5": {
+          "mean": 93,
+          "total": 744
+        },
+        "6": {
+          "mean": 91.6,
+          "total": 733
+        },
+        "1": {
+          "mean": 95.6,
+          "total": 765
+        }
+      },
+      "skew_ratio": 1.09
+    },
+    {
+      "stage_id": "93",
+      "num_tasks": 2,
+      "duration_s": 0.254,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 83,
+        "max": 248,
+        "mean": 165.5,
+        "median": 165.5,
+        "p95": 83
+      },
+      "tasks_per_executor": {
+        "6": 1,
+        "4": 1
+      },
+      "executor_duration_ms": {
+        "6": {
+          "mean": 248,
+          "total": 248
+        },
+        "4": {
+          "mean": 83,
+          "total": 83
+        }
+      },
+      "skew_ratio": 1.5
+    },
+    {
+      "stage_id": "95",
+      "num_tasks": 50,
+      "duration_s": 0.116,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 23,
+        "max": 107,
+        "mean": 51.5,
+        "median": 44.0,
+        "p95": 105
+      },
+      "tasks_per_executor": {
+        "4": 8,
+        "6": 8,
+        "5": 8,
+        "2": 8,
+        "1": 8,
+        "3": 10
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 46.1,
+          "total": 369
+        },
+        "6": {
+          "mean": 105.4,
+          "total": 843
+        },
+        "5": {
+          "mean": 49.2,
+          "total": 394
+        },
+        "2": {
+          "mean": 35.6,
+          "total": 285
+        },
+        "1": {
+          "mean": 45,
+          "total": 360
+        },
+        "3": {
+          "mean": 32.3,
+          "total": 323
+        }
+      },
+      "skew_ratio": 2.43
+    }
+  ],
+  "eventos_esparsos": {
+    "task_start": 12974,
+    "task_finish": 12974,
+    "block_added": 305,
+    "broadcast_stored": 157,
+    "stage_submit": 47,
+    "taskset_removed": 47,
+    "stage_finish": 47,
+    "job_start": 23,
+    "job_finish": 22,
+    "shuffle_partition_advisory": 11,
+    "executor_backlog_request": 7,
+    "executor_not_found": 6,
+    "executor_registered": 6,
+    "raw_warn_error": 2,
+    "app_final_status": 1
+  },
+  "status_final": [
+    {
+      "ts": "26/07/31 12:26:17",
+      "level": "INFO",
+      "component": "SparkContext",
+      "event_type": "app_final_status",
+      "data": {
+        "exit_code": "0"
+      }
+    }
+  ],
+  "raw_warn_error": [
+    {
+      "ts": "26/07/31 12:21:31",
+      "level": "WARN",
+      "component": "MetricsConfig",
+      "event_type": "raw_warn_error",
+      "data": {
+        "msg": "Cannot locate configuration: tried hadoop-metrics2-s3a-file-system.properties,hadoop-metrics2.properties",
+        "stack_trace": [
+          "Files path_1 from /tmp/spark-[host_1]-d237-4c5c-8330-[host_2]/gov_env.tar.gz to /home/hadoop/environment",
+          "Files path_2 from /tmp/spark-[host_1]-d237-4c5c-8330-[host_2]/libs_python.zip to /home/hadoop/libs_python.zip",
+          "Files path_3 from /tmp/spark-[host_1]-d237-4c5c-8330-[host_2]/gov_utils.zip to /home/hadoop/gov_utils.zip",
+          "Files path_4 from /tmp/spark-[host_1]-d237-4c5c-8330-[host_2]/utils.zip to /home/hadoop/utils.zip"
+        ]
+      }
+    },
+    {
+      "ts": "26/07/31 12:22:10",
+      "level": "WARN",
+      "component": "SparkStringUtils",
+      "event_type": "raw_warn_error",
+      "data": {
+        "msg": "Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'."
+      }
+    }
+  ]
+}
