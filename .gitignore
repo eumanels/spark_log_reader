@@ -2,5 +2,7 @@ __pycache__/
 *.pyc
 .env
 log_REF_TRACKING_sucesso.txt
+TRU_APOLICE_ITEM_MAXPAR_PRE_REFAT.txt
+TRU_APOLICE_ITEM_MAXPAR_REFATORADA.txt
 log_REP_FAT_DELTA_interrompido.txt
-*.log
+*.txt

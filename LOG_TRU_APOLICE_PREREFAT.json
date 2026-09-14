@@ -1,4 +1,10 @@
 {
+  "duracao_total_execucao": {
+    "duration_s": 362.0,
+    "inicio": "26/08/18 06:09:21",
+    "fim": "26/08/18 06:15:23",
+    "fonte": "diferença entre o primeiro e o último timestamp do log"
+  },
   "stages": [
     {
       "stage_id": "0",
@@ -21,7 +27,9 @@
           "total": 2370
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": null
     },
     {
       "stage_id": "2",
@@ -54,7 +62,9 @@
           "total": 22338
         }
       },
-      "skew_ratio": 22.17
+      "skew_ratio": 22.17,
+      "task_retries": 0,
+      "origem": null
     },
     {
       "stage_id": "5",
@@ -77,7 +87,17 @@
           "total": 154
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "2",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:182",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 182
+        }
+      }
     },
     {
       "stage_id": "7",
@@ -110,7 +130,17 @@
           "total": 1832
         }
       },
-      "skew_ratio": 7.45
+      "skew_ratio": 7.45,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "3",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:182",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 182
+        }
+      }
     },
     {
       "stage_id": "8",
@@ -133,7 +163,17 @@
           "total": 1041
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "3",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:182",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 182
+        }
+      }
     },
     {
       "stage_id": "10",
@@ -156,7 +196,17 @@
           "total": 52
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "5",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:182",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 182
+        }
+      }
     },
     {
       "stage_id": "11",
@@ -189,7 +239,17 @@
           "total": 1604
         }
       },
-      "skew_ratio": 2.32
+      "skew_ratio": 2.32,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "5",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:182",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 182
+        }
+      }
     },
     {
       "stage_id": "13",
@@ -222,7 +282,17 @@
           "total": 2761
         }
       },
-      "skew_ratio": 3.93
+      "skew_ratio": 3.93,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "5",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:182",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 182
+        }
+      }
     },
     {
       "stage_id": "16",
@@ -245,7 +315,17 @@
           "total": 62
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "8",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:185",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 185
+        }
+      }
     },
     {
       "stage_id": "18",
@@ -278,7 +358,17 @@
           "total": 619
         }
       },
-      "skew_ratio": 1.86
+      "skew_ratio": 1.86,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "9",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:185",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 185
+        }
+      }
     },
     {
       "stage_id": "19",
@@ -301,7 +391,17 @@
           "total": 141
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "9",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:185",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 185
+        }
+      }
     },
     {
       "stage_id": "21",
@@ -324,7 +424,17 @@
           "total": 21
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "11",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:185",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 185
+        }
+      }
     },
     {
       "stage_id": "22",
@@ -357,7 +467,17 @@
           "total": 365
         }
       },
-      "skew_ratio": 4.93
+      "skew_ratio": 4.93,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "11",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:185",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 185
+        }
+      }
     },
     {
       "stage_id": "24",
@@ -390,7 +510,17 @@
           "total": 1410
         }
       },
-      "skew_ratio": 3.03
+      "skew_ratio": 3.03,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "11",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:185",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 185
+        }
+      }
     },
     {
       "stage_id": "27",
@@ -413,7 +543,17 @@
           "total": 58
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "14",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:188",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 188
+        }
+      }
     },
     {
       "stage_id": "29",
@@ -446,7 +586,17 @@
           "total": 389
         }
       },
-      "skew_ratio": 2.0
+      "skew_ratio": 2.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "15",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:188",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 188
+        }
+      }
     },
     {
       "stage_id": "30",
@@ -469,7 +619,17 @@
           "total": 137
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "15",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:188",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 188
+        }
+      }
     },
     {
       "stage_id": "32",
@@ -492,7 +652,17 @@
           "total": 20
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "17",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:188",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 188
+        }
+      }
     },
     {
       "stage_id": "33",
@@ -520,7 +690,17 @@
           "total": 115
         }
       },
-      "skew_ratio": 1.12
+      "skew_ratio": 1.12,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "17",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:188",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 188
+        }
+      }
     },
     {
       "stage_id": "35",
@@ -553,7 +733,17 @@
           "total": 1200
         }
       },
-      "skew_ratio": 3.4
+      "skew_ratio": 3.4,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "17",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:188",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 188
+        }
+      }
     },
     {
       "stage_id": "38",
@@ -576,7 +766,17 @@
           "total": 33
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "20",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:191",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 191
+        }
+      }
     },
     {
       "stage_id": "40",
@@ -609,7 +809,17 @@
           "total": 356
         }
       },
-      "skew_ratio": 2.0
+      "skew_ratio": 2.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "21",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:191",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 191
+        }
+      }
     },
     {
       "stage_id": "41",
@@ -632,7 +842,17 @@
           "total": 98
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "21",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:191",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 191
+        }
+      }
     },
     {
       "stage_id": "43",
@@ -655,7 +875,17 @@
           "total": 15
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "23",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:191",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 191
+        }
+      }
     },
     {
       "stage_id": "44",
@@ -688,7 +918,17 @@
           "total": 509
         }
       },
-      "skew_ratio": 1.23
+      "skew_ratio": 1.23,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "23",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:191",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 191
+        }
+      }
     },
     {
       "stage_id": "46",
@@ -721,7 +961,17 @@
           "total": 2562
         }
       },
-      "skew_ratio": 3.06
+      "skew_ratio": 3.06,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "23",
+        "acao": "collect at /tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py:191",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "/tmp/spark-63266021-ba47-448a-9c3e-45609d4f09e9/TRU_APOLICE_ITEM.py",
+          "linha": 191
+        }
+      }
     },
     {
       "stage_id": "49",
@@ -744,7 +994,17 @@
           "total": 23
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "26",
+        "acao": "count at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "count",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "50",
@@ -777,7 +1037,17 @@
           "total": 583
         }
       },
-      "skew_ratio": 1.2
+      "skew_ratio": 1.2,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "26",
+        "acao": "count at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "count",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "52",
@@ -810,7 +1080,17 @@
           "total": 1618
         }
       },
-      "skew_ratio": 1.36
+      "skew_ratio": 1.36,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "26",
+        "acao": "count at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "count",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "55",
@@ -833,7 +1113,17 @@
           "total": 16
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "29",
+        "acao": "count at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "count",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "56",
@@ -866,7 +1156,17 @@
           "total": 203
         }
       },
-      "skew_ratio": 1.25
+      "skew_ratio": 1.25,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "29",
+        "acao": "count at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "count",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "58",
@@ -899,7 +1199,17 @@
           "total": 1188
         }
       },
-      "skew_ratio": 1.51
+      "skew_ratio": 1.51,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "29",
+        "acao": "count at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "count",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "61",
@@ -922,7 +1232,17 @@
           "total": 23
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "32",
+        "acao": "count at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "count",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "62",
@@ -955,7 +1275,17 @@
           "total": 209
         }
       },
-      "skew_ratio": 1.54
+      "skew_ratio": 1.54,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "32",
+        "acao": "count at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "count",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "64",
@@ -988,7 +1318,17 @@
           "total": 938
         }
       },
-      "skew_ratio": 1.28
+      "skew_ratio": 1.28,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "32",
+        "acao": "count at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "count",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "67",
@@ -1011,7 +1351,17 @@
           "total": 15
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "35",
+        "acao": "count at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "count",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "68",
@@ -1044,7 +1394,17 @@
           "total": 240
         }
       },
-      "skew_ratio": 1.13
+      "skew_ratio": 1.13,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "35",
+        "acao": "count at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "count",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "70",
@@ -1077,7 +1437,17 @@
           "total": 1100
         }
       },
-      "skew_ratio": 1.52
+      "skew_ratio": 1.52,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "35",
+        "acao": "count at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "count",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "73",
@@ -1100,7 +1470,17 @@
           "total": 30
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "38",
+        "acao": "save at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "save",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "75",
@@ -1133,7 +1513,17 @@
           "total": 433
         }
       },
-      "skew_ratio": 1.81
+      "skew_ratio": 1.81,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "38",
+        "acao": "save at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "save",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "78",
@@ -1156,7 +1546,17 @@
           "total": 28
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "40",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "80",
@@ -1189,7 +1589,17 @@
           "total": 256
         }
       },
-      "skew_ratio": 2.07
+      "skew_ratio": 2.07,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "41",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "82",
@@ -1222,7 +1632,17 @@
           "total": 881
         }
       },
-      "skew_ratio": 2.41
+      "skew_ratio": 2.41,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "42",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "84",
@@ -1255,7 +1675,17 @@
           "total": 415
         }
       },
-      "skew_ratio": 2.29
+      "skew_ratio": 2.29,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "43",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "86",
@@ -1288,7 +1718,17 @@
           "total": 485
         }
       },
-      "skew_ratio": 2.19
+      "skew_ratio": 2.19,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "44",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "87",
@@ -1321,7 +1761,17 @@
           "total": 368599
         }
       },
-      "skew_ratio": 96.48
+      "skew_ratio": 96.48,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "44",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "88",
@@ -1514,7 +1964,17 @@
           "total": 14969
         }
       },
-      "skew_ratio": 17.1
+      "skew_ratio": 17.1,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "44",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "89",
@@ -1612,7 +2072,17 @@
           "total": 406
         }
       },
-      "skew_ratio": 3.57
+      "skew_ratio": 3.57,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "44",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "90",
@@ -1780,7 +2250,17 @@
           "total": 693
         }
       },
-      "skew_ratio": 36.99
+      "skew_ratio": 36.99,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "44",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "95",
@@ -2048,7 +2528,17 @@
           "total": 734547
         }
       },
-      "skew_ratio": 1.42
+      "skew_ratio": 1.42,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "49",
+        "acao": "save at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "save",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0
+        }
+      }
     },
     {
       "stage_id": "97",
@@ -2081,7 +2571,17 @@
           "total": 393
         }
       },
-      "skew_ratio": 2.0
+      "skew_ratio": 2.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "50",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "98",
@@ -2129,7 +2629,17 @@
           "total": 595
         }
       },
-      "skew_ratio": 1.09
+      "skew_ratio": 1.09,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "50",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "100",
@@ -2152,7 +2662,17 @@
           "total": 472
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "52",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "102",
@@ -2280,7 +2800,17 @@
           "total": 542
         }
       },
-      "skew_ratio": 1.32
+      "skew_ratio": 1.32,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "52",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "105",
@@ -2303,7 +2833,17 @@
           "total": 510
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "54",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "106",
@@ -2356,7 +2896,17 @@
           "total": 91
         }
       },
-      "skew_ratio": 1.29
+      "skew_ratio": 1.29,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "54",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "107",
@@ -2379,7 +2929,17 @@
           "total": 696
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "54",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "108",
@@ -2647,7 +3207,17 @@
           "total": 29326
         }
       },
-      "skew_ratio": 3.46
+      "skew_ratio": 3.46,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "54",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "111",
@@ -2915,7 +3485,17 @@
           "total": 3425
         }
       },
-      "skew_ratio": 2.46
+      "skew_ratio": 2.46,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "57",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "114",
@@ -3183,7 +3763,17 @@
           "total": 2080
         }
       },
-      "skew_ratio": 5.1
+      "skew_ratio": 5.1,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "57",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "118",
@@ -3206,7 +3796,17 @@
           "total": 35
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "59",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "121",
@@ -3474,7 +4074,17 @@
           "total": 1735
         }
       },
-      "skew_ratio": 2.22
+      "skew_ratio": 2.22,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "59",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "125",
@@ -3497,7 +4107,17 @@
           "total": 54
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "61",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "127",
@@ -3625,7 +4245,17 @@
           "total": 523
         }
       },
-      "skew_ratio": 1.17
+      "skew_ratio": 1.17,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "61",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "130",
@@ -3893,7 +4523,17 @@
           "total": 759
         }
       },
-      "skew_ratio": 3.36
+      "skew_ratio": 3.36,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "61",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "133",
@@ -3916,7 +4556,17 @@
           "total": 25
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "64",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264
+        }
+      }
     },
     {
       "stage_id": "137",
@@ -3939,7 +4589,17 @@
           "total": 131
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "64",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264
+        }
+      }
     },
     {
       "stage_id": "142",
@@ -3962,7 +4622,17 @@
           "total": 24
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "66",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "144",
@@ -4090,7 +4760,17 @@
           "total": 730
         }
       },
-      "skew_ratio": 2.37
+      "skew_ratio": 2.37,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "66",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "147",
@@ -4358,7 +5038,17 @@
           "total": 1689
         }
       },
-      "skew_ratio": 2.05
+      "skew_ratio": 2.05,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "66",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "150",
@@ -4381,7 +5071,17 @@
           "total": 144
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "69",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264
+        }
+      }
     },
     {
       "stage_id": "154",
@@ -4404,7 +5104,17 @@
           "total": 74
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "69",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264
+        }
+      }
     },
     {
       "stage_id": "159",
@@ -4427,7 +5137,17 @@
           "total": 13
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "71",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "161",
@@ -4555,7 +5275,17 @@
           "total": 79
         }
       },
-      "skew_ratio": 1.28
+      "skew_ratio": 1.28,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "71",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "164",
@@ -4823,7 +5553,17 @@
           "total": 1430
         }
       },
-      "skew_ratio": 1.93
+      "skew_ratio": 1.93,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "71",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     },
     {
       "stage_id": "167",
@@ -4846,7 +5586,17 @@
           "total": 58
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "74",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264
+        }
+      }
     },
     {
       "stage_id": "171",
@@ -4869,9 +5619,28 @@
           "total": 129
         }
       },
-      "skew_ratio": 1.0
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "75",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128
+        }
+      }
     }
   ],
+  "task_retries_total": 0,
+  "stage_failures": {
+    "total": 0,
+    "detalhes": []
+  },
+  "executor_lost": {
+    "total": 0,
+    "detalhes": []
+  },
   "eventos_esparsos": {
     "task_start": 21150,
     "task_finish": 21150,
@@ -4888,6 +5657,20 @@
     "executor_backlog_request": 9,
     "raw_warn_error": 2,
     "app_final_status": 1
+  },
+  "metricas_nao_disponiveis": {
+    "gc_time_ratio": {
+      "valor": null,
+      "motivo": "Log em nível INFO padrão, sem eventos de GC verboso (flag -verbose:gc não habilitada)."
+    },
+    "shuffle_read_write_bytes": {
+      "valor": null,
+      "motivo": "Log expõe apenas sinal indireto de shuffle (advisory target size), não bytes lidos/escritos reais."
+    },
+    "spill_memoria_disco": {
+      "valor": null,
+      "motivo": "Não há eventos de spill no log neste nível de verbosidade."
+    }
   },
   "status_final": [
     {
