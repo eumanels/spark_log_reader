@@ -1,0 +1,188 @@
+{
+  "contexto": {
+    "app_name": "REP_FATURAMENTO_ATUAL_DELTA",
+    "spark_version": "3.5.6-amzn-1",
+    "tabelas_delta": [],
+    "snapshots_delta_carregados": 1
+  },
+  "duracao_total_execucao": {
+    "duration_s": 64.0,
+    "inicio": "26/07/26 08:31:08",
+    "fim": "26/07/26 08:32:12",
+    "fonte": "diferenca entre o primeiro e o ultimo timestamp do log"
+  },
+  "capacidade_cluster": {
+    "max_executors": 10,
+    "cores_por_executor": 8,
+    "slots": 80,
+    "executores_com_tasks": [
+      "1",
+      "2",
+      "3"
+    ],
+    "tempo_total_task_s": 46.9,
+    "capacidade_total_s": 5120.0,
+    "ocupacao_pct": 0.9,
+    "fonte": "slots = effectiveMaxExecutors x cores por executor; ocupacao = tempo de task / capacidade"
+  },
+  "oportunidades": [
+    {
+      "regra": "ocupacao_baixa",
+      "severidade": "MEDIA",
+      "titulo": "Cluster ocioso em boa parte da execucao",
+      "evidencia": {
+        "slots": 80,
+        "tempo_total_task_s": 46.9,
+        "capacidade_total_s": 5120.0,
+        "ocupacao_pct": 0.9
+      },
+      "acao_sugerida": "Tempo gasto fora de task (planejamento, metadado, commit). Reduzir numero de acoes e conferir o teto de executores."
+    }
+  ],
+  "call_sites": [
+    {
+      "acao": "getHistory at DeltaTableOperations.scala:57",
+      "call_site": {
+        "metodo": "getHistory",
+        "arquivo": "DeltaTableOperations.scala",
+        "linha": 57,
+        "interno": true
+      },
+      "num_jobs": 1,
+      "duracao_total_s": 2.52,
+      "output_partitions_total": 240,
+      "job_ids": [
+        "0"
+      ],
+      "duracao_media_s": 2.52
+    }
+  ],
+  "stages": [
+    {
+      "stage_id": "0",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[6] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 240,
+      "num_tasks_submetidas": 240,
+      "duration_s": 2.469,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 14,
+        "max": 2203,
+        "mean": 195.5,
+        "median": 45.0,
+        "p95": 1136,
+        "total": 46925
+      },
+      "tasks_per_executor": {
+        "1": 76,
+        "3": 84,
+        "2": 80
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 197.9,
+          "total": 15038
+        },
+        "3": {
+          "mean": 176.7,
+          "total": 14840
+        },
+        "2": {
+          "mean": 213.1,
+          "total": 17047
+        }
+      },
+      "skew_ratio": 48.96,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "0",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    }
+  ],
+  "task_retries_total": 0,
+  "stage_failures": {
+    "total": 0,
+    "detalhes": []
+  },
+  "executor_lost": {
+    "total": 0,
+    "detalhes": []
+  },
+  "eventos_esparsos": {
+    "task_start": 240,
+    "task_finish": 240,
+    "codegen": 5,
+    "block_added": 4,
+    "executor_not_found": 3,
+    "executor_registered": 3,
+    "max_executors": 2,
+    "broadcast_stored": 2,
+    "raw_warn_error": 1,
+    "spark_version": 1,
+    "app_name": 1,
+    "resource_profile": 1,
+    "delta_snapshot": 1,
+    "job_start": 1,
+    "stage_submit": 1,
+    "stage_tasks_submitted": 1,
+    "taskset_removed": 1,
+    "stage_finish": 1,
+    "job_finish": 1,
+    "app_final_status": 1
+  },
+  "metricas_nao_disponiveis": {
+    "gc_time_ratio": {
+      "valor": null,
+      "motivo": "Log em nivel INFO padrao, sem eventos de GC verboso (flag -verbose:gc nao habilitada)."
+    },
+    "shuffle_read_write_bytes": {
+      "valor": null,
+      "motivo": "Log expoe apenas sinal indireto de shuffle (advisory/actual target size), nao bytes lidos/escritos reais."
+    },
+    "spill_memoria_disco": {
+      "valor": null,
+      "motivo": "Nao ha eventos de spill no log neste nivel de verbosidade."
+    },
+    "result_size_driver": {
+      "valor": null,
+      "motivo": "Result Size por task so existe no event log (SparkListenerTaskEnd). Sem ele, o risco de collect e estimado por numero de particoes, nao por bytes."
+    }
+  },
+  "status_final": [
+    {
+      "ts": "26/07/26 08:32:12",
+      "level": "INFO",
+      "component": "SparkContext",
+      "event_type": "app_final_status",
+      "data": {
+        "exit_code": "0"
+      }
+    }
+  ],
+  "raw_warn_error": [
+    {
+      "ts": "26/07/26 08:31:08",
+      "level": "WARN",
+      "component": "MetricsConfig",
+      "event_type": "raw_warn_error",
+      "data": {
+        "msg": "Cannot locate configuration: tried hadoop-metrics2-s3a-file-system.properties,hadoop-metrics2.properties",
+        "stack_trace": [
+          "Files path_1 from /tmp/spark-[host_1]-562f-4904-9c64-[host_2]/gov_env.tar.gz to /home/hadoop/environment",
+          "Files path_2 from /tmp/spark-[host_1]-562f-4904-9c64-[host_2]/utils_maxpar.zip to /home/hadoop/utils_maxpar.zip",
+          "Files path_3 from /tmp/spark-[host_1]-562f-4904-9c64-[host_2]/libs_python.zip to /home/hadoop/libs_python.zip",
+          "Files path_4 from /tmp/spark-[host_1]-562f-4904-9c64-[host_2]/gov_utils.zip to /home/hadoop/gov_utils.zip",
+          "Files path_5 from /tmp/spark-[host_1]-562f-4904-9c64-[host_2]/utils.zip to /home/hadoop/utils.zip"
+        ]
+      }
+    }
+  ]
+}
