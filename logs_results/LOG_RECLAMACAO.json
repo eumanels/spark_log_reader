@@ -35,7 +35,7 @@
         "primeiro_ts": "26/08/27 13:28:14",
         "ultimo_ts": "26/08/27 13:29:04"
       },
-      "acao_sugerida": "Todo o dataset e movido para uma unica particao. Adicionar partitionBy na chave de negocio; se a numeracao precisa ser global, trocar por zipWithIndex/monotonically_increasing_id."
+      "acao_sugerida": "Todo o dataset e movido para uma unica particao. Adicionar partitionBy na chave de negocio"
     },
     {
       "regra": "stage_explodido",

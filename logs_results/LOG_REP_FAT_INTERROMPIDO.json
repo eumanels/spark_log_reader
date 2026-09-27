@@ -1,0 +1,7616 @@
+{
+  "contexto": {
+    "app_name": "REP_APOLICE_ITEM_MAXPAR_SANDBOX",
+    "spark_version": "3.5.6-amzn-1",
+    "tabelas_delta": [],
+    "snapshots_delta_carregados": 5
+  },
+  "duracao_total_execucao": {
+    "duration_s": 498.0,
+    "inicio": "26/09/21 13:01:23",
+    "fim": "26/09/21 13:09:41",
+    "fonte": "diferenca entre o primeiro e o ultimo timestamp do log"
+  },
+  "capacidade_cluster": {
+    "max_executors": 10,
+    "cores_por_executor": 4,
+    "slots": 40,
+    "executores_com_tasks": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "tempo_total_task_s": 14987.1,
+    "capacidade_total_s": 19920.0,
+    "ocupacao_pct": 75.2,
+    "fonte": "slots = effectiveMaxExecutors x cores por executor; ocupacao = tempo de task / capacidade"
+  },
+  "oportunidades": [
+    {
+      "regra": "window_sem_particao",
+      "severidade": "ALTA",
+      "titulo": "Window function sem partitionBy",
+      "evidencia": {
+        "ocorrencias": 80,
+        "primeiro_ts": "26/09/21 13:02:07",
+        "ultimo_ts": "26/09/21 13:02:22"
+      },
+      "acao_sugerida": "Todo o dataset e movido para uma unica particao. Adicionar partitionBy na chave de negocio; se a numeracao precisa ser global, trocar por zipWithIndex/monotonically_increasing_id."
+    },
+    {
+      "regra": "stage_explodido",
+      "severidade": "ALTA",
+      "titulo": "Stage 255 com 10000 tasks triviais",
+      "evidencia": {
+        "stage_id": "255",
+        "num_tasks": 10000,
+        "mediana_ms": 31.0,
+        "tempo_total_task_s": 320.9,
+        "rdd_desc": "MapPartitionsRDD[671] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128"
+      },
+      "acao_sugerida": "Particoes pequenas demais: quase todo o tempo e overhead de agendamento. Revisar coalesce/repartition antes do write e o minPartitionSize do AQE."
+    },
+    {
+      "regra": "aqe_alvo_reduzido",
+      "severidade": "MEDIA",
+      "titulo": "AQE coalescendo shuffle muito abaixo do advisory",
+      "evidencia": {
+        "ocorrencias": 77,
+        "advisory_bytes": 67108864,
+        "actual_bytes": 1048576,
+        "min_partition_bytes": 1048576,
+        "razao": 64.0
+      },
+      "acao_sugerida": "Ajustar spark.sql.adaptive.coalescePartitions.minPartitionSize e avaliar coalescePartitions.parallelismFirst=false."
+    },
+    {
+      "regra": "acao_repetida",
+      "severidade": "MEDIA",
+      "titulo": "11 jobs disparados por collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:",
+      "evidencia": {
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "num_jobs": 11,
+        "duracao_total_s": 0.91,
+        "interno_do_engine": false
+      },
+      "acao_sugerida": "Acao dentro de laco: cada iteracao reexecuta o plano. Vetorizar em join/agregacao unica, ou ao menos cachear o DataFrame base."
+    },
+    {
+      "regra": "acao_repetida",
+      "severidade": "MEDIA",
+      "titulo": "8 jobs disparados por showString at NativeMethodAccessorImpl.java:0",
+      "evidencia": {
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "num_jobs": 8,
+        "duracao_total_s": 0.7,
+        "interno_do_engine": false
+      },
+      "acao_sugerida": "Acao dentro de laco: cada iteracao reexecuta o plano. Vetorizar em join/agregacao unica, ou ao menos cachear o DataFrame base."
+    },
+    {
+      "regra": "acao_repetida",
+      "severidade": "MEDIA",
+      "titulo": "8 jobs disparados por first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:33",
+      "evidencia": {
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "num_jobs": 8,
+        "duracao_total_s": 0.63,
+        "interno_do_engine": false
+      },
+      "acao_sugerida": "Acao dentro de laco: cada iteracao reexecuta o plano. Vetorizar em join/agregacao unica, ou ao menos cachear o DataFrame base."
+    },
+    {
+      "regra": "acao_repetida",
+      "severidade": "MEDIA",
+      "titulo": "5 jobs disparados por collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:",
+      "evidencia": {
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+        "num_jobs": 5,
+        "duracao_total_s": 0.19,
+        "interno_do_engine": false
+      },
+      "acao_sugerida": "Acao dentro de laco: cada iteracao reexecuta o plano. Vetorizar em join/agregacao unica, ou ao menos cachear o DataFrame base."
+    },
+    {
+      "regra": "acao_repetida",
+      "severidade": "MEDIA",
+      "titulo": "5 jobs disparados por collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:",
+      "evidencia": {
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+        "num_jobs": 5,
+        "duracao_total_s": 0.14,
+        "interno_do_engine": false
+      },
+      "acao_sugerida": "Acao dentro de laco: cada iteracao reexecuta o plano. Vetorizar em join/agregacao unica, ou ao menos cachear o DataFrame base."
+    },
+    {
+      "regra": "skew_task",
+      "severidade": "MEDIA",
+      "titulo": "Stage 224 com distribuicao desbalanceada",
+      "evidencia": {
+        "stage_id": "224",
+        "skew_ratio": 66.29,
+        "max_ms": 6960,
+        "median_ms": 105,
+        "num_tasks": 121
+      },
+      "acao_sugerida": "Chave de join/particionamento concentrada. Avaliar salting ou skewJoin do AQE."
+    },
+    {
+      "regra": "skew_task",
+      "severidade": "MEDIA",
+      "titulo": "Stage 242 com distribuicao desbalanceada",
+      "evidencia": {
+        "stage_id": "242",
+        "skew_ratio": 3.37,
+        "max_ms": 37499,
+        "median_ms": 11114.0,
+        "num_tasks": 160
+      },
+      "acao_sugerida": "Chave de join/particionamento concentrada. Avaliar salting ou skewJoin do AQE."
+    },
+    {
+      "regra": "acao_repetida",
+      "severidade": "BAIXA",
+      "titulo": "7 jobs disparados por $anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "evidencia": {
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "num_jobs": 7,
+        "duracao_total_s": 14.92,
+        "interno_do_engine": true
+      },
+      "acao_sugerida": "Chamada interna do Delta/engine repetida (ex: history/metadata). Cachear o resultado no driver em vez de reconsultar."
+    },
+    {
+      "regra": "acao_repetida",
+      "severidade": "BAIXA",
+      "titulo": "21 jobs disparados por getHistory at DeltaTableOperations.scala:57",
+      "evidencia": {
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "num_jobs": 21,
+        "duracao_total_s": 14.48,
+        "interno_do_engine": true
+      },
+      "acao_sugerida": "Chamada interna do Delta/engine repetida (ex: history/metadata). Cachear o resultado no driver em vez de reconsultar."
+    },
+    {
+      "regra": "acao_repetida",
+      "severidade": "BAIXA",
+      "titulo": "16 jobs disparados por $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "evidencia": {
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "num_jobs": 16,
+        "duracao_total_s": 4.27,
+        "interno_do_engine": true
+      },
+      "acao_sugerida": "Chamada interna do Delta/engine repetida (ex: history/metadata). Cachear o resultado no driver em vez de reconsultar."
+    },
+    {
+      "regra": "fragmentacao_stages",
+      "severidade": "BAIXA",
+      "titulo": "Maioria dos stages roda com uma unica task",
+      "evidencia": {
+        "stages_com_1_task": 80,
+        "total_stages": 151,
+        "pct": 53.0
+      },
+      "acao_sugerida": "Pipeline fragmentado em muitas acoes pequenas: o custo e latencia de driver, nao processamento. Consolidar transformacoes."
+    }
+  ],
+  "call_sites": [
+    {
+      "acao": "save at NativeMethodAccessorImpl.java:0",
+      "call_site": {
+        "metodo": "save",
+        "arquivo": "NativeMethodAccessorImpl.java",
+        "linha": 0,
+        "interno": false
+      },
+      "num_jobs": 2,
+      "duracao_total_s": 118.07,
+      "output_partitions_total": 161,
+      "job_ids": [
+        "97",
+        "124"
+      ],
+      "duracao_media_s": 59.035
+    },
+    {
+      "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "call_site": {
+        "metodo": "$anonfun$withThreadLocalCaptured$1",
+        "arquivo": "FutureTask.java",
+        "linha": 264,
+        "interno": true
+      },
+      "num_jobs": 7,
+      "duracao_total_s": 14.92,
+      "output_partitions_total": 128,
+      "job_ids": [
+        "111",
+        "113",
+        "114",
+        "121",
+        "135",
+        "140",
+        "145"
+      ],
+      "duracao_media_s": 2.131
+    },
+    {
+      "acao": "getHistory at DeltaTableOperations.scala:57",
+      "call_site": {
+        "metodo": "getHistory",
+        "arquivo": "DeltaTableOperations.scala",
+        "linha": 57,
+        "interno": true
+      },
+      "num_jobs": 21,
+      "duracao_total_s": 14.48,
+      "output_partitions_total": 2520,
+      "job_ids": [
+        "0",
+        "7",
+        "8",
+        "19",
+        "26",
+        "27",
+        "38",
+        "45",
+        "46",
+        "57",
+        "64",
+        "65",
+        "76",
+        "83",
+        "84",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92"
+      ],
+      "duracao_media_s": 0.69
+    },
+    {
+      "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "call_site": {
+        "metodo": "$anonfun$recordDeltaOperationInternal$1",
+        "arquivo": "DatabricksLogging.scala",
+        "linha": 128,
+        "interno": true
+      },
+      "num_jobs": 16,
+      "duracao_total_s": 4.27,
+      "output_partitions_total": 567,
+      "job_ids": [
+        "99",
+        "101",
+        "103",
+        "104",
+        "106",
+        "108",
+        "110",
+        "125",
+        "128",
+        "130",
+        "132",
+        "137",
+        "142",
+        "146",
+        "147",
+        "149"
+      ],
+      "duracao_media_s": 0.267
+    },
+    {
+      "acao": "runJob at PythonRDD.scala:191",
+      "call_site": {
+        "metodo": "runJob",
+        "arquivo": "PythonRDD.scala",
+        "linha": 191,
+        "interno": false
+      },
+      "num_jobs": 2,
+      "duracao_total_s": 1.25,
+      "output_partitions_total": 5,
+      "job_ids": [
+        "93",
+        "94"
+      ],
+      "duracao_media_s": 0.625
+    },
+    {
+      "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "call_site": {
+        "metodo": "collect",
+        "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+        "linha": 298,
+        "interno": false
+      },
+      "num_jobs": 11,
+      "duracao_total_s": 0.91,
+      "output_partitions_total": 11,
+      "job_ids": [
+        "2",
+        "4",
+        "21",
+        "23",
+        "40",
+        "42",
+        "59",
+        "61",
+        "78",
+        "80",
+        "86"
+      ],
+      "duracao_media_s": 0.083
+    },
+    {
+      "acao": "showString at NativeMethodAccessorImpl.java:0",
+      "call_site": {
+        "metodo": "showString",
+        "arquivo": "NativeMethodAccessorImpl.java",
+        "linha": 0,
+        "interno": false
+      },
+      "num_jobs": 8,
+      "duracao_total_s": 0.7,
+      "output_partitions_total": 8,
+      "job_ids": [
+        "10",
+        "13",
+        "29",
+        "32",
+        "48",
+        "51",
+        "67",
+        "70"
+      ],
+      "duracao_media_s": 0.087
+    },
+    {
+      "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "call_site": {
+        "metodo": "first",
+        "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+        "linha": 331,
+        "interno": false
+      },
+      "num_jobs": 8,
+      "duracao_total_s": 0.63,
+      "output_partitions_total": 8,
+      "job_ids": [
+        "15",
+        "18",
+        "34",
+        "37",
+        "53",
+        "56",
+        "72",
+        "75"
+      ],
+      "duracao_media_s": 0.079
+    },
+    {
+      "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+      "call_site": {
+        "metodo": "collect",
+        "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+        "linha": 304,
+        "interno": false
+      },
+      "num_jobs": 5,
+      "duracao_total_s": 0.19,
+      "output_partitions_total": 5,
+      "job_ids": [
+        "5",
+        "24",
+        "43",
+        "62",
+        "81"
+      ],
+      "duracao_media_s": 0.038
+    },
+    {
+      "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+      "call_site": {
+        "metodo": "collect",
+        "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+        "linha": 305,
+        "interno": false
+      },
+      "num_jobs": 5,
+      "duracao_total_s": 0.14,
+      "output_partitions_total": 5,
+      "job_ids": [
+        "6",
+        "25",
+        "44",
+        "63",
+        "82"
+      ],
+      "duracao_media_s": 0.028
+    }
+  ],
+  "stages": [
+    {
+      "stage_id": "0",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[6] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 3.817,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 18,
+        "max": 2794,
+        "mean": 344.7,
+        "median": 56.5,
+        "p95": 1563,
+        "total": 41360
+      },
+      "tasks_per_executor": {
+        "1": 43,
+        "3": 43,
+        "2": 34
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 325.0,
+          "total": 13974
+        },
+        "3": {
+          "mean": 318.1,
+          "total": 13677
+        },
+        "2": {
+          "mean": 403.2,
+          "total": 13709
+        }
+      },
+      "skew_ratio": 49.45,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "0",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "1",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[10] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 40,
+      "num_tasks_submetidas": 40,
+      "duration_s": 0.513,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 20,
+        "max": 386,
+        "mean": 138.5,
+        "median": 43.5,
+        "p95": 384,
+        "total": 5539
+      },
+      "tasks_per_executor": {
+        "3": 14,
+        "1": 14,
+        "2": 12
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 130.9,
+          "total": 1832
+        },
+        "1": {
+          "mean": 129.8,
+          "total": 1817
+        },
+        "2": {
+          "mean": 157.5,
+          "total": 1890
+        }
+      },
+      "skew_ratio": 8.87,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "0",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "3",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[18] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.371,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 336,
+        "max": 336,
+        "mean": 336,
+        "median": 336,
+        "p95": 336,
+        "total": 336
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 336,
+          "total": 336
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "2",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "5",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[19] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.136,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 95,
+        "max": 95,
+        "mean": 95,
+        "median": 95,
+        "p95": 95,
+        "total": 95
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 95,
+          "total": 95
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "2",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "8",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[22] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.121,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 98,
+        "max": 98,
+        "mean": 98,
+        "median": 98,
+        "p95": 98,
+        "total": 98
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 98,
+          "total": 98
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "4",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "11",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[24] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.08,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 56,
+        "max": 56,
+        "mean": 56,
+        "median": 56,
+        "p95": 56,
+        "total": 56
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 56,
+          "total": 56
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "5",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 304,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "14",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[26] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.039,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 25,
+        "max": 25,
+        "mean": 25,
+        "median": 25,
+        "p95": 25,
+        "total": 25
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 25,
+          "total": 25
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "6",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 305,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "15",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[33] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.725,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 14,
+        "max": 212,
+        "mean": 64.4,
+        "median": 30.0,
+        "p95": 166,
+        "total": 7733
+      },
+      "tasks_per_executor": {
+        "3": 43,
+        "1": 49,
+        "2": 28
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 60.8,
+          "total": 2613
+        },
+        "1": {
+          "mean": 52.6,
+          "total": 2578
+        },
+        "2": {
+          "mean": 90.8,
+          "total": 2542
+        }
+      },
+      "skew_ratio": 7.07,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "7",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "16",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[40] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.649,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 14,
+        "max": 322,
+        "mean": 57.1,
+        "median": 29.0,
+        "p95": 133,
+        "total": 6851
+      },
+      "tasks_per_executor": {
+        "1": 40,
+        "3": 39,
+        "2": 41
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 56.9,
+          "total": 2277
+        },
+        "3": {
+          "mean": 58.7,
+          "total": 2289
+        },
+        "2": {
+          "mean": 55.7,
+          "total": 2285
+        }
+      },
+      "skew_ratio": 11.1,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "8",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "17",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[44] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 40,
+      "num_tasks_submetidas": 40,
+      "duration_s": 0.141,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 18,
+        "max": 49,
+        "mean": 33.5,
+        "median": 35.5,
+        "p95": 48,
+        "total": 1338
+      },
+      "tasks_per_executor": {
+        "1": 14,
+        "2": 12,
+        "3": 14
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 31.2,
+          "total": 437
+        },
+        "2": {
+          "mean": 39.4,
+          "total": 473
+        },
+        "3": {
+          "mean": 30.6,
+          "total": 428
+        }
+      },
+      "skew_ratio": 1.38,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "8",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "19",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[52] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.31,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 294,
+        "max": 294,
+        "mean": 294,
+        "median": 294,
+        "p95": 294,
+        "total": 294
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 294,
+          "total": 294
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "10",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "21",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[53] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.104,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 81,
+        "max": 81,
+        "mean": 81,
+        "median": 81,
+        "p95": 81,
+        "total": 81
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 81,
+          "total": 81
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "10",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "24",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[56] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.057,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 46,
+        "max": 46,
+        "mean": 46,
+        "median": 46,
+        "p95": 46,
+        "total": 46
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 46,
+          "total": 46
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "10",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "28",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[63] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.181,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 158,
+        "max": 158,
+        "mean": 158,
+        "median": 158,
+        "p95": 158,
+        "total": 158
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 158,
+          "total": 158
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "13",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "29",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[67] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 40,
+      "num_tasks_submetidas": 40,
+      "duration_s": 0.147,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 18,
+        "max": 50,
+        "mean": 33.1,
+        "median": 34.5,
+        "p95": 47,
+        "total": 1324
+      },
+      "tasks_per_executor": {
+        "2": 12,
+        "3": 15,
+        "1": 13
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 40.2,
+          "total": 482
+        },
+        "3": {
+          "mean": 27.6,
+          "total": 414
+        },
+        "1": {
+          "mean": 32.9,
+          "total": 428
+        }
+      },
+      "skew_ratio": 1.45,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "13",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "31",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[75] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.28,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 262,
+        "max": 262,
+        "mean": 262,
+        "median": 262,
+        "p95": 262,
+        "total": 262
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 262,
+          "total": 262
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "15",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "33",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[76] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.082,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 69,
+        "max": 69,
+        "mean": 69,
+        "median": 69,
+        "p95": 69,
+        "total": 69
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 69,
+          "total": 69
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "15",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "36",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[79] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.084,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 68,
+        "max": 68,
+        "mean": 68,
+        "median": 68,
+        "p95": 68,
+        "total": 68
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 68,
+          "total": 68
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "15",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "40",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[86] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.154,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 137,
+        "max": 137,
+        "mean": 137,
+        "median": 137,
+        "p95": 137,
+        "total": 137
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 137,
+          "total": 137
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "18",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "41",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[93] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.792,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 12,
+        "max": 220,
+        "mean": 68.5,
+        "median": 77.0,
+        "p95": 151,
+        "total": 8216
+      },
+      "tasks_per_executor": {
+        "2": 34,
+        "1": 46,
+        "3": 40
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 79.1,
+          "total": 2691
+        },
+        "1": {
+          "mean": 59.4,
+          "total": 2731
+        },
+        "3": {
+          "mean": 69.8,
+          "total": 2794
+        }
+      },
+      "skew_ratio": 2.86,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "19",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "42",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[97] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 33,
+      "num_tasks_submetidas": 33,
+      "duration_s": 0.097,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 13,
+        "max": 53,
+        "mean": 26.5,
+        "median": 26,
+        "p95": 39,
+        "total": 874
+      },
+      "tasks_per_executor": {
+        "2": 9,
+        "1": 12,
+        "3": 12
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 30.6,
+          "total": 275
+        },
+        "1": {
+          "mean": 25.2,
+          "total": 303
+        },
+        "3": {
+          "mean": 24.7,
+          "total": 296
+        }
+      },
+      "skew_ratio": 2.04,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "19",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "44",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[105] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.08,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 72,
+        "max": 72,
+        "mean": 72,
+        "median": 72,
+        "p95": 72,
+        "total": 72
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 72,
+          "total": 72
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "21",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "46",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[106] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.084,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 72,
+        "max": 72,
+        "mean": 72,
+        "median": 72,
+        "p95": 72,
+        "total": 72
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 72,
+          "total": 72
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "21",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "49",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[109] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.037,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 30,
+        "max": 30,
+        "mean": 30,
+        "median": 30,
+        "p95": 30,
+        "total": 30
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 30,
+          "total": 30
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "23",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "52",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[111] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.031,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 18,
+        "max": 18,
+        "mean": 18,
+        "median": 18,
+        "p95": 18,
+        "total": 18
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 18,
+          "total": 18
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "24",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 304,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "55",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[113] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.025,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 17,
+        "max": 17,
+        "mean": 17,
+        "median": 17,
+        "p95": 17,
+        "total": 17
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 17,
+          "total": 17
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "25",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 305,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "56",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[120] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.667,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 12,
+        "max": 178,
+        "mean": 55.8,
+        "median": 71.5,
+        "p95": 111,
+        "total": 6701
+      },
+      "tasks_per_executor": {
+        "3": 41,
+        "1": 34,
+        "2": 45
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 54.5,
+          "total": 2234
+        },
+        "1": {
+          "mean": 66.1,
+          "total": 2247
+        },
+        "2": {
+          "mean": 49.3,
+          "total": 2220
+        }
+      },
+      "skew_ratio": 2.49,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "26",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "57",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[127] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.548,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 11,
+        "max": 139,
+        "mean": 50.2,
+        "median": 67.0,
+        "p95": 100,
+        "total": 6026
+      },
+      "tasks_per_executor": {
+        "1": 45,
+        "3": 37,
+        "2": 38
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 45.9,
+          "total": 2064
+        },
+        "3": {
+          "mean": 53.7,
+          "total": 1987
+        },
+        "2": {
+          "mean": 52.0,
+          "total": 1975
+        }
+      },
+      "skew_ratio": 2.07,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "27",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "58",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[131] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 33,
+      "num_tasks_submetidas": 33,
+      "duration_s": 0.157,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 12,
+        "max": 108,
+        "mean": 32.2,
+        "median": 25,
+        "p95": 100,
+        "total": 1061
+      },
+      "tasks_per_executor": {
+        "2": 9,
+        "3": 13,
+        "1": 11
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 27,
+          "total": 243
+        },
+        "3": {
+          "mean": 18.6,
+          "total": 242
+        },
+        "1": {
+          "mean": 52.4,
+          "total": 576
+        }
+      },
+      "skew_ratio": 4.32,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "27",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "60",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[139] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.032,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 28,
+        "max": 28,
+        "mean": 28,
+        "median": 28,
+        "p95": 28,
+        "total": 28
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 28,
+          "total": 28
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "29",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "62",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[140] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.055,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 38,
+        "max": 38,
+        "mean": 38,
+        "median": 38,
+        "p95": 38,
+        "total": 38
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 38,
+          "total": 38
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "29",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "65",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[143] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.023,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 18,
+        "max": 18,
+        "mean": 18,
+        "median": 18,
+        "p95": 18,
+        "total": 18
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 18,
+          "total": 18
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "29",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "69",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[150] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.03,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 22,
+        "max": 22,
+        "mean": 22,
+        "median": 22,
+        "p95": 22,
+        "total": 22
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 22,
+          "total": 22
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "32",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "70",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[154] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 33,
+      "num_tasks_submetidas": 33,
+      "duration_s": 0.088,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 13,
+        "max": 43,
+        "mean": 23.0,
+        "median": 18,
+        "p95": 39,
+        "total": 760
+      },
+      "tasks_per_executor": {
+        "1": 12,
+        "3": 9,
+        "2": 12
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 20.6,
+          "total": 247
+        },
+        "3": {
+          "mean": 26.6,
+          "total": 239
+        },
+        "2": {
+          "mean": 22.8,
+          "total": 274
+        }
+      },
+      "skew_ratio": 2.39,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "32",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "72",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[162] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.034,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 28,
+        "max": 28,
+        "mean": 28,
+        "median": 28,
+        "p95": 28,
+        "total": 28
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 28,
+          "total": 28
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "34",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "74",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[163] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.038,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 32,
+        "max": 32,
+        "mean": 32,
+        "median": 32,
+        "p95": 32,
+        "total": 32
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 32,
+          "total": 32
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "34",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "77",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[166] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.031,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 16,
+        "max": 16,
+        "mean": 16,
+        "median": 16,
+        "p95": 16,
+        "total": 16
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 16,
+          "total": 16
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "34",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "81",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[173] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.036,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 30,
+        "max": 30,
+        "mean": 30,
+        "median": 30,
+        "p95": 30,
+        "total": 30
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 30,
+          "total": 30
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "37",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "82",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[180] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.615,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 9,
+        "max": 211,
+        "mean": 57.2,
+        "median": 68.5,
+        "p95": 121,
+        "total": 6864
+      },
+      "tasks_per_executor": {
+        "1": 39,
+        "3": 41,
+        "2": 40
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 58.5,
+          "total": 2283
+        },
+        "3": {
+          "mean": 57.0,
+          "total": 2336
+        },
+        "2": {
+          "mean": 56.1,
+          "total": 2245
+        }
+      },
+      "skew_ratio": 3.08,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "38",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "83",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[184] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 32,
+      "num_tasks_submetidas": 32,
+      "duration_s": 0.08,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 12,
+        "max": 38,
+        "mean": 21.2,
+        "median": 19.0,
+        "p95": 35,
+        "total": 677
+      },
+      "tasks_per_executor": {
+        "3": 11,
+        "1": 12,
+        "2": 9
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 21.3,
+          "total": 234
+        },
+        "1": {
+          "mean": 18.7,
+          "total": 224
+        },
+        "2": {
+          "mean": 24.3,
+          "total": 219
+        }
+      },
+      "skew_ratio": 2.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "38",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "85",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[192] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.034,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 27,
+        "max": 27,
+        "mean": 27,
+        "median": 27,
+        "p95": 27,
+        "total": 27
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 27,
+          "total": 27
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "40",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "87",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[193] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.058,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 52,
+        "max": 52,
+        "mean": 52,
+        "median": 52,
+        "p95": 52,
+        "total": 52
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 52,
+          "total": 52
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "40",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "90",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[196] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.079,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 56,
+        "max": 56,
+        "mean": 56,
+        "median": 56,
+        "p95": 56,
+        "total": 56
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 56,
+          "total": 56
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "42",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "93",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[198] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.021,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 17,
+        "max": 17,
+        "mean": 17,
+        "median": 17,
+        "p95": 17,
+        "total": 17
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 17,
+          "total": 17
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "43",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 304,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "96",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[200] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.021,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 17,
+        "max": 17,
+        "mean": 17,
+        "median": 17,
+        "p95": 17,
+        "total": 17
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 17,
+          "total": 17
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "44",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 305,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "97",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[207] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.537,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 9,
+        "max": 144,
+        "mean": 47.5,
+        "median": 64.5,
+        "p95": 98,
+        "total": 5703
+      },
+      "tasks_per_executor": {
+        "2": 34,
+        "3": 34,
+        "1": 52
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 55.0,
+          "total": 1871
+        },
+        "3": {
+          "mean": 56.1,
+          "total": 1908
+        },
+        "1": {
+          "mean": 37,
+          "total": 1924
+        }
+      },
+      "skew_ratio": 2.23,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "45",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "98",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[214] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.584,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 9,
+        "max": 158,
+        "mean": 50.1,
+        "median": 66.0,
+        "p95": 115,
+        "total": 6018
+      },
+      "tasks_per_executor": {
+        "3": 41,
+        "1": 37,
+        "2": 42
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 48.8,
+          "total": 2000
+        },
+        "1": {
+          "mean": 53.3,
+          "total": 1973
+        },
+        "2": {
+          "mean": 48.7,
+          "total": 2045
+        }
+      },
+      "skew_ratio": 2.39,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "46",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "99",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[218] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 32,
+      "num_tasks_submetidas": 32,
+      "duration_s": 0.063,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 9,
+        "max": 40,
+        "mean": 19.6,
+        "median": 16.0,
+        "p95": 33,
+        "total": 628
+      },
+      "tasks_per_executor": {
+        "2": 8,
+        "3": 11,
+        "1": 13
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 25.8,
+          "total": 206
+        },
+        "3": {
+          "mean": 19.4,
+          "total": 213
+        },
+        "1": {
+          "mean": 16.1,
+          "total": 209
+        }
+      },
+      "skew_ratio": 2.5,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "46",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "101",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[226] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.03,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 23,
+        "max": 23,
+        "mean": 23,
+        "median": 23,
+        "p95": 23,
+        "total": 23
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 23,
+          "total": 23
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "48",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "103",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[227] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.036,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 29,
+        "max": 29,
+        "mean": 29,
+        "median": 29,
+        "p95": 29,
+        "total": 29
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 29,
+          "total": 29
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "48",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "106",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[230] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.026,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 18,
+        "max": 18,
+        "mean": 18,
+        "median": 18,
+        "p95": 18,
+        "total": 18
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 18,
+          "total": 18
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "48",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "110",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[237] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.025,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 20,
+        "max": 20,
+        "mean": 20,
+        "median": 20,
+        "p95": 20,
+        "total": 20
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 20,
+          "total": 20
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "51",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "111",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[241] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 32,
+      "num_tasks_submetidas": 32,
+      "duration_s": 0.062,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 10,
+        "max": 39,
+        "mean": 19.9,
+        "median": 19.0,
+        "p95": 30,
+        "total": 638
+      },
+      "tasks_per_executor": {
+        "2": 11,
+        "3": 11,
+        "1": 10
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 18.9,
+          "total": 208
+        },
+        "3": {
+          "mean": 19.2,
+          "total": 211
+        },
+        "1": {
+          "mean": 21.9,
+          "total": 219
+        }
+      },
+      "skew_ratio": 2.05,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "51",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "113",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[249] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.03,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 24,
+        "max": 24,
+        "mean": 24,
+        "median": 24,
+        "p95": 24,
+        "total": 24
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 24,
+          "total": 24
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "53",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "115",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[250] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.035,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 29,
+        "max": 29,
+        "mean": 29,
+        "median": 29,
+        "p95": 29,
+        "total": 29
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 29,
+          "total": 29
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "53",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "118",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[253] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.022,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 17,
+        "max": 17,
+        "mean": 17,
+        "median": 17,
+        "p95": 17,
+        "total": 17
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 17,
+          "total": 17
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "53",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "122",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[260] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.029,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 20,
+        "max": 20,
+        "mean": 20,
+        "median": 20,
+        "p95": 20,
+        "total": 20
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 20,
+          "total": 20
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "56",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "123",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[267] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.599,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 8,
+        "max": 169,
+        "mean": 53.3,
+        "median": 64.0,
+        "p95": 119,
+        "total": 6391
+      },
+      "tasks_per_executor": {
+        "1": 46,
+        "3": 41,
+        "2": 33
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 45.1,
+          "total": 2074
+        },
+        "3": {
+          "mean": 51.7,
+          "total": 2118
+        },
+        "2": {
+          "mean": 66.6,
+          "total": 2199
+        }
+      },
+      "skew_ratio": 2.64,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "57",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "124",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[271] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 31,
+      "num_tasks_submetidas": 31,
+      "duration_s": 0.058,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 9,
+        "max": 31,
+        "mean": 18.2,
+        "median": 17,
+        "p95": 28,
+        "total": 565
+      },
+      "tasks_per_executor": {
+        "3": 8,
+        "2": 12,
+        "1": 11
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 22.4,
+          "total": 179
+        },
+        "2": {
+          "mean": 17,
+          "total": 204
+        },
+        "1": {
+          "mean": 16.5,
+          "total": 182
+        }
+      },
+      "skew_ratio": 1.82,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "57",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "126",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[279] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.031,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 25,
+        "max": 25,
+        "mean": 25,
+        "median": 25,
+        "p95": 25,
+        "total": 25
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 25,
+          "total": 25
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "59",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "128",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[280] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.05,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 40,
+        "max": 40,
+        "mean": 40,
+        "median": 40,
+        "p95": 40,
+        "total": 40
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 40,
+          "total": 40
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "59",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "131",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[283] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.026,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 19,
+        "max": 19,
+        "mean": 19,
+        "median": 19,
+        "p95": 19,
+        "total": 19
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 19,
+          "total": 19
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "61",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "134",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[285] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.021,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 15,
+        "max": 15,
+        "mean": 15,
+        "median": 15,
+        "p95": 15,
+        "total": 15
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 15,
+          "total": 15
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "62",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 304,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "137",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[287] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.019,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 14,
+        "max": 14,
+        "mean": 14,
+        "median": 14,
+        "p95": 14,
+        "total": 14
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 14,
+          "total": 14
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "63",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 305,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "138",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[294] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.517,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 8,
+        "max": 156,
+        "mean": 45.8,
+        "median": 60.0,
+        "p95": 95,
+        "total": 5499
+      },
+      "tasks_per_executor": {
+        "3": 43,
+        "1": 41,
+        "2": 36
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 45,
+          "total": 1935
+        },
+        "1": {
+          "mean": 43.0,
+          "total": 1765
+        },
+        "2": {
+          "mean": 50.0,
+          "total": 1799
+        }
+      },
+      "skew_ratio": 2.6,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "64",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "139",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[301] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.513,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 8,
+        "max": 156,
+        "mean": 41.8,
+        "median": 62.0,
+        "p95": 76,
+        "total": 5013
+      },
+      "tasks_per_executor": {
+        "1": 41,
+        "3": 38,
+        "2": 41
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 41.2,
+          "total": 1691
+        },
+        "3": {
+          "mean": 44.0,
+          "total": 1673
+        },
+        "2": {
+          "mean": 40.2,
+          "total": 1649
+        }
+      },
+      "skew_ratio": 2.52,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "65",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "140",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[305] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 31,
+      "num_tasks_submetidas": 31,
+      "duration_s": 0.058,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 9,
+        "max": 32,
+        "mean": 18.3,
+        "median": 16,
+        "p95": 29,
+        "total": 567
+      },
+      "tasks_per_executor": {
+        "1": 12,
+        "3": 11,
+        "2": 8
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 16.4,
+          "total": 197
+        },
+        "3": {
+          "mean": 17.4,
+          "total": 191
+        },
+        "2": {
+          "mean": 22.4,
+          "total": 179
+        }
+      },
+      "skew_ratio": 2.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "65",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "142",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[313] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.027,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 23,
+        "max": 23,
+        "mean": 23,
+        "median": 23,
+        "p95": 23,
+        "total": 23
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 23,
+          "total": 23
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "67",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "144",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[314] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.036,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 32,
+        "max": 32,
+        "mean": 32,
+        "median": 32,
+        "p95": 32,
+        "total": 32
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 32,
+          "total": 32
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "67",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "147",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[317] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.022,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 16,
+        "max": 16,
+        "mean": 16,
+        "median": 16,
+        "p95": 16,
+        "total": 16
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 16,
+          "total": 16
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "67",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "151",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[324] at showString at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.04,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 33,
+        "max": 33,
+        "mean": 33,
+        "median": 33,
+        "p95": 33,
+        "total": 33
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 33,
+          "total": 33
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "70",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "152",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[328] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 31,
+      "num_tasks_submetidas": 31,
+      "duration_s": 0.051,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 10,
+        "max": 24,
+        "mean": 16.2,
+        "median": 14,
+        "p95": 23,
+        "total": 501
+      },
+      "tasks_per_executor": {
+        "3": 12,
+        "2": 8,
+        "1": 11
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 14.8,
+          "total": 177
+        },
+        "2": {
+          "mean": 19.8,
+          "total": 158
+        },
+        "1": {
+          "mean": 15.1,
+          "total": 166
+        }
+      },
+      "skew_ratio": 1.71,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "70",
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "showString",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "154",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[336] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.026,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 20,
+        "max": 20,
+        "mean": 20,
+        "median": 20,
+        "p95": 20,
+        "total": 20
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 20,
+          "total": 20
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "72",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "156",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[337] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.035,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 28,
+        "max": 28,
+        "mean": 28,
+        "median": 28,
+        "p95": 28,
+        "total": 28
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 28,
+          "total": 28
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "72",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "159",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[340] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.018,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 16,
+        "max": 16,
+        "mean": 16,
+        "median": 16,
+        "p95": 16,
+        "total": 16
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 16,
+          "total": 16
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "72",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "163",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[347] at first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.021,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 17,
+        "max": 17,
+        "mean": 17,
+        "median": 17,
+        "p95": 17,
+        "total": 17
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 17,
+          "total": 17
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "75",
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "call_site": {
+          "metodo": "first",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 331,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "164",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[354] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.386,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 8,
+        "max": 174,
+        "mean": 32.6,
+        "median": 15.0,
+        "p95": 91,
+        "total": 3908
+      },
+      "tasks_per_executor": {
+        "1": 42,
+        "2": 35,
+        "3": 43
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 32.5,
+          "total": 1363
+        },
+        "2": {
+          "mean": 35.8,
+          "total": 1252
+        },
+        "3": {
+          "mean": 30.1,
+          "total": 1293
+        }
+      },
+      "skew_ratio": 11.6,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "76",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "165",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[358] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 31,
+      "num_tasks_submetidas": 31,
+      "duration_s": 0.055,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 11,
+        "max": 25,
+        "mean": 17.3,
+        "median": 16,
+        "p95": 25,
+        "total": 535
+      },
+      "tasks_per_executor": {
+        "2": 10,
+        "3": 10,
+        "1": 11
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 17.5,
+          "total": 175
+        },
+        "3": {
+          "mean": 17.2,
+          "total": 172
+        },
+        "1": {
+          "mean": 17.1,
+          "total": 188
+        }
+      },
+      "skew_ratio": 1.56,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "76",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "167",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[366] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.027,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 23,
+        "max": 23,
+        "mean": 23,
+        "median": 23,
+        "p95": 23,
+        "total": 23
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 23,
+          "total": 23
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "78",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "169",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[367] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.035,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 31,
+        "max": 31,
+        "mean": 31,
+        "median": 31,
+        "p95": 31,
+        "total": 31
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 31,
+          "total": 31
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "78",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "172",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[370] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.026,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 15,
+        "max": 15,
+        "mean": 15,
+        "median": 15,
+        "p95": 15,
+        "total": 15
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 15,
+          "total": 15
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "80",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "175",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[372] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.017,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 13,
+        "max": 13,
+        "mean": 13,
+        "median": 13,
+        "p95": 13,
+        "total": 13
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 13,
+          "total": 13
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "81",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 304,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "178",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[374] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.017,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 14,
+        "max": 14,
+        "mean": 14,
+        "median": 14,
+        "p95": 14,
+        "total": 14
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 14,
+          "total": 14
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "82",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 305,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "179",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[381] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.337,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 8,
+        "max": 143,
+        "mean": 27.8,
+        "median": 12.0,
+        "p95": 74,
+        "total": 3335
+      },
+      "tasks_per_executor": {
+        "1": 39,
+        "2": 35,
+        "3": 46
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 27.8,
+          "total": 1085
+        },
+        "2": {
+          "mean": 30.7,
+          "total": 1076
+        },
+        "3": {
+          "mean": 25.5,
+          "total": 1174
+        }
+      },
+      "skew_ratio": 11.92,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "83",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "180",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[388] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.274,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 9,
+        "max": 105,
+        "mean": 16.9,
+        "median": 14.0,
+        "p95": 31,
+        "total": 2025
+      },
+      "tasks_per_executor": {
+        "3": 42,
+        "2": 36,
+        "1": 42
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 17.8,
+          "total": 747
+        },
+        "2": {
+          "mean": 18.0,
+          "total": 647
+        },
+        "1": {
+          "mean": 15.0,
+          "total": 631
+        }
+      },
+      "skew_ratio": 7.5,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "84",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "181",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[391] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.018,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 14,
+        "max": 14,
+        "mean": 14,
+        "median": 14,
+        "p95": 14,
+        "total": 14
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 14,
+          "total": 14
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "84",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "183",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[396] at collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.036,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 30,
+        "max": 30,
+        "mean": 30,
+        "median": 30,
+        "p95": 30,
+        "total": 30
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 30,
+          "total": 30
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "86",
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "call_site": {
+          "metodo": "collect",
+          "arquivo": "utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py",
+          "linha": 298,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "184",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[403] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.642,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 9,
+        "max": 278,
+        "mean": 43.3,
+        "median": 13.0,
+        "p95": 115,
+        "total": 5201
+      },
+      "tasks_per_executor": {
+        "2": 42,
+        "1": 45,
+        "3": 33
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 42.2,
+          "total": 1771
+        },
+        "1": {
+          "mean": 36.0,
+          "total": 1621
+        },
+        "3": {
+          "mean": 54.8,
+          "total": 1809
+        }
+      },
+      "skew_ratio": 21.38,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "87",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "185",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[410] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.501,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 8,
+        "max": 133,
+        "mean": 46.1,
+        "median": 61.0,
+        "p95": 101,
+        "total": 5533
+      },
+      "tasks_per_executor": {
+        "2": 40,
+        "3": 45,
+        "1": 35
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 47.2,
+          "total": 1887
+        },
+        "3": {
+          "mean": 40.4,
+          "total": 1816
+        },
+        "1": {
+          "mean": 52.3,
+          "total": 1830
+        }
+      },
+      "skew_ratio": 2.18,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "88",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "186",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[417] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.476,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 8,
+        "max": 138,
+        "mean": 43.8,
+        "median": 61.0,
+        "p95": 91,
+        "total": 5260
+      },
+      "tasks_per_executor": {
+        "2": 37,
+        "3": 52,
+        "1": 31
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 47.2,
+          "total": 1748
+        },
+        "3": {
+          "mean": 34.1,
+          "total": 1773
+        },
+        "1": {
+          "mean": 56.1,
+          "total": 1739
+        }
+      },
+      "skew_ratio": 2.26,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "89",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "187",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[424] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.642,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 8,
+        "max": 277,
+        "mean": 42.4,
+        "median": 57.5,
+        "p95": 79,
+        "total": 5089
+      },
+      "tasks_per_executor": {
+        "2": 35,
+        "3": 42,
+        "1": 43
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 47.0,
+          "total": 1644
+        },
+        "3": {
+          "mean": 43.9,
+          "total": 1843
+        },
+        "1": {
+          "mean": 37.3,
+          "total": 1602
+        }
+      },
+      "skew_ratio": 4.82,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "90",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "188",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[431] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.295,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 8,
+        "max": 100,
+        "mean": 25.2,
+        "median": 11.0,
+        "p95": 70,
+        "total": 3023
+      },
+      "tasks_per_executor": {
+        "1": 39,
+        "3": 46,
+        "2": 35
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 26.0,
+          "total": 1015
+        },
+        "3": {
+          "mean": 22.4,
+          "total": 1032
+        },
+        "2": {
+          "mean": 27.9,
+          "total": 976
+        }
+      },
+      "skew_ratio": 9.09,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "91",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "189",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[438] at getHistory at DeltaTableOperations.scala:57",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.258,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 9,
+        "max": 98,
+        "mean": 14.0,
+        "median": 12.0,
+        "p95": 21,
+        "total": 1682
+      },
+      "tasks_per_executor": {
+        "2": 42,
+        "3": 37,
+        "1": 41
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 12.6,
+          "total": 528
+        },
+        "3": {
+          "mean": 16.8,
+          "total": 621
+        },
+        "1": {
+          "mean": 13,
+          "total": 533
+        }
+      },
+      "skew_ratio": 8.17,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "92",
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "call_site": {
+          "metodo": "getHistory",
+          "arquivo": "DeltaTableOperations.scala",
+          "linha": 57,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "190",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "PythonRDD[440] at RDD at PythonRDD.scala:55",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.613,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 604,
+        "max": 604,
+        "mean": 604,
+        "median": 604,
+        "p95": 604,
+        "total": 604
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 604,
+          "total": 604
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "93",
+        "acao": "runJob at PythonRDD.scala:191",
+        "call_site": {
+          "metodo": "runJob",
+          "arquivo": "PythonRDD.scala",
+          "linha": 191,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "191",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "PythonRDD[441] at RDD at PythonRDD.scala:55",
+      "num_tasks": 4,
+      "num_tasks_submetidas": 4,
+      "duration_s": 0.633,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 61,
+        "max": 629,
+        "mean": 478.2,
+        "median": 611.5,
+        "p95": 628,
+        "total": 1913
+      },
+      "tasks_per_executor": {
+        "2": 2,
+        "3": 1,
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 628.5,
+          "total": 1257
+        },
+        "3": {
+          "mean": 595,
+          "total": 595
+        },
+        "1": {
+          "mean": 61,
+          "total": 61
+        }
+      },
+      "skew_ratio": 1.03,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "94",
+        "acao": "runJob at PythonRDD.scala:191",
+        "call_site": {
+          "metodo": "runJob",
+          "arquivo": "PythonRDD.scala",
+          "linha": 191,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "192",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[449] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 1.476,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 1456,
+        "max": 1456,
+        "mean": 1456,
+        "median": 1456,
+        "p95": 1456,
+        "total": 1456
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 1456,
+          "total": 1456
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "94",
+        "acao": "runJob at PythonRDD.scala:191",
+        "call_site": {
+          "metodo": "runJob",
+          "arquivo": "PythonRDD.scala",
+          "linha": 191,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "194",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[459] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 2.23,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 53,
+        "max": 2203,
+        "mean": 505.9,
+        "median": 101.0,
+        "p95": 2201,
+        "total": 25295
+      },
+      "tasks_per_executor": {
+        "1": 42,
+        "3": 4,
+        "2": 4
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 188.8,
+          "total": 7931
+        },
+        "3": {
+          "mean": 2139,
+          "total": 8556
+        },
+        "2": {
+          "mean": 2202,
+          "total": 8808
+        }
+      },
+      "skew_ratio": 21.81,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "94",
+        "acao": "runJob at PythonRDD.scala:191",
+        "call_site": {
+          "metodo": "runJob",
+          "arquivo": "PythonRDD.scala",
+          "linha": 191,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "197",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[462] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.144,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 138,
+        "max": 138,
+        "mean": 138,
+        "median": 138,
+        "p95": 138,
+        "total": 138
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 138,
+          "total": 138
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "97",
+        "acao": "save at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "save",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "198",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[470] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 5,
+      "num_tasks_submetidas": 5,
+      "duration_s": 1.014,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 299,
+        "max": 993,
+        "mean": 713,
+        "median": 761,
+        "p95": 768,
+        "total": 3565
+      },
+      "tasks_per_executor": {
+        "1": 2,
+        "2": 2,
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 646,
+          "total": 1292
+        },
+        "2": {
+          "mean": 764.5,
+          "total": 1529
+        },
+        "3": {
+          "mean": 744,
+          "total": 744
+        }
+      },
+      "skew_ratio": 1.3,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "97",
+        "acao": "save at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "save",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "200",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[485] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 1.071,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 71,
+        "max": 756,
+        "mean": 248.0,
+        "median": 131.5,
+        "p95": 744,
+        "total": 12402
+      },
+      "tasks_per_executor": {
+        "2": 16,
+        "3": 12,
+        "1": 22
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 259.5,
+          "total": 4152
+        },
+        "3": {
+          "mean": 340.9,
+          "total": 4091
+        },
+        "1": {
+          "mean": 189.0,
+          "total": 4159
+        }
+      },
+      "skew_ratio": 5.75,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "99",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "201",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[489] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.704,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 701,
+        "max": 701,
+        "mean": 701,
+        "median": 701,
+        "p95": 701,
+        "total": 701
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 701,
+          "total": 701
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "99",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "203",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[502] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 0.412,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 46,
+        "max": 174,
+        "mean": 90.9,
+        "median": 81.5,
+        "p95": 172,
+        "total": 4546
+      },
+      "tasks_per_executor": {
+        "3": 18,
+        "2": 16,
+        "1": 16
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 87.1,
+          "total": 1568
+        },
+        "2": {
+          "mean": 95.9,
+          "total": 1534
+        },
+        "1": {
+          "mean": 90.2,
+          "total": 1444
+        }
+      },
+      "skew_ratio": 2.13,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "101",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "204",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[506] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.138,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 130,
+        "max": 130,
+        "mean": 130,
+        "median": 130,
+        "p95": 130,
+        "total": 130
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 130,
+          "total": 130
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "101",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "206",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[519] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 0.397,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 44,
+        "max": 125,
+        "mean": 78.7,
+        "median": 79.0,
+        "p95": 108,
+        "total": 3936
+      },
+      "tasks_per_executor": {
+        "3": 17,
+        "1": 17,
+        "2": 16
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 82.5,
+          "total": 1403
+        },
+        "1": {
+          "mean": 74.1,
+          "total": 1259
+        },
+        "2": {
+          "mean": 79.6,
+          "total": 1274
+        }
+      },
+      "skew_ratio": 1.58,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "103",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "208",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[523] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 0.209,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 21,
+        "max": 60,
+        "mean": 37.1,
+        "median": 37.5,
+        "p95": 53,
+        "total": 1857
+      },
+      "tasks_per_executor": {
+        "2": 16,
+        "1": 22,
+        "3": 12
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 36.3,
+          "total": 581
+        },
+        "1": {
+          "mean": 35.3,
+          "total": 776
+        },
+        "3": {
+          "mean": 41.7,
+          "total": 500
+        }
+      },
+      "skew_ratio": 1.6,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "104",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "209",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[531] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 5,
+      "num_tasks_submetidas": 5,
+      "duration_s": 0.688,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 73,
+        "max": 681,
+        "mean": 214.2,
+        "median": 96,
+        "p95": 129,
+        "total": 1071
+      },
+      "tasks_per_executor": {
+        "2": 2,
+        "3": 2,
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 386.5,
+          "total": 773
+        },
+        "3": {
+          "mean": 101,
+          "total": 202
+        },
+        "1": {
+          "mean": 96,
+          "total": 96
+        }
+      },
+      "skew_ratio": 7.09,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "104",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "211",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[544] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 0.371,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 41,
+        "max": 130,
+        "mean": 79.7,
+        "median": 72.5,
+        "p95": 127,
+        "total": 3983
+      },
+      "tasks_per_executor": {
+        "1": 18,
+        "2": 16,
+        "3": 16
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 70.5,
+          "total": 1269
+        },
+        "2": {
+          "mean": 89.9,
+          "total": 1438
+        },
+        "3": {
+          "mean": 79.8,
+          "total": 1276
+        }
+      },
+      "skew_ratio": 1.79,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "106",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "212",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[552] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 3,
+      "num_tasks_submetidas": 3,
+      "duration_s": 0.156,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 78,
+        "max": 150,
+        "mean": 108.3,
+        "median": 97,
+        "p95": 97,
+        "total": 325
+      },
+      "tasks_per_executor": {
+        "1": 1,
+        "2": 1,
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 150,
+          "total": 150
+        },
+        "2": {
+          "mean": 97,
+          "total": 97
+        },
+        "3": {
+          "mean": 78,
+          "total": 78
+        }
+      },
+      "skew_ratio": 1.55,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "106",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "214",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[565] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 0.312,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 35,
+        "max": 106,
+        "mean": 67,
+        "median": 66.0,
+        "p95": 91,
+        "total": 3350
+      },
+      "tasks_per_executor": {
+        "3": 16,
+        "1": 17,
+        "2": 17
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 69.5,
+          "total": 1112
+        },
+        "1": {
+          "mean": 62.5,
+          "total": 1062
+        },
+        "2": {
+          "mean": 69.2,
+          "total": 1176
+        }
+      },
+      "skew_ratio": 1.61,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "108",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "215",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[569] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.158,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 154,
+        "max": 154,
+        "mean": 154,
+        "median": 154,
+        "p95": 154,
+        "total": 154
+      },
+      "tasks_per_executor": {
+        "3": 1
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 154,
+          "total": 154
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "108",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "217",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[582] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 0.301,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 36,
+        "max": 100,
+        "mean": 62.3,
+        "median": 58.0,
+        "p95": 99,
+        "total": 3117
+      },
+      "tasks_per_executor": {
+        "3": 16,
+        "2": 16,
+        "1": 18
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 62.1,
+          "total": 993
+        },
+        "2": {
+          "mean": 69.6,
+          "total": 1114
+        },
+        "1": {
+          "mean": 56.1,
+          "total": 1010
+        }
+      },
+      "skew_ratio": 1.72,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "110",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "218",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[584] at $anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 0.693,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 46,
+        "max": 199,
+        "mean": 65.1,
+        "median": 57.5,
+        "p95": 117,
+        "total": 7807
+      },
+      "tasks_per_executor": {
+        "3": 41,
+        "1": 38,
+        "2": 41
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 62.2,
+          "total": 2549
+        },
+        "1": {
+          "mean": 70.2,
+          "total": 2668
+        },
+        "2": {
+          "mean": 63.2,
+          "total": 2590
+        }
+      },
+      "skew_ratio": 3.46,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "111",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "219",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[596] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 120,
+      "num_tasks_submetidas": 120,
+      "duration_s": 8.732,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 82,
+        "max": 2711,
+        "mean": 717.6,
+        "median": 804.0,
+        "p95": 1105,
+        "total": 86118
+      },
+      "tasks_per_executor": {
+        "3": 40,
+        "2": 37,
+        "1": 39,
+        "4": 4
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 624.6,
+          "total": 24984
+        },
+        "2": {
+          "mean": 681.1,
+          "total": 25201
+        },
+        "1": {
+          "mean": 643.7,
+          "total": 25104
+        },
+        "4": {
+          "mean": 2707.2,
+          "total": 10829
+        }
+      },
+      "skew_ratio": 3.37,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "111",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "220",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[593] at $anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 7.035,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 267,
+        "max": 267,
+        "mean": 267,
+        "median": 267,
+        "p95": 267,
+        "total": 267
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 267,
+          "total": 267
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "113",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "221",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[590] at $anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 6.941,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 159,
+        "max": 159,
+        "mean": 159,
+        "median": 159,
+        "p95": 159,
+        "total": 159
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 159,
+          "total": 159
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "114",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "222",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[601] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 18,
+      "num_tasks_submetidas": 18,
+      "duration_s": 8.924,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 28,
+        "max": 2157,
+        "mean": 574.8,
+        "median": 184.0,
+        "p95": 2121,
+        "total": 10346
+      },
+      "tasks_per_executor": {
+        "3": 6,
+        "2": 8,
+        "1": 4
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 829.2,
+          "total": 4975
+        },
+        "2": {
+          "mean": 401.8,
+          "total": 3214
+        },
+        "1": {
+          "mean": 539.2,
+          "total": 2157
+        }
+      },
+      "skew_ratio": 11.72,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "114",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "223",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[605] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 192,
+      "num_tasks_submetidas": 192,
+      "duration_s": 109.372,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 18439,
+        "max": 25548,
+        "mean": 20701.2,
+        "median": 20159.5,
+        "p95": 24033,
+        "total": 3974625
+      },
+      "tasks_per_executor": {
+        "3": 20,
+        "2": 20,
+        "7": 20,
+        "1": 20,
+        "4": 20,
+        "8": 20,
+        "9": 20,
+        "10": 20,
+        "5": 16,
+        "6": 16
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 20140.7,
+          "total": 402813
+        },
+        "2": {
+          "mean": 20145.2,
+          "total": 402905
+        },
+        "7": {
+          "mean": 20997.5,
+          "total": 419950
+        },
+        "1": {
+          "mean": 19900.3,
+          "total": 398006
+        },
+        "4": {
+          "mean": 20954,
+          "total": 419080
+        },
+        "8": {
+          "mean": 20331.7,
+          "total": 406634
+        },
+        "9": {
+          "mean": 20526.8,
+          "total": 410536
+        },
+        "10": {
+          "mean": 20672.3,
+          "total": 413447
+        },
+        "5": {
+          "mean": 22866.4,
+          "total": 365863
+        },
+        "6": {
+          "mean": 20961.9,
+          "total": 335391
+        }
+      },
+      "skew_ratio": 1.27,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "114",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "224",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[609] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 121,
+      "num_tasks_submetidas": 121,
+      "duration_s": 106.665,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 23,
+        "max": 6960,
+        "mean": 859.6,
+        "median": 105,
+        "p95": 5813,
+        "total": 104016
+      },
+      "tasks_per_executor": {
+        "6": 29,
+        "5": 24,
+        "1": 43,
+        "2": 3,
+        "3": 16,
+        "9": 6
+      },
+      "executor_duration_ms": {
+        "6": {
+          "mean": 1257.6,
+          "total": 36469
+        },
+        "5": {
+          "mean": 1114.2,
+          "total": 26740
+        },
+        "1": {
+          "mean": 474.2,
+          "total": 20391
+        },
+        "2": {
+          "mean": 4015.3,
+          "total": 12046
+        },
+        "3": {
+          "mean": 471.1,
+          "total": 7537
+        },
+        "9": {
+          "mean": 138.8,
+          "total": 833
+        }
+      },
+      "skew_ratio": 66.29,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "114",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "226",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[615] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 160,
+      "num_tasks_submetidas": 160,
+      "duration_s": 102.773,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 60,
+        "max": 1290,
+        "mean": 134.7,
+        "median": 88.5,
+        "p95": 240,
+        "total": 21550
+      },
+      "tasks_per_executor": {
+        "9": 8,
+        "1": 31,
+        "6": 15,
+        "3": 65,
+        "8": 14,
+        "2": 26,
+        "10": 1
+      },
+      "executor_duration_ms": {
+        "9": {
+          "mean": 306.4,
+          "total": 2451
+        },
+        "1": {
+          "mean": 79.1,
+          "total": 2451
+        },
+        "6": {
+          "mean": 238.5,
+          "total": 3577
+        },
+        "3": {
+          "mean": 86.5,
+          "total": 5621
+        },
+        "8": {
+          "mean": 249.4,
+          "total": 3491
+        },
+        "2": {
+          "mean": 111.5,
+          "total": 2900
+        },
+        "10": {
+          "mean": 1059,
+          "total": 1059
+        }
+      },
+      "skew_ratio": 14.58,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "114",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "227",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[621] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 160,
+      "num_tasks_submetidas": 160,
+      "duration_s": 104.487,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 71,
+        "max": 1266,
+        "mean": 176.4,
+        "median": 151.0,
+        "p95": 328,
+        "total": 28225
+      },
+      "tasks_per_executor": {
+        "9": 14,
+        "1": 21,
+        "3": 32,
+        "10": 12,
+        "2": 25,
+        "6": 17,
+        "8": 31,
+        "7": 6,
+        "5": 1,
+        "4": 1
+      },
+      "executor_duration_ms": {
+        "9": {
+          "mean": 175.3,
+          "total": 2454
+        },
+        "1": {
+          "mean": 131.8,
+          "total": 2767
+        },
+        "3": {
+          "mean": 140.8,
+          "total": 4506
+        },
+        "10": {
+          "mean": 184.2,
+          "total": 2210
+        },
+        "2": {
+          "mean": 137.2,
+          "total": 3429
+        },
+        "6": {
+          "mean": 179.6,
+          "total": 3054
+        },
+        "8": {
+          "mean": 164.6,
+          "total": 5104
+        },
+        "7": {
+          "mean": 382.8,
+          "total": 2297
+        },
+        "5": {
+          "mean": 1266,
+          "total": 1266
+        },
+        "4": {
+          "mean": 1138,
+          "total": 1138
+        }
+      },
+      "skew_ratio": 8.38,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "114",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "230",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[627] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 160,
+      "num_tasks_submetidas": 160,
+      "duration_s": 0.985,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 58,
+        "max": 455,
+        "mean": 179.3,
+        "median": 158.0,
+        "p95": 331,
+        "total": 28696
+      },
+      "tasks_per_executor": {
+        "8": 19,
+        "3": 23,
+        "2": 25,
+        "5": 12,
+        "10": 9,
+        "9": 9,
+        "6": 21,
+        "7": 18,
+        "1": 13,
+        "4": 11
+      },
+      "executor_duration_ms": {
+        "8": {
+          "mean": 197.3,
+          "total": 3748
+        },
+        "3": {
+          "mean": 134.0,
+          "total": 3083
+        },
+        "2": {
+          "mean": 140.6,
+          "total": 3516
+        },
+        "5": {
+          "mean": 249.7,
+          "total": 2996
+        },
+        "10": {
+          "mean": 202.3,
+          "total": 1821
+        },
+        "9": {
+          "mean": 196.7,
+          "total": 1770
+        },
+        "6": {
+          "mean": 176.9,
+          "total": 3715
+        },
+        "7": {
+          "mean": 202.7,
+          "total": 3648
+        },
+        "1": {
+          "mean": 142.6,
+          "total": 1854
+        },
+        "4": {
+          "mean": 231.4,
+          "total": 2545
+        }
+      },
+      "skew_ratio": 2.88,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "114",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "234",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[629] at $anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "num_tasks": 3,
+      "num_tasks_submetidas": 3,
+      "duration_s": 0.136,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 48,
+        "max": 132,
+        "mean": 77.7,
+        "median": 53,
+        "p95": 53,
+        "total": 233
+      },
+      "tasks_per_executor": {
+        "2": 1,
+        "3": 1,
+        "5": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 53,
+          "total": 53
+        },
+        "3": {
+          "mean": 48,
+          "total": 48
+        },
+        "5": {
+          "mean": 132,
+          "total": 132
+        }
+      },
+      "skew_ratio": 2.49,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "121",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "237",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[638] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 352,
+      "num_tasks_submetidas": 352,
+      "duration_s": 98.307,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 3779,
+        "max": 19769,
+        "mean": 10225.6,
+        "median": 13399.5,
+        "p95": 15723,
+        "total": 3599398
+      },
+      "tasks_per_executor": {
+        "1": 60,
+        "2": 61,
+        "3": 62,
+        "8": 25,
+        "7": 24,
+        "10": 24,
+        "9": 24,
+        "6": 24,
+        "5": 24,
+        "4": 24
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 6264.0,
+          "total": 375842
+        },
+        "2": {
+          "mean": 6322.0,
+          "total": 385644
+        },
+        "3": {
+          "mean": 6069.5,
+          "total": 376309
+        },
+        "8": {
+          "mean": 14035.1,
+          "total": 350877
+        },
+        "7": {
+          "mean": 14326.6,
+          "total": 343838
+        },
+        "10": {
+          "mean": 14666.0,
+          "total": 351985
+        },
+        "9": {
+          "mean": 14955.7,
+          "total": 358937
+        },
+        "6": {
+          "mean": 14713.1,
+          "total": 353114
+        },
+        "5": {
+          "mean": 14529.3,
+          "total": 348703
+        },
+        "4": {
+          "mean": 14756.2,
+          "total": 354149
+        }
+      },
+      "skew_ratio": 1.48,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "121",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "242",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[643] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 160,
+      "num_tasks_submetidas": 160,
+      "duration_s": 59.481,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 7921,
+        "max": 37499,
+        "mean": 13203.4,
+        "median": 11114.0,
+        "p95": 33690,
+        "total": 2112544
+      },
+      "tasks_per_executor": {
+        "3": 12,
+        "5": 16,
+        "6": 17,
+        "2": 12,
+        "1": 12,
+        "9": 16,
+        "8": 16,
+        "7": 20,
+        "10": 19,
+        "4": 20
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 18677.9,
+          "total": 224135
+        },
+        "5": {
+          "mean": 12472.6,
+          "total": 199562
+        },
+        "6": {
+          "mean": 11611.9,
+          "total": 197403
+        },
+        "2": {
+          "mean": 18789.6,
+          "total": 225475
+        },
+        "1": {
+          "mean": 19389.6,
+          "total": 232675
+        },
+        "9": {
+          "mean": 13066.1,
+          "total": 209058
+        },
+        "8": {
+          "mean": 12491.6,
+          "total": 199866
+        },
+        "7": {
+          "mean": 10049.2,
+          "total": 200985
+        },
+        "10": {
+          "mean": 11254.1,
+          "total": 213827
+        },
+        "4": {
+          "mean": 10477.9,
+          "total": 209558
+        }
+      },
+      "skew_ratio": 3.37,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "121",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "250",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[647] at save at NativeMethodAccessorImpl.java:0",
+      "num_tasks": 160,
+      "num_tasks_submetidas": 160,
+      "duration_s": 117.921,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 22918,
+        "max": 39021,
+        "mean": 27365.1,
+        "median": 25734.5,
+        "p95": 35611,
+        "total": 4378409
+      },
+      "tasks_per_executor": {
+        "3": 16,
+        "7": 16,
+        "1": 16,
+        "10": 16,
+        "8": 16,
+        "6": 16,
+        "2": 16,
+        "4": 16,
+        "9": 16,
+        "5": 16
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 27512.9,
+          "total": 440207
+        },
+        "7": {
+          "mean": 25662.9,
+          "total": 410607
+        },
+        "1": {
+          "mean": 28700.9,
+          "total": 459215
+        },
+        "10": {
+          "mean": 27360.4,
+          "total": 437766
+        },
+        "8": {
+          "mean": 26418.9,
+          "total": 422703
+        },
+        "6": {
+          "mean": 27250,
+          "total": 436000
+        },
+        "2": {
+          "mean": 28652.1,
+          "total": 458434
+        },
+        "4": {
+          "mean": 28603.1,
+          "total": 457650
+        },
+        "9": {
+          "mean": 26321.6,
+          "total": 421145
+        },
+        "5": {
+          "mean": 27167.6,
+          "total": 434682
+        }
+      },
+      "skew_ratio": 1.52,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "124",
+        "acao": "save at NativeMethodAccessorImpl.java:0",
+        "call_site": {
+          "metodo": "save",
+          "arquivo": "NativeMethodAccessorImpl.java",
+          "linha": 0,
+          "interno": false
+        }
+      }
+    },
+    {
+      "stage_id": "252",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[649] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 0.251,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 9,
+        "max": 82,
+        "mean": 31.3,
+        "median": 19.0,
+        "p95": 80,
+        "total": 1566
+      },
+      "tasks_per_executor": {
+        "3": 4,
+        "2": 4,
+        "1": 42
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 77.5,
+          "total": 310
+        },
+        "2": {
+          "mean": 80.8,
+          "total": 323
+        },
+        "1": {
+          "mean": 22.2,
+          "total": 933
+        }
+      },
+      "skew_ratio": 4.32,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "125",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "253",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[653] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 2,
+      "num_tasks_submetidas": 2,
+      "duration_s": 0.513,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 503,
+        "max": 508,
+        "mean": 505.5,
+        "median": 505.5,
+        "p95": 503,
+        "total": 1011
+      },
+      "tasks_per_executor": {
+        "5": 1,
+        "4": 1
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 508,
+          "total": 508
+        },
+        "4": {
+          "mean": 503,
+          "total": 503
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "125",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "254",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[663] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.461,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 453,
+        "max": 453,
+        "mean": 453,
+        "median": 453,
+        "p95": 453,
+        "total": 453
+      },
+      "tasks_per_executor": {
+        "7": 1
+      },
+      "executor_duration_ms": {
+        "7": {
+          "mean": 453,
+          "total": 453
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "125",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "255",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[671] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 10000,
+      "num_tasks_submetidas": 10000,
+      "duration_s": 8.043,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 7,
+        "max": 266,
+        "mean": 32.1,
+        "median": 31.0,
+        "p95": 45,
+        "total": 320914
+      },
+      "tasks_per_executor": {
+        "4": 960,
+        "2": 1066,
+        "3": 1022,
+        "1": 1009,
+        "7": 1068,
+        "9": 966,
+        "10": 956,
+        "6": 959,
+        "5": 1010,
+        "8": 984
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 33.4,
+          "total": 32071
+        },
+        "2": {
+          "mean": 30.1,
+          "total": 32084
+        },
+        "3": {
+          "mean": 31.5,
+          "total": 32176
+        },
+        "1": {
+          "mean": 31.8,
+          "total": 32118
+        },
+        "7": {
+          "mean": 30.0,
+          "total": 32074
+        },
+        "9": {
+          "mean": 33.2,
+          "total": 32073
+        },
+        "10": {
+          "mean": 33.6,
+          "total": 32088
+        },
+        "6": {
+          "mean": 33.4,
+          "total": 32078
+        },
+        "5": {
+          "mean": 31.8,
+          "total": 32108
+        },
+        "8": {
+          "mean": 32.6,
+          "total": 32044
+        }
+      },
+      "skew_ratio": 8.58,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "125",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "258",
+      "tipo_stage": null,
+      "rdd_desc": null,
+      "num_tasks": 160,
+      "num_tasks_submetidas": null,
+      "duration_s": 0.375,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 11,
+        "max": 334,
+        "mean": 85.2,
+        "median": 33.0,
+        "p95": 309,
+        "total": 13635
+      },
+      "tasks_per_executor": {
+        "6": 8,
+        "1": 27,
+        "4": 11,
+        "3": 31,
+        "10": 4,
+        "5": 19,
+        "9": 8,
+        "8": 8,
+        "2": 36,
+        "7": 8
+      },
+      "executor_duration_ms": {
+        "6": {
+          "mean": 171.6,
+          "total": 1373
+        },
+        "1": {
+          "mean": 51.3,
+          "total": 1384
+        },
+        "4": {
+          "mean": 125.3,
+          "total": 1378
+        },
+        "3": {
+          "mean": 44.0,
+          "total": 1363
+        },
+        "10": {
+          "mean": 332.2,
+          "total": 1329
+        },
+        "5": {
+          "mean": 70.3,
+          "total": 1336
+        },
+        "9": {
+          "mean": 179.1,
+          "total": 1433
+        },
+        "8": {
+          "mean": 166.4,
+          "total": 1331
+        },
+        "2": {
+          "mean": 38.4,
+          "total": 1382
+        },
+        "7": {
+          "mean": 165.8,
+          "total": 1326
+        }
+      },
+      "skew_ratio": 10.12,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "128",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "261",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[682] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 160,
+      "num_tasks_submetidas": 160,
+      "duration_s": 0.203,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 5,
+        "max": 127,
+        "mean": 38.7,
+        "median": 27.5,
+        "p95": 112,
+        "total": 6192
+      },
+      "tasks_per_executor": {
+        "4": 11,
+        "9": 8,
+        "5": 19,
+        "3": 31,
+        "1": 27,
+        "10": 4,
+        "6": 8,
+        "2": 36,
+        "7": 8,
+        "8": 8
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 57.1,
+          "total": 628
+        },
+        "9": {
+          "mean": 63.9,
+          "total": 511
+        },
+        "5": {
+          "mean": 37.8,
+          "total": 719
+        },
+        "3": {
+          "mean": 24.1,
+          "total": 748
+        },
+        "1": {
+          "mean": 27.1,
+          "total": 732
+        },
+        "10": {
+          "mean": 112.8,
+          "total": 451
+        },
+        "6": {
+          "mean": 74.4,
+          "total": 595
+        },
+        "2": {
+          "mean": 21.6,
+          "total": 779
+        },
+        "7": {
+          "mean": 60,
+          "total": 480
+        },
+        "8": {
+          "mean": 68.6,
+          "total": 549
+        }
+      },
+      "skew_ratio": 4.62,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "128",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "265",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[685] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.025,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 19,
+        "max": 19,
+        "mean": 19,
+        "median": 19,
+        "p95": 19,
+        "total": 19
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 19,
+          "total": 19
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "130",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "268",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[690] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 160,
+      "num_tasks_submetidas": 160,
+      "duration_s": 0.166,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 5,
+        "max": 67,
+        "mean": 26.6,
+        "median": 23.5,
+        "p95": 55,
+        "total": 4255
+      },
+      "tasks_per_executor": {
+        "2": 36,
+        "10": 4,
+        "6": 8,
+        "8": 8,
+        "3": 31,
+        "9": 8,
+        "4": 11,
+        "5": 19,
+        "1": 27,
+        "7": 8
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 17.6,
+          "total": 635
+        },
+        "10": {
+          "mean": 49.2,
+          "total": 197
+        },
+        "6": {
+          "mean": 41.8,
+          "total": 334
+        },
+        "8": {
+          "mean": 43.1,
+          "total": 345
+        },
+        "3": {
+          "mean": 19.2,
+          "total": 594
+        },
+        "9": {
+          "mean": 40.4,
+          "total": 323
+        },
+        "4": {
+          "mean": 34.4,
+          "total": 378
+        },
+        "5": {
+          "mean": 29.2,
+          "total": 554
+        },
+        "1": {
+          "mean": 21.5,
+          "total": 580
+        },
+        "7": {
+          "mean": 39.4,
+          "total": 315
+        }
+      },
+      "skew_ratio": 2.85,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "130",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "272",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[693] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.017,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 15,
+        "max": 15,
+        "mean": 15,
+        "median": 15,
+        "p95": 15,
+        "total": 15
+      },
+      "tasks_per_executor": {
+        "2": 1
+      },
+      "executor_duration_ms": {
+        "2": {
+          "mean": 15,
+          "total": 15
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "132",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "274",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[698] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 0.816,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 49,
+        "max": 723,
+        "mean": 468.2,
+        "median": 630.5,
+        "p95": 719,
+        "total": 23412
+      },
+      "tasks_per_executor": {
+        "4": 4,
+        "5": 4,
+        "2": 8,
+        "9": 4,
+        "10": 4,
+        "1": 4,
+        "6": 4,
+        "3": 10,
+        "7": 4,
+        "8": 4
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 628.2,
+          "total": 2513
+        },
+        "5": {
+          "mean": 674.8,
+          "total": 2699
+        },
+        "2": {
+          "mean": 153.6,
+          "total": 1229
+        },
+        "9": {
+          "mean": 678.8,
+          "total": 2715
+        },
+        "10": {
+          "mean": 712.8,
+          "total": 2851
+        },
+        "1": {
+          "mean": 531,
+          "total": 2124
+        },
+        "6": {
+          "mean": 721,
+          "total": 2884
+        },
+        "3": {
+          "mean": 124.3,
+          "total": 1243
+        },
+        "7": {
+          "mean": 642.2,
+          "total": 2569
+        },
+        "8": {
+          "mean": 646.2,
+          "total": 2585
+        }
+      },
+      "skew_ratio": 1.15,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "132",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "277",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[706] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 160,
+      "num_tasks_submetidas": 160,
+      "duration_s": 0.879,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 7,
+        "max": 381,
+        "mean": 48.3,
+        "median": 21.0,
+        "p95": 147,
+        "total": 7724
+      },
+      "tasks_per_executor": {
+        "3": 31,
+        "2": 36,
+        "1": 27,
+        "4": 11,
+        "5": 19,
+        "7": 8,
+        "8": 8,
+        "9": 8,
+        "10": 4,
+        "6": 8
+      },
+      "executor_duration_ms": {
+        "3": {
+          "mean": 21.4,
+          "total": 664
+        },
+        "2": {
+          "mean": 55.7,
+          "total": 2004
+        },
+        "1": {
+          "mean": 32.3,
+          "total": 873
+        },
+        "4": {
+          "mean": 73.5,
+          "total": 809
+        },
+        "5": {
+          "mean": 48.2,
+          "total": 916
+        },
+        "7": {
+          "mean": 56.9,
+          "total": 455
+        },
+        "8": {
+          "mean": 64,
+          "total": 512
+        },
+        "9": {
+          "mean": 70.2,
+          "total": 562
+        },
+        "10": {
+          "mean": 85,
+          "total": 340
+        },
+        "6": {
+          "mean": 73.6,
+          "total": 589
+        }
+      },
+      "skew_ratio": 18.14,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "132",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "280",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[708] at $anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.023,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 19,
+        "max": 19,
+        "mean": 19,
+        "median": 19,
+        "p95": 19,
+        "total": 19
+      },
+      "tasks_per_executor": {
+        "1": 1
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 19,
+          "total": 19
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "135",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "284",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[711] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.07,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 64,
+        "max": 64,
+        "mean": 64,
+        "median": 64,
+        "p95": 64,
+        "total": 64
+      },
+      "tasks_per_executor": {
+        "5": 1
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 64,
+          "total": 64
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "135",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "289",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[714] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.032,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 28,
+        "max": 28,
+        "mean": 28,
+        "median": 28,
+        "p95": 28,
+        "total": 28
+      },
+      "tasks_per_executor": {
+        "5": 1
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 28,
+          "total": 28
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "137",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "291",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[719] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 0.137,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 30,
+        "max": 94,
+        "mean": 55.3,
+        "median": 53.5,
+        "p95": 75,
+        "total": 2766
+      },
+      "tasks_per_executor": {
+        "5": 4,
+        "7": 4,
+        "1": 4,
+        "6": 4,
+        "3": 10,
+        "10": 4,
+        "4": 4,
+        "2": 8,
+        "9": 4,
+        "8": 4
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 84.5,
+          "total": 338
+        },
+        "7": {
+          "mean": 57.2,
+          "total": 229
+        },
+        "1": {
+          "mean": 53,
+          "total": 212
+        },
+        "6": {
+          "mean": 65.5,
+          "total": 262
+        },
+        "3": {
+          "mean": 42.2,
+          "total": 422
+        },
+        "10": {
+          "mean": 61.5,
+          "total": 246
+        },
+        "4": {
+          "mean": 58.2,
+          "total": 233
+        },
+        "2": {
+          "mean": 43.9,
+          "total": 351
+        },
+        "9": {
+          "mean": 60.8,
+          "total": 243
+        },
+        "8": {
+          "mean": 57.5,
+          "total": 230
+        }
+      },
+      "skew_ratio": 1.76,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "137",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "294",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[727] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 160,
+      "num_tasks_submetidas": 160,
+      "duration_s": 0.249,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 9,
+        "max": 95,
+        "mean": 29.1,
+        "median": 23.0,
+        "p95": 67,
+        "total": 4663
+      },
+      "tasks_per_executor": {
+        "1": 27,
+        "8": 8,
+        "4": 11,
+        "10": 4,
+        "9": 8,
+        "7": 8,
+        "6": 8,
+        "2": 36,
+        "5": 19,
+        "3": 31
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 26.8,
+          "total": 724
+        },
+        "8": {
+          "mean": 42.4,
+          "total": 339
+        },
+        "4": {
+          "mean": 29.6,
+          "total": 326
+        },
+        "10": {
+          "mean": 52,
+          "total": 208
+        },
+        "9": {
+          "mean": 39.8,
+          "total": 318
+        },
+        "7": {
+          "mean": 32.6,
+          "total": 261
+        },
+        "6": {
+          "mean": 56,
+          "total": 448
+        },
+        "2": {
+          "mean": 19.8,
+          "total": 714
+        },
+        "5": {
+          "mean": 36.6,
+          "total": 695
+        },
+        "3": {
+          "mean": 20.3,
+          "total": 630
+        }
+      },
+      "skew_ratio": 4.13,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "137",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "297",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[729] at $anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.032,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 29,
+        "max": 29,
+        "mean": 29,
+        "median": 29,
+        "p95": 29,
+        "total": 29
+      },
+      "tasks_per_executor": {
+        "6": 1
+      },
+      "executor_duration_ms": {
+        "6": {
+          "mean": 29,
+          "total": 29
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "140",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "301",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[732] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.06,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 53,
+        "max": 53,
+        "mean": 53,
+        "median": 53,
+        "p95": 53,
+        "total": 53
+      },
+      "tasks_per_executor": {
+        "7": 1
+      },
+      "executor_duration_ms": {
+        "7": {
+          "mean": 53,
+          "total": 53
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "140",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "306",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[735] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.028,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 22,
+        "max": 22,
+        "mean": 22,
+        "median": 22,
+        "p95": 22,
+        "total": 22
+      },
+      "tasks_per_executor": {
+        "7": 1
+      },
+      "executor_duration_ms": {
+        "7": {
+          "mean": 22,
+          "total": 22
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "142",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "308",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[740] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 0.116,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 26,
+        "max": 77,
+        "mean": 50.2,
+        "median": 49.0,
+        "p95": 68,
+        "total": 2508
+      },
+      "tasks_per_executor": {
+        "5": 4,
+        "2": 8,
+        "1": 4,
+        "8": 4,
+        "7": 4,
+        "9": 4,
+        "3": 10,
+        "6": 4,
+        "10": 4,
+        "4": 4
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 60.5,
+          "total": 242
+        },
+        "2": {
+          "mean": 42.1,
+          "total": 337
+        },
+        "1": {
+          "mean": 50,
+          "total": 200
+        },
+        "8": {
+          "mean": 58.2,
+          "total": 233
+        },
+        "7": {
+          "mean": 56.5,
+          "total": 226
+        },
+        "9": {
+          "mean": 55.5,
+          "total": 222
+        },
+        "3": {
+          "mean": 38.6,
+          "total": 386
+        },
+        "6": {
+          "mean": 56.8,
+          "total": 227
+        },
+        "10": {
+          "mean": 53.8,
+          "total": 215
+        },
+        "4": {
+          "mean": 55,
+          "total": 220
+        }
+      },
+      "skew_ratio": 1.57,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "142",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "311",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[748] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 160,
+      "num_tasks_submetidas": 160,
+      "duration_s": 0.184,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 7,
+        "max": 47,
+        "mean": 19.3,
+        "median": 17.0,
+        "p95": 36,
+        "total": 3095
+      },
+      "tasks_per_executor": {
+        "1": 27,
+        "7": 8,
+        "6": 8,
+        "10": 4,
+        "9": 8,
+        "4": 11,
+        "8": 8,
+        "5": 19,
+        "2": 36,
+        "3": 31
+      },
+      "executor_duration_ms": {
+        "1": {
+          "mean": 20.4,
+          "total": 551
+        },
+        "7": {
+          "mean": 13.5,
+          "total": 108
+        },
+        "6": {
+          "mean": 22.6,
+          "total": 181
+        },
+        "10": {
+          "mean": 32,
+          "total": 128
+        },
+        "9": {
+          "mean": 23.6,
+          "total": 189
+        },
+        "4": {
+          "mean": 28.2,
+          "total": 310
+        },
+        "8": {
+          "mean": 27,
+          "total": 216
+        },
+        "5": {
+          "mean": 23.7,
+          "total": 451
+        },
+        "2": {
+          "mean": 13.2,
+          "total": 477
+        },
+        "3": {
+          "mean": 15.6,
+          "total": 484
+        }
+      },
+      "skew_ratio": 2.76,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "142",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "314",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[750] at $anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.034,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 30,
+        "max": 30,
+        "mean": 30,
+        "median": 30,
+        "p95": 30,
+        "total": 30
+      },
+      "tasks_per_executor": {
+        "10": 1
+      },
+      "executor_duration_ms": {
+        "10": {
+          "mean": 30,
+          "total": 30
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "145",
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "call_site": {
+          "metodo": "$anonfun$withThreadLocalCaptured$1",
+          "arquivo": "FutureTask.java",
+          "linha": 264,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "318",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[754] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.064,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 60,
+        "max": 60,
+        "mean": 60,
+        "median": 60,
+        "p95": 60,
+        "total": 60
+      },
+      "tasks_per_executor": {
+        "8": 1
+      },
+      "executor_duration_ms": {
+        "8": {
+          "mean": 60,
+          "total": 60
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "146",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "320",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[756] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.154,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 144,
+        "max": 144,
+        "mean": 144,
+        "median": 144,
+        "p95": 144,
+        "total": 144
+      },
+      "tasks_per_executor": {
+        "4": 1
+      },
+      "executor_duration_ms": {
+        "4": {
+          "mean": 144,
+          "total": 144
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "147",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "322",
+      "tipo_stage": "ShuffleMapStage",
+      "rdd_desc": "MapPartitionsRDD[759] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 50,
+      "num_tasks_submetidas": 50,
+      "duration_s": 0.278,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 13,
+        "max": 265,
+        "mean": 151.5,
+        "median": 145.0,
+        "p95": 261,
+        "total": 7576
+      },
+      "tasks_per_executor": {
+        "9": 4,
+        "4": 4,
+        "3": 10,
+        "5": 4,
+        "2": 8,
+        "6": 4,
+        "10": 4,
+        "1": 4,
+        "7": 4,
+        "8": 4
+      },
+      "executor_duration_ms": {
+        "9": {
+          "mean": 202.5,
+          "total": 810
+        },
+        "4": {
+          "mean": 133.8,
+          "total": 535
+        },
+        "3": {
+          "mean": 58.5,
+          "total": 585
+        },
+        "5": {
+          "mean": 263.2,
+          "total": 1053
+        },
+        "2": {
+          "mean": 78.5,
+          "total": 628
+        },
+        "6": {
+          "mean": 213.2,
+          "total": 853
+        },
+        "10": {
+          "mean": 218.5,
+          "total": 874
+        },
+        "1": {
+          "mean": 144.5,
+          "total": 578
+        },
+        "7": {
+          "mean": 209.8,
+          "total": 839
+        },
+        "8": {
+          "mean": 205.2,
+          "total": 821
+        }
+      },
+      "skew_ratio": 1.83,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "147",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    },
+    {
+      "stage_id": "325",
+      "tipo_stage": "ResultStage",
+      "rdd_desc": "MapPartitionsRDD[764] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_tasks": 1,
+      "num_tasks_submetidas": 1,
+      "duration_s": 0.551,
+      "duration_fonte": "stage_finish",
+      "task_duration_ms": {
+        "min": 539,
+        "max": 539,
+        "mean": 539,
+        "median": 539,
+        "p95": 539,
+        "total": 539
+      },
+      "tasks_per_executor": {
+        "5": 1
+      },
+      "executor_duration_ms": {
+        "5": {
+          "mean": 539,
+          "total": 539
+        }
+      },
+      "skew_ratio": 1.0,
+      "task_retries": 0,
+      "origem": {
+        "job_id": "149",
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "call_site": {
+          "metodo": "$anonfun$recordDeltaOperationInternal$1",
+          "arquivo": "DatabricksLogging.scala",
+          "linha": 128,
+          "interno": true
+        }
+      }
+    }
+  ],
+  "task_retries_total": 0,
+  "stage_failures": {
+    "total": 0,
+    "detalhes": []
+  },
+  "executor_lost": {
+    "total": 0,
+    "detalhes": []
+  },
+  "eventos_esparsos": {
+    "task_start": 16394,
+    "task_finish": 16394,
+    "block_added": 713,
+    "broadcast_stored": 387,
+    "stage_submit": 151,
+    "taskset_removed": 151,
+    "stage_finish": 151,
+    "stage_tasks_submitted": 150,
+    "job_start": 85,
+    "job_finish": 84,
+    "aqe_coalesce_target": 83,
+    "codegen": 82,
+    "window_sem_particao": 80,
+    "scan_bin_packing": 18,
+    "executor_not_found": 10,
+    "executor_registered": 10,
+    "executor_backlog_request": 9,
+    "delta_snapshot": 5,
+    "raw_warn_error": 2,
+    "max_executors": 2,
+    "spark_version": 1,
+    "app_name": 1,
+    "resource_profile": 1,
+    "app_final_status": 1
+  },
+  "metricas_nao_disponiveis": {
+    "gc_time_ratio": {
+      "valor": null,
+      "motivo": "Log em nivel INFO padrao, sem eventos de GC verboso (flag -verbose:gc nao habilitada)."
+    },
+    "shuffle_read_write_bytes": {
+      "valor": null,
+      "motivo": "Log expoe apenas sinal indireto de shuffle (advisory/actual target size), nao bytes lidos/escritos reais."
+    },
+    "spill_memoria_disco": {
+      "valor": null,
+      "motivo": "Nao ha eventos de spill no log neste nivel de verbosidade."
+    },
+    "result_size_driver": {
+      "valor": null,
+      "motivo": "Result Size por task so existe no event log (SparkListenerTaskEnd). Sem ele, o risco de collect e estimado por numero de particoes, nao por bytes."
+    }
+  },
+  "status_final": [
+    {
+      "ts": "26/09/21 13:09:41",
+      "level": "INFO",
+      "component": "SparkContext",
+      "event_type": "app_final_status",
+      "data": {
+        "exit_code": "0"
+      }
+    }
+  ],
+  "raw_warn_error": [
+    {
+      "ts": "26/09/21 13:01:23",
+      "level": "WARN",
+      "component": "MetricsConfig",
+      "event_type": "raw_warn_error",
+      "data": {
+        "msg": "Cannot locate configuration: tried hadoop-metrics2-s3a-file-system.properties,hadoop-metrics2.properties",
+        "stack_trace": [
+          "Files path_1 from /tmp/spark-[host_1]-5e5b-442b-908e-[host_2]/gov_env.tar.gz to /home/hadoop/environment",
+          "Files path_2 from /tmp/spark-[host_1]-5e5b-442b-908e-[host_2]/uteis.zip to /home/hadoop/uteis.zip",
+          "Files path_3 from /tmp/spark-[host_1]-5e5b-442b-908e-[host_2]/utils_maxpar.zip to /home/hadoop/utils_maxpar.zip",
+          "Files path_4 from /tmp/spark-[host_1]-5e5b-442b-908e-[host_2]/libs_python.zip to /home/hadoop/libs_python.zip",
+          "Files path_5 from /tmp/spark-[host_1]-5e5b-442b-908e-[host_2]/gov_utils.zip to /home/hadoop/gov_utils.zip",
+          "Files path_6 from /tmp/spark-[host_1]-5e5b-442b-908e-[host_2]/utils.zip to /home/hadoop/utils.zip"
+        ]
+      }
+    },
+    {
+      "ts": "26/09/21 13:02:33",
+      "level": "WARN",
+      "component": "SparkStringUtils",
+      "event_type": "raw_warn_error",
+      "data": {
+        "msg": "Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'."
+      }
+    }
+  ]
+}
