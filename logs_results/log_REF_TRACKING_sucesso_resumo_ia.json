@@ -1,0 +1,311 @@
+{
+  "resumo_version": "1.2",
+  "fonte": {
+    "log_nome": "log_REF_TRACKING_sucesso.txt",
+    "parser_version": "0.4.0",
+    "schema_version": "2.0",
+    "tipo_de_log": "stderr do driver Spark, nivel INFO",
+    "perfil_do_resumo": "compacto"
+  },
+  "limiares": {
+    "deteccao": {
+      "stage_explodido_tasks": 500,
+      "stage_explodido_mediana_ms": 100,
+      "aqe_razao_alvo": 8,
+      "acao_repetida_min_jobs": 5,
+      "skew_ratio": 3.0,
+      "skew_min_tasks": 8,
+      "skew_min_max_ms": 5000,
+      "stage_1_task_pct": 40,
+      "small_files_min": 50,
+      "ocupacao_baixa_pct": 60
+    }
+  },
+  "contexto": {
+    "app_name": "REF_ACIONAMENTO_TRACKING",
+    "spark_version": "3.5.6-amzn-1",
+    "snapshots_delta_carregados": 11
+  },
+  "execucao": {
+    "duracao_total_s": 325.0,
+    "exit_code": "0",
+    "slots_estimados": 3,
+    "executores_com_tasks": 3,
+    "max_executors": 3,
+    "cores_por_executor": 1,
+    "tempo_total_task_s": 563.4,
+    "ocupacao_pct": 57.8,
+    "total_stages": 79,
+    "total_jobs": 42
+  },
+  "falhas": {
+    "executor_lost_total": 0,
+    "executor_lost": [],
+    "stage_failures_total": 0,
+    "stage_failures": [],
+    "tasks_falhas_por_motivo": {},
+    "task_retries_total": 0
+  },
+  "achados": [
+    {
+      "id": "A1",
+      "regra": "stage_explodido",
+      "severidade": "ALTA",
+      "titulo": "Stage 92.0 com 10000 tasks de mediana 8.0 ms",
+      "evidencia": {
+        "stage_key": "92.0",
+        "tipo_stage": "ShuffleMapStage",
+        "num_tasks": 10000,
+        "mediana_ms": 8.0,
+        "tempo_total_task_s": 124.2,
+        "duration_s": 40.58,
+        "rdd_desc": "MapPartitionsRDD[335] at $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "origem": {
+          "job_id": "46",
+          "tipo_job": "map_stage",
+          "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+          "codigo_interno_do_engine": true
+        }
+      },
+      "limiar_usado": {
+        "stage_explodido_tasks": 500,
+        "stage_explodido_mediana_ms": 100
+      }
+    },
+    {
+      "id": "A2",
+      "regra": "ocupacao_baixa",
+      "severidade": "MEDIA",
+      "titulo": "Tasks ocuparam 57.8% da capacidade estimada",
+      "evidencia": {
+        "slots": 3,
+        "tempo_total_task_s": 563.4,
+        "capacidade_total_s": 975.0,
+        "ocupacao_pct": 57.8
+      },
+      "limiar_usado": {
+        "ocupacao_baixa_pct": 60
+      }
+    },
+    {
+      "id": "A3",
+      "regra": "acao_repetida",
+      "severidade": "BAIXA",
+      "titulo": "8 jobs disparados por getHistory at DeltaTableOperations.scala:57",
+      "evidencia": {
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "num_jobs": 8,
+        "duracao_total_s": 36.92,
+        "codigo_interno_do_engine": true
+      },
+      "limiar_usado": {
+        "acao_repetida_min_jobs": 5
+      }
+    },
+    {
+      "id": "A4",
+      "regra": "acao_repetida",
+      "severidade": "BAIXA",
+      "titulo": "22 jobs disparados por $anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "evidencia": {
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "num_jobs": 22,
+        "duracao_total_s": 21.79,
+        "codigo_interno_do_engine": true
+      },
+      "limiar_usado": {
+        "acao_repetida_min_jobs": 5
+      }
+    },
+    {
+      "id": "A5",
+      "regra": "acao_repetida",
+      "severidade": "BAIXA",
+      "titulo": "8 jobs disparados por $anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "evidencia": {
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "num_jobs": 8,
+        "duracao_total_s": 11.14,
+        "codigo_interno_do_engine": true
+      },
+      "limiar_usado": {
+        "acao_repetida_min_jobs": 5
+      }
+    },
+    {
+      "id": "A6",
+      "regra": "aqe_alvo_reduzido",
+      "severidade": "INFO",
+      "titulo": "19 shuffle(s) pequenos para o paralelismo: alvo do AQE abaixo do advisory",
+      "evidencia": {
+        "ocorrencias": 19,
+        "total_de_shuffles_com_coalesce": 31,
+        "ocorrencias_com_alvo_no_minimo": 15,
+        "advisory_bytes": 67108864,
+        "min_partition_bytes": 1048576,
+        "razao_advisory_sobre_alvo_min": 9.7,
+        "razao_advisory_sobre_alvo_max": 64.0
+      },
+      "limiar_usado": {
+        "aqe_razao_alvo": 8
+      }
+    }
+  ],
+  "stages": [
+    {
+      "stage_key": "51.0",
+      "tipo_stage": "ShuffleMapStage",
+      "status_tentativa": "concluida",
+      "duration_s": 41.186,
+      "num_tasks": 8,
+      "num_tasks_submetidas": 8,
+      "task_ms_mediana": 12639.0,
+      "task_ms_p95": 17850,
+      "task_ms_max": 17850,
+      "skew_ratio": 1.41,
+      "num_tasks_falhas": 0,
+      "task_retries": 0,
+      "origem_acao": "save at NativeMethodAccessorImpl.java:0",
+      "origem_tipo_job": "map_stage",
+      "origem_interna_do_engine": false
+    },
+    {
+      "stage_key": "92.0",
+      "tipo_stage": "ShuffleMapStage",
+      "status_tentativa": "concluida",
+      "duration_s": 40.58,
+      "num_tasks": 10000,
+      "num_tasks_submetidas": 10000,
+      "task_ms_mediana": 8.0,
+      "task_ms_p95": 49,
+      "task_ms_max": 313,
+      "skew_ratio": 39.12,
+      "num_tasks_falhas": 0,
+      "task_retries": 0,
+      "origem_acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "origem_tipo_job": "map_stage",
+      "origem_interna_do_engine": true
+    },
+    {
+      "stage_key": "53.0",
+      "tipo_stage": "ShuffleMapStage",
+      "status_tentativa": "concluida",
+      "duration_s": 32.511,
+      "num_tasks": 7,
+      "num_tasks_submetidas": 7,
+      "task_ms_mediana": 133,
+      "task_ms_p95": 251,
+      "task_ms_max": 251,
+      "skew_ratio": 1.89,
+      "num_tasks_falhas": 0,
+      "task_retries": 0,
+      "origem_acao": "save at NativeMethodAccessorImpl.java:0",
+      "origem_tipo_job": "map_stage",
+      "origem_interna_do_engine": false
+    },
+    {
+      "stage_key": "43.0",
+      "tipo_stage": "ShuffleMapStage",
+      "status_tentativa": "concluida",
+      "duration_s": 23.361,
+      "num_tasks": 5,
+      "num_tasks_submetidas": 5,
+      "task_ms_mediana": 11078,
+      "task_ms_p95": 13683,
+      "task_ms_max": 13683,
+      "skew_ratio": 1.24,
+      "num_tasks_falhas": 0,
+      "task_retries": 0,
+      "origem_acao": "save at NativeMethodAccessorImpl.java:0",
+      "origem_tipo_job": "map_stage",
+      "origem_interna_do_engine": false
+    },
+    {
+      "stage_key": "47.0",
+      "tipo_stage": "ShuffleMapStage",
+      "status_tentativa": "concluida",
+      "duration_s": 20.082,
+      "num_tasks": 5,
+      "num_tasks_submetidas": 5,
+      "task_ms_mediana": 2499,
+      "task_ms_p95": 3331,
+      "task_ms_max": 3331,
+      "skew_ratio": 1.33,
+      "num_tasks_falhas": 0,
+      "task_retries": 0,
+      "origem_acao": "save at NativeMethodAccessorImpl.java:0",
+      "origem_tipo_job": "map_stage",
+      "origem_interna_do_engine": false
+    }
+  ],
+  "call_sites": [
+    {
+      "acao": "getHistory at DeltaTableOperations.scala:57",
+      "num_jobs": 8,
+      "duracao_total_s": 36.92,
+      "duracao_media_s": 4.615,
+      "interno_do_engine": true
+    },
+    {
+      "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+      "num_jobs": 22,
+      "duracao_total_s": 21.79,
+      "duracao_media_s": 0.99,
+      "interno_do_engine": true
+    },
+    {
+      "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+      "num_jobs": 8,
+      "duracao_total_s": 11.14,
+      "duracao_media_s": 1.393,
+      "interno_do_engine": true
+    },
+    {
+      "acao": "save at NativeMethodAccessorImpl.java:0",
+      "num_jobs": 4,
+      "duracao_total_s": 6.1,
+      "duracao_media_s": 1.525,
+      "interno_do_engine": false
+    }
+  ],
+  "warnings_e_erros": [
+    {
+      "nivel": "WARN",
+      "componente": "MetricsConfig",
+      "template": "Cannot locate configuration: tried hadoop-metricsN-sNa-file-system.properties,hadoop-metricsN.properties",
+      "ocorrencias": 1,
+      "primeiro_ts": "26/07/27 09:47:04",
+      "exemplo": "Cannot locate configuration: tried hadoop-metrics2-s3a-file-system.properties,hadoop-metrics2.properties"
+    },
+    {
+      "nivel": "WARN",
+      "componente": "SparkStringUtils",
+      "template": "Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sq",
+      "ocorrencias": 1,
+      "primeiro_ts": "26/07/27 09:48:53",
+      "exemplo": "Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark..."
+    }
+  ],
+  "metricas_nao_disponiveis": [
+    "gc_time_ratio",
+    "result_size_driver",
+    "shuffle_read_write_bytes",
+    "spill_memoria_disco"
+  ],
+  "qualidade_dos_dados": {
+    "consistencia_ok": true,
+    "alertas": [
+      {
+        "codigo": "JOBS_SEM_DURACAO",
+        "severidade": "info",
+        "mensagem": "1 job(s) terminaram sem a linha '..., took X s'; a duracao deles fica fora de call_sites."
+      }
+    ]
+  },
+  "omitidos": {
+    "stages": 74,
+    "call_sites": 0,
+    "grupos_de_warning": 0,
+    "criterio": "top 5 stages e top 5 call sites por duracao, mais os citados em achados; top 8 grupos de warning."
+  }
+}

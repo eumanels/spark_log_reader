@@ -1,9 +1,71 @@
-__pycache__/
-*.pyc
-.env
+# =============================================================================
+# DADOS SENSIVEIS - nunca vao para o repositorio
+# =============================================================================
+
+# Logs brutos do Spark/EMR (IPs, buckets S3, nomes internos)
+logs/
+*.log
+*.log.*
+*.gz
+*.txt
+# (o *.txt acima ignoraria o requirements.txt; esta linha traz ele de volta)
+!requirements*.txt
+
+# Logs antigos que ja estiveram no repositorio (por garantia)
 log_REF_TRACKING_sucesso.txt
+log_REP_FAT_DELTA_interrompido.txt
 TRU_APOLICE_ITEM_MAXPAR_PRE_REFAT.txt
 TRU_APOLICE_ITEM_MAXPAR_REFATORADA.txt
-log_REP_FAT_DELTA_interrompido.txt
+
+# Codigo de producao da empresa (nomes de colaboradores, layout S3)
 REP_APOLICE_ITEM_MAXPAR_SANDBOX.py
-*.txt
+scripts/*SANDBOX*.py
+
+# Credenciais e chaves
+# (.env.example continua versionado: so tem os nomes das variaveis, sem valores)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+credentials*.json
+.aws/
+
+# Notebooks: as celulas de saida podem conter linhas do log bruto
+*.ipynb
+.ipynb_checkpoints/
+
+# =============================================================================
+# ARTEFATOS GERADOS QUE NAO PRECISAM IR PARA O GIT
+# =============================================================================
+
+# Prompt montado para colar no chat e pedido de correcao: sao regeraveis a
+# partir do resumo e duplicam o conteudo (o resumo, o JSON, a analise e o
+# relatorio .md continuam versionados - sao entregaveis do desafio).
+logs_results/*_prompt_ia.md
+logs_results/*_correcao_ia.md
+
+# Saidas de testes/demonstracoes locais
+demo/
+demo_out/
+
+# =============================================================================
+# PYTHON, AMBIENTE E EDITOR
+# =============================================================================
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+*.egg-info/
+build/
+dist/
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store

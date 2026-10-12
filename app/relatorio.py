@@ -1,10 +1,7 @@
-"""Contexto, duracao, falhas e montagem do JSON final."""
 from __future__ import annotations
-
 from collections import defaultdict
 from dataclasses import asdict
 from datetime import datetime as dt_datetime
-
 from .agregacoes import agregado_por_call_site, agregado_por_stage, capacidade_cluster
 from .detectores import detectar_oportunidades
 from .padroes import FORMATO_TS
@@ -21,6 +18,7 @@ def resumo_eventos_esparsos(eventos: list[LogEvent]) -> dict:
 def contexto_aplicacao(eventos: list[LogEvent]) -> dict:
     ctx = {"app_name": None, "spark_version": None, "tabelas_delta": []}
     tabelas = []
+    ctx['tabelas_delta'] = tabelas
     for e in eventos:
         if e.event_type == "app_name":
             ctx["app_name"] = e.data["app_name"]

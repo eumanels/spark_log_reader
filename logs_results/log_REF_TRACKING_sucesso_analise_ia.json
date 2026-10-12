@@ -1,0 +1,92 @@
+{
+  "meta_ia": {
+    "prompt_versao": "analise_v1",
+    "provedor": "groq:qwen/qwen3.8-27b",
+    "gerado_em": "2026-10-12T12:27:05-03:00",
+    "resumo_enviado_sha256": "1d3334e1a6970e610a0132946f3149cd70112aa439957e4dcc68af74039751c9",
+    "tentativas": 1,
+    "valida": true,
+    "erros_de_validacao": []
+  },
+  "analise": {
+    "classificacao": "degradada",
+    "justificativa_classificacao": "A execucao terminou com exit_code 0, mas ha um achado de severidade ALTA (A1) e um achado de severidade MEDIA (A2).",
+    "evidencias_classificacao": [
+      {
+        "caminho": "execucao.exit_code",
+        "valor": "0"
+      },
+      {
+        "caminho": "achados[A1].severidade",
+        "valor": "ALTA"
+      },
+      {
+        "caminho": "achados[A2].severidade",
+        "valor": "MEDIA"
+      }
+    ],
+    "gargalos": [
+      {
+        "id": "G1",
+        "titulo": "Stage 92.0 com 10000 tasks de mediana 8.0 ms",
+        "evidencias": [
+          {
+            "caminho": "achados[A1].evidencia.num_tasks",
+            "valor": 10000
+          },
+          {
+            "caminho": "achados[A1].evidencia.mediana_ms",
+            "valor": 8.0
+          },
+          {
+            "caminho": "stages[92.0].skew_ratio",
+            "valor": 39.12
+          }
+        ],
+        "achado_relacionado": "A1",
+        "indicacao": "Pode indicar particoes excessivas para o volume de dados processado no stage, gerando overhead de scheduling. O skew_ratio elevado (39.12) sugere distribuicao desigual de trabalho, embora a mediana seja baixa. Sugere investigar a origem do particionamento (acao interna do engine Delta).",
+        "prioridade": "Alta"
+      },
+      {
+        "id": "G2",
+        "titulo": "Ocupacao baixa de 57.8% da capacidade estimada",
+        "evidencias": [
+          {
+            "caminho": "achados[A2].evidencia.ocupacao_pct",
+            "valor": 57.8
+          },
+          {
+            "caminho": "execucao.ocupacao_pct",
+            "valor": 57.8
+          }
+        ],
+        "achado_relacionado": "A2",
+        "indicacao": "Sugere que os executores ficaram ociosos por parte do tempo, possivelmente devido a gargalos de I/O, dependencias entre stages ou particoes insuficientes para saturar os slots. Ha indicio de subutilizacao da infraestrutura.",
+        "prioridade": "Media"
+      }
+    ],
+    "recomendacoes": [
+      {
+        "id": "R1",
+        "tipo": "investigar",
+        "texto": "Investigar a origem do particionamento do stage 92.0 (acao interna do engine Delta) para entender por que 10000 tasks foram geradas com mediana de 8ms, avaliando se coalesce ou re-particionamento e viavel.",
+        "sustentada_por": [
+          "G1"
+        ]
+      },
+      {
+        "id": "R2",
+        "tipo": "investigar",
+        "texto": "Investigar as causas da baixa ocupacao (57.8%), verificando se ha gargalos de I/O, dependencias sequenciais entre stages ou se o numero de particoes e insuficiente para aproveitar os 3 slots disponiveis.",
+        "sustentada_por": [
+          "G2"
+        ]
+      }
+    ],
+    "dados_insuficientes": [
+      "GC Time Ratio indisponivel no log de driver em nivel INFO.",
+      "Bytes de shuffle (leitura/escrita) indisponiveis, impedindo analise de volume de dados transferidos.",
+      "Spill de memoria/disco indisponivel, impedindo analise de pressao de memoria."
+    ]
+  }
+}
