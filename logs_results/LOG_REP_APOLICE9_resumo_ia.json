@@ -1,0 +1,340 @@
+{
+  "resumo_version": "1.2",
+  "fonte": {
+    "log_nome": "LOG_REP_APOLICE9.txt",
+    "parser_version": "0.4.0",
+    "schema_version": "2.0",
+    "tipo_de_log": "stderr do driver Spark, nivel INFO",
+    "perfil_do_resumo": "minimo"
+  },
+  "limiares": {
+    "deteccao": {
+      "stage_explodido_tasks": 500,
+      "stage_explodido_mediana_ms": 100,
+      "aqe_razao_alvo": 8,
+      "acao_repetida_min_jobs": 5,
+      "skew_ratio": 3.0,
+      "skew_min_tasks": 8,
+      "skew_min_max_ms": 5000,
+      "stage_1_task_pct": 40,
+      "small_files_min": 50,
+      "ocupacao_baixa_pct": 60
+    }
+  },
+  "contexto": {
+    "app_name": "REP_APOLICE_ITEM_MAXPAR_SANDBOX",
+    "spark_version": "3.5.6-amzn-1",
+    "snapshots_delta_carregados": 5
+  },
+  "execucao": {
+    "duracao_total_s": 498.0,
+    "exit_code": "0",
+    "slots_estimados": 40,
+    "executores_com_tasks": 10,
+    "max_executors": 10,
+    "cores_por_executor": 4,
+    "tempo_total_task_s": 14987.1,
+    "ocupacao_pct": 75.2,
+    "total_stages": 151,
+    "total_jobs": 85
+  },
+  "falhas": {
+    "executor_lost_total": 0,
+    "executor_lost": [],
+    "stage_failures_total": 0,
+    "stage_failures": [],
+    "tasks_falhas_por_motivo": {},
+    "task_retries_total": 0
+  },
+  "achados": [
+    {
+      "id": "A1",
+      "regra": "window_sem_particao",
+      "severidade": "ALTA",
+      "evidencia": {
+        "ocorrencias": 80,
+        "primeiro_ts": "26/09/21 13:02:07",
+        "ultimo_ts": "26/09/21 13:02:22"
+      }
+    },
+    {
+      "id": "A2",
+      "regra": "stage_explodido",
+      "severidade": "ALTA",
+      "evidencia": {
+        "stage_key": "255.0",
+        "tipo_stage": "ShuffleMapStage",
+        "num_tasks": 10000,
+        "mediana_ms": 31.0,
+        "tempo_total_task_s": 320.9,
+        "duration_s": 8.043,
+        "origem_acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128"
+      }
+    },
+    {
+      "id": "A3",
+      "regra": "acao_repetida",
+      "severidade": "MEDIA",
+      "evidencia": {
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:298",
+        "num_jobs": 11,
+        "duracao_total_s": 0.91,
+        "codigo_interno_do_engine": false
+      }
+    },
+    {
+      "id": "A4",
+      "regra": "acao_repetida",
+      "severidade": "MEDIA",
+      "evidencia": {
+        "acao": "showString at NativeMethodAccessorImpl.java:0",
+        "num_jobs": 8,
+        "duracao_total_s": 0.7,
+        "codigo_interno_do_engine": false
+      }
+    },
+    {
+      "id": "A5",
+      "regra": "acao_repetida",
+      "severidade": "MEDIA",
+      "evidencia": {
+        "acao": "first at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:331",
+        "num_jobs": 8,
+        "duracao_total_s": 0.63,
+        "codigo_interno_do_engine": false
+      }
+    },
+    {
+      "id": "A6",
+      "regra": "acao_repetida",
+      "severidade": "MEDIA",
+      "evidencia": {
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:304",
+        "num_jobs": 5,
+        "duracao_total_s": 0.19,
+        "codigo_interno_do_engine": false
+      }
+    },
+    {
+      "id": "A7",
+      "regra": "acao_repetida",
+      "severidade": "MEDIA",
+      "evidencia": {
+        "acao": "collect at utils_maxpar.zip/utils_maxpar/classe_decisor_incidentes.py:305",
+        "num_jobs": 5,
+        "duracao_total_s": 0.14,
+        "codigo_interno_do_engine": false
+      }
+    },
+    {
+      "id": "A8",
+      "regra": "skew_task",
+      "severidade": "MEDIA",
+      "evidencia": {
+        "stage_key": "224.0",
+        "tipo_stage": "ShuffleMapStage",
+        "skew_ratio": 66.29,
+        "max_ms": 6960,
+        "p95_ms": 5814,
+        "median_ms": 105,
+        "num_tasks": 121,
+        "duration_s": 106.665,
+        "origem_acao": "save at NativeMethodAccessorImpl.java:0"
+      }
+    },
+    {
+      "id": "A9",
+      "regra": "skew_task",
+      "severidade": "MEDIA",
+      "evidencia": {
+        "stage_key": "242.0",
+        "tipo_stage": "ShuffleMapStage",
+        "skew_ratio": 3.37,
+        "max_ms": 37499,
+        "p95_ms": 33690,
+        "median_ms": 11114.0,
+        "num_tasks": 160,
+        "duration_s": 59.481,
+        "origem_acao": "save at NativeMethodAccessorImpl.java:0"
+      }
+    },
+    {
+      "id": "A10",
+      "regra": "acao_repetida",
+      "severidade": "BAIXA",
+      "evidencia": {
+        "acao": "$anonfun$withThreadLocalCaptured$1 at FutureTask.java:264",
+        "num_jobs": 7,
+        "duracao_total_s": 14.92,
+        "codigo_interno_do_engine": true
+      }
+    },
+    {
+      "id": "A11",
+      "regra": "acao_repetida",
+      "severidade": "BAIXA",
+      "evidencia": {
+        "acao": "getHistory at DeltaTableOperations.scala:57",
+        "num_jobs": 21,
+        "duracao_total_s": 14.48,
+        "codigo_interno_do_engine": true
+      }
+    },
+    {
+      "id": "A12",
+      "regra": "acao_repetida",
+      "severidade": "BAIXA",
+      "evidencia": {
+        "acao": "$anonfun$recordDeltaOperationInternal$1 at DatabricksLogging.scala:128",
+        "num_jobs": 16,
+        "duracao_total_s": 4.27,
+        "codigo_interno_do_engine": true
+      }
+    },
+    {
+      "id": "A13",
+      "regra": "fragmentacao_stages",
+      "severidade": "BAIXA",
+      "evidencia": {
+        "stages_com_1_task": 80,
+        "total_stages": 151,
+        "pct": 53.0
+      }
+    },
+    {
+      "id": "A14",
+      "regra": "aqe_alvo_reduzido",
+      "severidade": "INFO",
+      "evidencia": {
+        "ocorrencias": 77,
+        "total_de_shuffles_com_coalesce": 83,
+        "ocorrencias_com_alvo_no_minimo": 71,
+        "advisory_bytes": 67108864,
+        "min_partition_bytes": 1048576,
+        "razao_advisory_sobre_alvo_min": 26.3,
+        "razao_advisory_sobre_alvo_max": 64.0
+      }
+    }
+  ],
+  "stages": [],
+  "call_sites": [],
+  "warnings_e_erros": [
+    {
+      "nivel": "WARN",
+      "componente": "MetricsConfig",
+      "template": "Cannot locate configuration: tried hadoop-metricsN-sNa-file-system.properties,hadoop-metricsN.proper",
+      "ocorrencias": 1,
+      "primeiro_ts": "26/09/21 13:01:23"
+    },
+    {
+      "nivel": "WARN",
+      "componente": "SparkStringUtils",
+      "template": "Truncated the string representation of a plan since it was too large. This behavior can be adjusted ",
+      "ocorrencias": 1,
+      "primeiro_ts": "26/09/21 13:02:33"
+    }
+  ],
+  "metricas_nao_disponiveis": [
+    "gc_time_ratio",
+    "result_size_driver",
+    "shuffle_read_write_bytes",
+    "spill_memoria_disco"
+  ],
+  "qualidade_dos_dados": {
+    "consistencia_ok": true,
+    "alertas": [
+      {
+        "codigo": "JOBS_SEM_DURACAO",
+        "severidade": "info",
+        "mensagem": "1 job(s) terminaram sem a linha '..., took X s'; a duracao deles fica fora de call_sites."
+      }
+    ]
+  },
+  "omitidos": {
+    "stages": 151,
+    "call_sites": 10,
+    "grupos_de_warning": 0,
+    "criterio": "top 0 stages e top 0 call sites por duracao, mais os citados em achados; top 5 grupos de warning."
+  },
+  "script": {
+    "script_version": "1.0",
+    "nome": "REP_APOLICE_ITEM_MAXPAR_SANDBOX.py",
+    "sha256": "45b7e7fd1ccc10e4381efb238009dd67e0bd04083c96ae43a1beb0773d8d24bf",
+    "total_linhas": 498,
+    "sanitizacao": {
+      "comentarios_removidos": 32,
+      "emails": 0,
+      "segredos": 0,
+      "paths_e_hosts": "mesmo mapa de pseudonimos do log (path_N, host_N)"
+    },
+    "vinculos_log": [],
+    "vinculos_status": "Nenhum call site do log aponta para este arquivo (a DataFrame API do PySpark costuma registrar NativeMethodAccessorImpl.java:0). A ligacao stage -> linha do script NAO pode ser afirmada a partir do log.",
+    "modo": "trechos",
+    "linhas": {
+      "3": "from pyspark.sql.functions import *",
+      "4": "from pyspark.sql.window import Window",
+      "5": "from utils.zoro import *",
+      "6": "from delta.tables import DeltaTable",
+      "7": "from datetime import datetime",
+      "95": "tru_apolice_item = (spark.read.format(\"delta\").load(tru_apolice_item_path))",
+      "96": "log.info(f\"Path {tru_apolice_item_path} carregado!\")",
+      "98": "tru_seguradora_maxpar = spark.read.format(\"delta\").load(tru_seguradora_maxpar_path)",
+      "99": "log.info(f\"Path {tru_seguradora_maxpar_path} carregado!\")",
+      "101": "tru_mapeamento_chassi = spark.read.format(\"delta\").load(tru_mapeamento_chassi_path)",
+      "102": "log.info(f\"Path {tru_mapeamento_chassi_path} carregado!\")",
+      "104": "tru_mapeamento_fipe = spark.read.format(\"delta\").load(tru_mapeamento_fipe_path)",
+      "105": "log.info(f\"Path {tru_mapeamento_fipe_path} carregado!\")",
+      "107": "tru_tabela_fipe_historico = spark.read.format(\"delta\").load(tru_tabela_fipe_historico_path)",
+      "108": "log.info(f\"Path {tru_tabela_fipe_historico_path} carregado!\")",
+      "110": "rep_localizacao = spark.read.format(\"delta\").load(rep_localizacao_path)",
+      "111": "log.info(f\"Path {rep_localizacao_path} carregado!\")",
+      "191": "    expr = col(colunas[0])",
+      "192": "    for coluna in reversed(colunas):",
+      "193": "        expr = when(year(col(coluna)) != 1800, col(coluna)).otherwise(expr)",
+      "217": "    tru_apolice_item.alias(\"API\")",
+      "218": "    .join(broadcast(tru_seguradora_maxpar.alias(\"SEG\")), col(\"API.COD_SEGURADORA\") == col(\"SEG.COD_SEGURADORA\"), \"inner\")",
+      "219": "    .select(",
+      "279": "    dado_apolice_com_cep.alias(\"APO\")",
+      "280": "    .join(rep_localizacao.alias(\"LOC\"), col(\"APO.CEP_APOLICE\") == col(\"LOC.END_CEP\"), \"left\")",
+      "281": "    .select(",
+      "350": "apolice_localizacao = apolice_localizacao_validos.unionByName(apolice_localizacao_sem_cep)",
+      "356": "janela_combustivel = Window.partitionBy(",
+      "357": "    \"COD_TABELA_FIPE\", \"DSC_CODIGO\", \"NUM_ANO\", \"DAT_REFERENCIA\"",
+      "358": ").orderBy(",
+      "359": "    when(col(\"TPO_COMBUSTIVEL\") == \"GASOLINA\", 1)",
+      "365": "    tru_tabela_fipe_historico",
+      "366": "    .withColumn(\"ROW_NUM_COMBUSTIVEL\", row_number().over(janela_combustivel))",
+      "367": ")",
+      "373": "janela_data = Window.partitionBy(\"COD_TABELA_FIPE\", \"DSC_CODIGO\", \"NUM_ANO\").orderBy(col(\"DAT_REFERENCIA\").desc())",
+      "377": "    .where(col(\"ROW_NUM_COMBUSTIVEL\") == 1)",
+      "378": "    .withColumn(\"ROW_NUM_DATA\", row_number().over(janela_data))",
+      "379": ")",
+      "386": "    tru_mapeamento_chassi.alias(\"CHA\")",
+      "387": "    .join(tru_mapeamento_fipe.alias(\"FIP\"), col(\"CHA.COD_MAPEAMENTO_FIPE\") == col(\"FIP.COD_MAPEAMENTO_FIPE\"), \"left\")",
+      "388": "    .join(broadcast(DF_FILTRADO.alias(\"DAM\")), substring(col(\"CHA.DSC_CHASSI\"), 10, 1) == col(\"DAM.CARAC_ANO_CHASSI\"), \"left\")",
+      "389": "    .select(",
+      "407": "    apolice_localizacao.alias(\"APO\")",
+      "408": "    .join(mapeamento.alias(\"MAP\"), col(\"APO.NUM_CHASSI\") == col(\"MAP.NUM_CHASSI\"), \"left\")",
+      "409": "    .join(",
+      "410": "        base_fipe_combustivel.alias(\"FIPO\"),",
+      "416": "    )",
+      "417": "    .join(",
+      "418": "        base_fipe_ajuste_data.alias(\"FIPA\"),",
+      "448": "rep = rep.withColumn(",
+      "449": "    'DSC_ABREVIACAO_UF',",
+      "468": "for col_name in rep.columns:",
+      "470": "    if col_name in str_cols:",
+      "471": "        rep = rep.withColumn(col_name, when(col(col_name).isNull() | (col(col_name) == ''), lit('N/D')).otherwise(col(col_name)).cast(\"string\"))",
+      "473": "    elif col_name in cod_cols:",
+      "474": "        rep = rep.withColumn(col_name, when(col(col_name).isNull() | (col(col_name) == ''), lit('0')).otherwise(col(col_name)).cast(\"string\"))    ",
+      "476": "    elif col_name in double_cols:",
+      "477": "        rep = rep.withColumn(col_name, when(col(col_name).isNull() | (col(col_name) == \"\"), lit(0)).otherwise(col(col_name)).cast(\"double\"))",
+      "479": "    elif col_name in date_cols:",
+      "480": "        rep = rep.withColumn(col_name, when(col(col_name).isNull() | (col(col_name) == \"\"), lit(\"1800-01-01\")).otherwise(to_date(col(col_name), \"dd/MM/yyyy\")).cast(\"date\"))",
+      "489": "rep.write.format(\"delta\").mode(\"overwrite\").option(\"overwriteSchema\", \"true\").save(path_table)",
+      "493": "delta_table = DeltaTable.forPath(spark, path_table)"
+    },
+    "linhas_enviadas": 62,
+    "criterio": "Trechos: linhas citadas pelo log (+-3) e linhas com operacoes Spark (+-1). Ausencia de uma linha aqui NAO significa que ela nao exista no script."
+  }
+}

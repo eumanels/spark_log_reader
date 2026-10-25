@@ -7,9 +7,13 @@ from app import Sanitizador, imprimir_resumo, montar_relatorio, parse_log
 from app.meta import abrir_log, montar_meta
 from app.resumo import montar_resumo_ia
 from app.score import calcular_score
+from app.script_fonte import montar_script, reduzir_script
 from app.validador import validar_relatorio
 
 PASTA_SAIDA = Path("logs_results")
+ORDEM_MODOS_SCRIPT = ["completo", "trechos"]
+ORDEM_REDUCAO_COM_SCRIPT = [("padrao", "completo"), ("compacto", "completo"),
+                            ("padrao", "trechos"), ("compacto", "trechos"), ("minimo", "trechos")]
 
 
 def ler_argumentos() -> argparse.Namespace:
@@ -19,6 +23,12 @@ def ler_argumentos() -> argparse.Namespace:
     origem.add_argument("--env-var", help="Nome da variavel do .env que contem o caminho do log.")
     p.add_argument("--saida", type=Path,
                    help="Caminho do JSON de saida (padrao: logs_results/<nome_do_log>.json).")
+    p.add_argument("--script", type=Path,
+                   help="script .py executado no EMR; vai (sem comentarios e mascarado) junto do "
+                        "resumo para a IA, que passa a usar o prompt analise_v2.")
+    p.add_argument("--script-modo", choices=["completo", "trechos"], default=None,
+                   help="completo = script inteiro; trechos = linhas citadas pelo log e operacoes "
+                        "Spark. Padrao: completo ate 600 linhas, trechos acima.")
     ia = p.add_argument_group("analise por IA (Etapa 4)")
     ia.add_argument("--ia", choices=["manual", "anthropic", "groq"],
                     help="manual: gera o prompt para colar no chat; anthropic/groq: chama a API.")
@@ -56,11 +66,13 @@ def caminho_resumo(saida: Path) -> Path:
 
 
 def processar(caminho_log: Path, saida: Path | None = None,
-              perfil_resumo: str = "padrao") -> tuple[dict, Path, Sanitizador]:
+              perfil_resumo: str = "padrao", script: Path | None = None,
+              script_modo: str | None = None) -> tuple[dict, Path, Sanitizador]:
     """Le o log, monta o relatorio, valida, sanitiza e grava dois JSONs:
 
     * <saida>             relatorio completo (validacao, auditoria);
-    * <saida>_resumo_ia   recorte compacto que sera enviado a IA.
+    * <saida>_resumo_ia   recorte compacto que sera enviado a IA (com o
+                          script .py na chave "script", se informado).
 
     Devolve (relatorio_gravado, caminho_do_json, sanitizador).
     """
@@ -71,6 +83,12 @@ def processar(caminho_log: Path, saida: Path | None = None,
         raise ValueError(f"'{caminho_log}' e um JSON gerado pelo pipeline, nao um log. "
                          "Passe em --log o arquivo .txt do stderr; o resumo e o prompt "
                          "sao gerados a partir dele.")
+    if script:
+        script = Path(script)
+        if not script.is_file():
+            raise FileNotFoundError(f"Script nao encontrado: {script}")
+        if script.suffix.lower() != ".py":
+            raise ValueError(f"'{script}' nao e um arquivo .py.")
 
     saida = Path(saida) if saida else PASTA_SAIDA / f"{caminho_log.stem}.json"
     if saida.resolve() in (caminho_log.resolve(), caminho_resumo(saida).resolve()) \
@@ -100,6 +118,9 @@ def processar(caminho_log: Path, saida: Path | None = None,
     # O resumo nasce do relatorio JA sanitizado e passa de novo pelo sanitizador
     # (mesmo mapa de pseudonimos) como segunda barreira.
     resumo = sanitizador.sanitizar(montar_resumo_ia(output, perfil_resumo))
+    if script:
+        # Mesmo sanitizador do log: path_N/host_N do script batem com os do resumo.
+        resumo["script"] = sanitizador.sanitizar(montar_script(script, output, sanitizador, script_modo))
     with open(caminho_resumo(saida), "w", encoding="utf-8") as f:
         json.dump(resumo, f, indent=2, ensure_ascii=False)
 
@@ -139,8 +160,12 @@ def caminhos_ia(saida: Path) -> dict[str, Path]:
 def executar_ia(args: argparse.Namespace, saida: Path) -> None:
     from app import assistente
 
-    versao = args.prompt or assistente.VERSAO_PROMPT_PADRAO
     resumo = json.loads(caminho_resumo(saida).read_text(encoding="utf-8"))
+    versao = assistente.versao_para(resumo, args.prompt)
+    if resumo.get("script"):
+        sc = resumo["script"]
+        print(f"\n[IA] Script '{sc['nome']}' incluido ({sc['modo']}, {sc['linhas_enviadas']} linhas; "
+              f"{len(sc['vinculos_log'])} ligada(s) ao log) -> prompt {versao}")
     arquivos = caminhos_ia(saida)
 
     if args.ia == "manual" and not args.resposta_ia:
@@ -204,14 +229,32 @@ def ajustar_resumo_ao_limite(args: argparse.Namespace, saida: Path, resumo: dict
         return resumo
 
     perfil = resumo.get("fonte", {}).get("perfil_do_resumo", "padrao")
+    script = resumo.get("script")
+    modo = script["modo"] if script else None
     relatorio = json.loads(saida.read_text(encoding="utf-8"))
-    for proximo in ORDEM_PERFIS[ORDEM_PERFIS.index(perfil):]:
-        candidato = resumo if proximo == perfil else montar_resumo_ia(relatorio, proximo)
+
+    # Ordem de reducao: primeiro o resumo, depois o script (o usuario pediu o script).
+    if script:
+        # So passos que nao aumentam nada: perfil e modo iguais ou menores que os atuais.
+        ordem = [(p, m) for p, m in ORDEM_REDUCAO_COM_SCRIPT
+                 if ORDEM_PERFIS.index(p) >= ORDEM_PERFIS.index(perfil)
+                 and ORDEM_MODOS_SCRIPT.index(m) >= ORDEM_MODOS_SCRIPT.index(modo)]
+    else:
+        ordem = [(p, None) for p in ORDEM_PERFIS[ORDEM_PERFIS.index(perfil):]]
+
+    for proximo, prox_modo in ordem:
+        if (proximo, prox_modo) == (perfil, modo):
+            candidato = resumo
+        else:
+            candidato = montar_resumo_ia(relatorio, proximo)
+            if script:
+                candidato["script"] = script if prox_modo == modo else reduzir_script(script)
         tokens = assistente.estimar_tokens(candidato, versao)
         if tokens <= limite:
-            if proximo != perfil:
-                print(f"\n[IA] Resumo reduzido de '{perfil}' para '{proximo}' para caber no limite "
-                      f"({tokens} <= {limite} tokens estimados).")
+            if (proximo, prox_modo) != (perfil, modo):
+                extra = f", script '{prox_modo}'" if script else ""
+                print(f"\n[IA] Resumo reduzido de '{perfil}' para '{proximo}'{extra} para caber no "
+                      f"limite ({tokens} <= {limite} tokens estimados).")
                 caminho_resumo(saida).write_text(json.dumps(candidato, indent=2, ensure_ascii=False),
                                                  encoding="utf-8")
             return candidato
@@ -237,11 +280,23 @@ def imprimir_consistencia(consistencia: dict) -> None:
         print(f"  [{a['severidade']:<5}] {a['codigo']}: {a['mensagem']}")
 
 
+def imprimir_script(caminho_do_resumo: Path) -> None:
+    sc = json.loads(caminho_do_resumo.read_text(encoding="utf-8")).get("script")
+    if not sc:
+        return
+    s = sc["sanitizacao"]
+    print(f"Script    : {sc['nome']} ({sc['modo']}, {sc['linhas_enviadas']}/{sc['total_linhas']} linhas; "
+          f"{s['comentarios_removidos']} comentario(s) removido(s), {s['emails']} e-mail(s) e "
+          f"{s['segredos']} credencial(is) mascarados)")
+    print(f"            {sc['vinculos_status']}")
+
+
 def main() -> None:
     args = ler_argumentos()
     try:
         perfil = args.resumo or ("compacto" if args.ia == "groq" else "padrao")
-        output, saida, sanitizador = processar(resolver_log(args), args.saida, perfil)
+        output, saida, sanitizador = processar(resolver_log(args), args.saida, perfil,
+                                               args.script, args.script_modo)
     except (FileNotFoundError, ValueError) as e:
         raise SystemExit(f"Erro: {e}")
 
@@ -260,6 +315,7 @@ def main() -> None:
     print(f"\nArquivo '{saida}' gerado com sucesso.")
     print(f"Resumo para IA: '{resumo}' ({resumo.stat().st_size / 1024:.1f} KB)")
     print(f"Hosts mascarados: {len(sanitizador.host_map)} | Paths mascarados: {len(sanitizador.path_map)}")
+    imprimir_script(resumo)
 
     if args.ia:
         if not output["consistencia"]["ok"] and not args.forcar_ia:

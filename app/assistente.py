@@ -12,6 +12,7 @@ from .modelos import AnaliseIA, schema_json
 
 PASTA_PROMPTS = Path(__file__).resolve().parents[1] / "prompts"
 VERSAO_PROMPT_PADRAO = "analise_v1"
+VERSAO_PROMPT_COM_SCRIPT = "analise_v2"   # usada quando o resumo traz a chave "script"
 MODELO_PADRAO = "claude-sonnet-5-5"   # sobrescreva com ANTHROPIC_MODEL no .env
 MAX_TENTATIVAS = 2                    # 1 resposta + 1 pedido de correcao
 
@@ -23,8 +24,24 @@ class ErroAnalise(Exception):
 
 
 # --------------------------------------------------------------------- prompt
+def versao_para(resumo: dict, pedida: str | None = None) -> str:
+    """Versao pedida explicitamente; senao v2 se o resumo traz o script, v1 caso contrario."""
+    if pedida:
+        return pedida
+    return VERSAO_PROMPT_COM_SCRIPT if resumo.get("script") else VERSAO_PROMPT_PADRAO
+
+
+def caminho_prompt(versao: str) -> Path:
+    """prompts/<versao>.md sem depender de maiusculas (os arquivos sao .MD; Linux diferencia)."""
+    alvo = f"{versao}.md".lower()
+    for p in PASTA_PROMPTS.iterdir():
+        if p.name.lower() == alvo:
+            return p
+    raise FileNotFoundError(f"Prompt '{versao}' nao encontrado em {PASTA_PROMPTS}")
+
+
 def carregar_prompt(versao: str = VERSAO_PROMPT_PADRAO) -> str:
-    caminho = PASTA_PROMPTS / f"{versao}.md"
+    caminho = caminho_prompt(versao)
     texto = caminho.read_text(encoding="utf-8")
     texto = re.sub(r"<!--.*?-->\s*", "", texto, count=1, flags=re.S)   # tira o comentario de cabecalho
     # Schema sem indentacao: ~40% menos tokens, mesmo conteudo.
@@ -196,6 +213,8 @@ def gravar_resultado(resultado: ResultadoIA, resumo: dict, destino: Path, proved
             "tentativas": resultado.tentativas,
             "valida": resultado.analise is not None,
             "erros_de_validacao": resultado.erros,
+            "script": ({k: resumo["script"].get(k) for k in ("nome", "sha256", "modo", "linhas_enviadas")}
+                       if resumo.get("script") else None),
         },
         "analise": resultado.analise.model_dump(mode="json") if resultado.analise else None,
     }

@@ -81,6 +81,26 @@ def gerar_relatorio_md(relatorio: dict, resumo: dict, analise_ia: dict | None = 
         md.append(f"**Conferência das evidências da IA:** {t['confere']} conferem, {t['diverge']} divergem, "
                   f"{t['inexistente']} não existem no resumo ({conferencia['pct_confere']}% conferem).")
 
+    # ------------------------------------------------------------------ script
+    script = resumo.get("script")
+    if script:
+        s = script["sanitizacao"]
+        md.append("## Script analisado")
+        md.append(f"`{script['nome']}` · {script['total_linhas']} linhas no arquivo · enviado em modo "
+                  f"**{script['modo']}** ({script['linhas_enviadas']} linhas) · sha256 "
+                  f"`{script['sha256'][:12]}…`")
+        md.append(f"_Antes do envio: {s['comentarios_removidos']} comentário(s) removido(s), "
+                  f"{s['emails']} e-mail(s) e {s['segredos']} credencial(is) mascarados; paths e hosts "
+                  f"com os mesmos pseudônimos do log._")
+        if script["vinculos_log"]:
+            md.append("**Linhas do script citadas pelo próprio log**")
+            md.append(_tabela(["Linha", "Código", "Ação no log", "Jobs", "Duração dos jobs (s)", "Stages"],
+                              [[v["linha"], f"`{script['linhas'].get(str(v['linha']), '—')}`",
+                                ", ".join(a for a in v["acoes"] if a), v["num_jobs"], v["duracao_total_s"],
+                                ", ".join(v["stages"]) or "—"] for v in script["vinculos_log"]]))
+        else:
+            md.append(f"ℹ️ {script['vinculos_status']}")
+
     # ---------------------------------------------------------------- gargalos
     if analise:
         md.append("## Gargalos apontados pela IA")

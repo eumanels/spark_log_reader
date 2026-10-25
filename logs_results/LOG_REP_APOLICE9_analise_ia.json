@@ -1,0 +1,170 @@
+{
+  "meta_ia": {
+    "prompt_versao": "analise_v2",
+    "provedor": "groq:openai/gpt-oss-120b",
+    "gerado_em": "2026-10-25T17:46:07-03:00",
+    "resumo_enviado_sha256": "3212c95fc011f1028452cc684737239ecbb8c0a1ba70a440fb96bd7588e15758",
+    "tentativas": 1,
+    "valida": true,
+    "erros_de_validacao": [],
+    "script": {
+      "nome": "REP_APOLICE_ITEM_MAXPAR_SANDBOX.py",
+      "sha256": "45b7e7fd1ccc10e4381efb238009dd67e0bd04083c96ae43a1beb0773d8d24bf",
+      "modo": "trechos",
+      "linhas_enviadas": 62
+    }
+  },
+  "analise": {
+    "classificacao": "degradada",
+    "justificativa_classificacao": "A execucao terminou com exit_code 0, mas ha achados de severidade ALTA (A1, A2).",
+    "evidencias_classificacao": [
+      {
+        "caminho": "execucao.exit_code",
+        "valor": "0"
+      },
+      {
+        "caminho": "achados[A1].severidade",
+        "valor": "ALTA"
+      },
+      {
+        "caminho": "achados[A2].severidade",
+        "valor": "ALTA"
+      }
+    ],
+    "gargalos": [
+      {
+        "id": "G1",
+        "titulo": "Stage 255.0 com explosao de tasks",
+        "evidencias": [
+          {
+            "caminho": "achados[A2].evidencia.stage_key",
+            "valor": "255.0"
+          },
+          {
+            "caminho": "achados[A2].evidencia.num_tasks",
+            "valor": 10000
+          },
+          {
+            "caminho": "achados[A2].evidencia.mediana_ms",
+            "valor": 31.0
+          },
+          {
+            "caminho": "achados[A2].evidencia.duration_s",
+            "valor": 8.043
+          }
+        ],
+        "achado_relacionado": "A2",
+        "indicacao": "Pode indicar um stage com numero excessivo de tasks, possivelmente causado por um shuffle sem particionamento adequado. Sugere investigar a origem da operacao de shuffle associada ao stage 255.0.",
+        "prioridade": "Alta"
+      },
+      {
+        "id": "G2",
+        "titulo": "Uso de window sem particionamento",
+        "evidencias": [
+          {
+            "caminho": "achados[A1].evidencia.ocorrencias",
+            "valor": 80
+          },
+          {
+            "caminho": "script.linhas.356",
+            "valor": "janela_combustivel = Window.partitionBy("
+          },
+          {
+            "caminho": "script.linhas.357",
+            "valor": "\"COD_TABELA_FIPE\", \"DSC_CODIGO\", \"NUM_ANO\", \"DAT_REFERENCIA\""
+          },
+          {
+            "caminho": "script.linhas.358",
+            "valor": ").orderBy("
+          }
+        ],
+        "achado_relacionado": "A1",
+        "indicacao": "Pode indicar que operacoes de window estao sendo executadas sem especificar uma coluna de particionamento adequada, levando a alto custo. Sugere investigar o uso de Window.partitionBy nas linhas 356-358.",
+        "prioridade": "Alta"
+      },
+      {
+        "id": "G3",
+        "titulo": "Skew de tasks no stage 224.0",
+        "evidencias": [
+          {
+            "caminho": "achados[A8].evidencia.stage_key",
+            "valor": "224.0"
+          },
+          {
+            "caminho": "achados[A8].evidencia.skew_ratio",
+            "valor": 66.29
+          },
+          {
+            "caminho": "achados[A8].evidencia.max_ms",
+            "valor": 6960
+          },
+          {
+            "caminho": "achados[A8].evidencia.num_tasks",
+            "valor": 121
+          }
+        ],
+        "achado_relacionado": "A8",
+        "indicacao": "Ha indicio de desequilibrio forte entre tasks, possivelmente causado por dados altamente desbalanceados ou falta de repartition. Sugere investigar a origem da operacao de escrita associada ao stage 224.0.",
+        "prioridade": "Media"
+      },
+      {
+        "id": "G4",
+        "titulo": "Skew de tasks no stage 242.0",
+        "evidencias": [
+          {
+            "caminho": "achados[A9].evidencia.stage_key",
+            "valor": "242.0"
+          },
+          {
+            "caminho": "achados[A9].evidencia.skew_ratio",
+            "valor": 3.37
+          },
+          {
+            "caminho": "achados[A9].evidencia.max_ms",
+            "valor": 37499
+          },
+          {
+            "caminho": "achados[A9].evidencia.num_tasks",
+            "valor": 160
+          }
+        ],
+        "achado_relacionado": "A9",
+        "indicacao": "Skew moderado que pode impactar a duracao do stage. Sugere investigar se a distribuicao dos dados pode ser melhor balanceada ou se um rebalanceamento explicito e necessario.",
+        "prioridade": "Media"
+      }
+    ],
+    "recomendacoes": [
+      {
+        "id": "R1",
+        "tipo": "investigar",
+        "texto": "Analisar a origem do shuffle que gerou o stage 255.0 e considerar adicionar particionamento ou reduzir o numero de tasks.",
+        "sustentada_por": [
+          "G1"
+        ]
+      },
+      {
+        "id": "R2",
+        "tipo": "investigar",
+        "texto": "Rever o uso de Window.partitionBy nas linhas 356-358 para garantir que a coluna de particionamento seja adequada ao volume de dados.",
+        "sustentada_por": [
+          "G2"
+        ]
+      },
+      {
+        "id": "R3",
+        "tipo": "investigar",
+        "texto": "Examinar a distribuicao dos dados que alimentam os stages 224.0 e 242.0 e aplicar rebalanceamento ou salting se necessario.",
+        "sustentada_por": [
+          "G3",
+          "G4"
+        ]
+      }
+    ],
+    "dados_insuficientes": [
+      "gc_time_ratio indisponivel",
+      "result_size_driver indisponivel",
+      "shuffle_read_write_bytes indisponivel",
+      "spill_memoria_disco indisponivel"
+    ]
+  }
+}

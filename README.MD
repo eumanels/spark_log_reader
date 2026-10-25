@@ -177,3 +177,52 @@ Gerar um relatório para:
 
 - Os 3 logs de referência;
 - O log de validação (holdout).
+
+---
+
+# Como executar
+
+```bash
+pip install -r requirements.txt
+
+# Menu interativo (rode da raiz do repositorio): lista os logs de logs/,
+# pergunta o modo de IA e qual script de scripts/ enviar junto
+python menu.py
+
+# Linha de comando
+python main.py --log logs/<log>.txt --ia manual            # gera o prompt para colar no chat
+python main.py --log logs/<log>.txt --script scripts/<script>.py --ia anthropic
+python main.py --log logs/<log>.txt --script scripts/<script>.py --ia groq
+```
+
+## Analise com o script executado (`--script`)
+
+O log continua **nunca** indo bruto para a IA. Com `--script`, o codigo `.py` que rodou no
+EMR entra no `*_resumo_ia.json`, na chave `script`, e a IA passa a usar o prompt
+`prompts/analise_v2.MD` (o `analise_v1` continua intacto e e usado sem script).
+
+Antes do envio o script passa por (`app/script_fonte.py`):
+
+1. **remocao de comentarios** via `tokenize` (preserva `#` dentro de strings e a numeracao das linhas);
+2. **o mesmo `Sanitizador` do log**: paths S3, ARNs, IPs e hosts EC2 viram `path_N`/`host_N`
+   com os mesmos pseudonimos do resumo;
+3. **mascaras de codigo**: e-mails e literais atribuidos a `password`, `secret`, `token`,
+   `api_key`, `access_key`... e chaves AWS (`AKIA...`).
+
+**Ligacao log -> codigo (`script.vinculos_log`)**: quando o call site de um job/stage aponta
+para o arquivo do script (ex.: `count at etl.py:12`), a linha fica ligada aos jobs, a duracao
+e aos stages. Na DataFrame API o PySpark costuma registrar `NativeMethodAccessorImpl.java:0`;
+nesse caso nao ha ligacao e o prompt proibe a IA de afirma-la.
+
+**Modos**: `completo` (padrao ate 600 linhas) ou `trechos` (linhas citadas pelo log +-3 e
+linhas com operacoes Spark +-1). No limite de tokens o pipeline reduz primeiro o resumo e
+depois o script, nesta ordem: padrao/completo -> compacto/completo -> padrao/trechos ->
+compacto/trechos -> minimo/trechos.
+
+**Evidencia no codigo**: a IA cita linhas como `script.linhas.<numero>` com o texto exato;
+a conferencia do relatorio marca a linha como "confere" ou "diverge", como qualquer metrica.
+Todo gargalo ainda precisa de pelo menos uma evidencia vinda das metricas.
+
+**Limitacoes**: nomes de buckets montados por concatenacao (`"s3://" + bucket`), nomes de
+pessoas fora de comentarios e dados de negocio em strings nao sao mascarados; revise o
+script antes de usar um provedor externo.
