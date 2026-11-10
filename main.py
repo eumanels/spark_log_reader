@@ -7,6 +7,7 @@ from app import Sanitizador, imprimir_resumo, montar_relatorio, parse_log
 from app.meta import abrir_log, montar_meta
 from app.resumo import montar_resumo_ia
 from app.score import calcular_score
+from app.plano import montar_plano, reduzir_plano
 from app.script_fonte import montar_script, reduzir_script
 from app.validador import validar_relatorio
 
@@ -28,17 +29,21 @@ def ler_argumentos() -> argparse.Namespace:
                         "resumo para a IA, que passa a usar o prompt analise_v2.")
     p.add_argument("--script-modo", choices=["completo", "trechos"], default=None,
                    help="completo = script inteiro; trechos = linhas citadas pelo log e operacoes "
-                        "Spark. Padrao: completo ate 600 linhas, trechos acima.")
+                        "Spark. Padrao: completo; so vira trechos se passar do limite de tokens.")
+    p.add_argument("--stdout", type=Path,
+                   help="stdout do job com o plano de execucao (saida de df.explain(True)). Junto com "
+                        "--log e --script, a IA passa a usar o prompt analise_v3.")
     ia = p.add_argument_group("analise por IA (Etapa 4)")
-    ia.add_argument("--ia", choices=["manual", "anthropic", "groq"],
-                    help="manual: gera o prompt para colar no chat; anthropic/groq: chama a API.")
+    ia.add_argument("--ia", choices=["manual", "anthropic", "openai", "groq"],
+                    help="manual: gera o prompt para colar no chat; anthropic/openai/groq: chama a API.")
     ia.add_argument("--resumo", choices=["padrao", "compacto", "minimo"], default=None,
                     help="tamanho do resumo enviado a IA (padrao: 'compacto' com --ia groq, "
                          "'padrao' nos demais).")
     ia.add_argument("--resposta-ia", type=Path,
                     help="(modo manual) arquivo com a resposta do Claude, para validar e gravar.")
-    ia.add_argument("--modelo", help="(anthropic/groq) id do modelo; padrao ANTHROPIC_MODEL / "
-                                     "GROQ_MODEL do .env ou o definido em app/assistente.py.")
+    ia.add_argument("--modelo", help="(anthropic/openai/groq) id do modelo; padrao ANTHROPIC_MODEL / "
+                                     "OPENAI_MODEL / GROQ_MODEL do .env ou o definido em "
+                                     "app/assistente.py.")
     ia.add_argument("--prompt", default=None, help="versao do prompt em prompts/ (padrao analise_v1).")
     ia.add_argument("--max-tokens-entrada", type=int, default=None,
                     help="limite de tokens de entrada do seu plano. Se o resumo passar, o perfil e "
@@ -67,12 +72,14 @@ def caminho_resumo(saida: Path) -> Path:
 
 def processar(caminho_log: Path, saida: Path | None = None,
               perfil_resumo: str = "padrao", script: Path | None = None,
-              script_modo: str | None = None) -> tuple[dict, Path, Sanitizador]:
+              script_modo: str | None = None,
+              stdout: Path | None = None) -> tuple[dict, Path, Sanitizador]:
     """Le o log, monta o relatorio, valida, sanitiza e grava dois JSONs:
 
     * <saida>             relatorio completo (validacao, auditoria);
     * <saida>_resumo_ia   recorte compacto que sera enviado a IA (com o
-                          script .py na chave "script", se informado).
+                          script .py na chave "script" e o plano do stdout na
+                          chave "plano", se informados).
 
     Devolve (relatorio_gravado, caminho_do_json, sanitizador).
     """
@@ -89,6 +96,12 @@ def processar(caminho_log: Path, saida: Path | None = None,
             raise FileNotFoundError(f"Script nao encontrado: {script}")
         if script.suffix.lower() != ".py":
             raise ValueError(f"'{script}' nao e um arquivo .py.")
+    if stdout:
+        stdout = Path(stdout)
+        if not stdout.is_file():
+            raise FileNotFoundError(f"stdout nao encontrado: {stdout}")
+        if stdout.resolve() == caminho_log.resolve():
+            raise ValueError("--stdout e --log apontam para o mesmo arquivo.")
 
     saida = Path(saida) if saida else PASTA_SAIDA / f"{caminho_log.stem}.json"
     if saida.resolve() in (caminho_log.resolve(), caminho_resumo(saida).resolve()) \
@@ -121,6 +134,9 @@ def processar(caminho_log: Path, saida: Path | None = None,
     if script:
         # Mesmo sanitizador do log: path_N/host_N do script batem com os do resumo.
         resumo["script"] = sanitizador.sanitizar(montar_script(script, output, sanitizador, script_modo))
+    if stdout:
+        # Plano fisico + cruzamentos plano x log x script (deterministicos, sem IA).
+        resumo["plano"] = montar_plano(stdout, parsed, output, sanitizador, script)
     with open(caminho_resumo(saida), "w", encoding="utf-8") as f:
         json.dump(resumo, f, indent=2, ensure_ascii=False)
 
@@ -166,6 +182,10 @@ def executar_ia(args: argparse.Namespace, saida: Path) -> None:
         sc = resumo["script"]
         print(f"\n[IA] Script '{sc['nome']}' incluido ({sc['modo']}, {sc['linhas_enviadas']} linhas; "
               f"{len(sc['vinculos_log'])} ligada(s) ao log) -> prompt {versao}")
+    if resumo.get("plano"):
+        pl = resumo["plano"]
+        print(f"[IA] Plano '{pl['fonte']['arquivo']}' incluido ({len(pl['sinais'])} sinal(is), "
+              f"{len(pl['cruzamentos'])} cruzamento(s)) -> prompt {versao}")
     arquivos = caminhos_ia(saida)
 
     if args.ia == "manual" and not args.resposta_ia:
@@ -182,7 +202,8 @@ def executar_ia(args: argparse.Namespace, saida: Path) -> None:
     else:
         load_dotenv_se_existir()
         resumo = ajustar_resumo_ao_limite(args, saida, resumo, versao)
-        fabrica = {"anthropic": assistente.provedor_anthropic, "groq": assistente.provedor_groq}
+        fabrica = {"anthropic": assistente.provedor_anthropic, "openai": assistente.provedor_openai,
+                   "groq": assistente.provedor_groq}
         chamar = fabrica[args.ia](args.modelo)
         max_tentativas = assistente.MAX_TENTATIVAS
         print(f"\n[IA] Enviando para {chamar.descricao} "
@@ -230,6 +251,7 @@ def ajustar_resumo_ao_limite(args: argparse.Namespace, saida: Path, resumo: dict
 
     perfil = resumo.get("fonte", {}).get("perfil_do_resumo", "padrao")
     script = resumo.get("script")
+    plano = resumo.get("plano")
     modo = script["modo"] if script else None
     relatorio = json.loads(saida.read_text(encoding="utf-8"))
 
@@ -242,19 +264,28 @@ def ajustar_resumo_ao_limite(args: argparse.Namespace, saida: Path, resumo: dict
     else:
         ordem = [(p, None) for p in ORDEM_PERFIS[ORDEM_PERFIS.index(perfil):]]
 
-    for proximo, prox_modo in ordem:
-        if (proximo, prox_modo) == (perfil, modo):
+    # Ultimo recurso com plano: manter sinais e cruzamentos e tirar a lista de nos.
+    passos = [(p, m, False) for p, m in ordem]
+    if plano and not plano.get("reduzido"):
+        passos.append((*ordem[-1], True))
+
+    for proximo, prox_modo, plano_reduzido in passos:
+        if (proximo, prox_modo, plano_reduzido) == (perfil, modo, False):
             candidato = resumo
         else:
             candidato = montar_resumo_ia(relatorio, proximo)
             if script:
                 candidato["script"] = script if prox_modo == modo else reduzir_script(script)
+            if plano:
+                candidato["plano"] = reduzir_plano(plano) if plano_reduzido else plano
         tokens = assistente.estimar_tokens(candidato, versao)
         if tokens <= limite:
-            if (proximo, prox_modo) != (perfil, modo):
-                extra = f", script '{prox_modo}'" if script else ""
-                print(f"\n[IA] Resumo reduzido de '{perfil}' para '{proximo}'{extra} para caber no "
-                      f"limite ({tokens} <= {limite} tokens estimados).")
+            if (proximo, prox_modo, plano_reduzido) != (perfil, modo, False):
+                de = f"{perfil}/{modo}" if script else perfil
+                para = f"{proximo}/{prox_modo}" if script else proximo
+                extra = " (plano sem a lista de nos)" if plano_reduzido else ""
+                print(f"\n[IA] Resumo{'/script' if script else ''} reduzido de '{de}' para '{para}'{extra} "
+                      f"para caber no limite ({tokens} <= {limite} tokens estimados).")
                 caminho_resumo(saida).write_text(json.dumps(candidato, indent=2, ensure_ascii=False),
                                                  encoding="utf-8")
             return candidato
@@ -291,12 +322,28 @@ def imprimir_script(caminho_do_resumo: Path) -> None:
     print(f"            {sc['vinculos_status']}")
 
 
+def imprimir_plano(caminho_do_resumo: Path) -> None:
+    pl = json.loads(caminho_do_resumo.read_text(encoding="utf-8")).get("plano")
+    if not pl:
+        return
+    f = pl["fonte"]
+    print(f"Plano     : {f['arquivo']} ({f['planos_encontrados']} plano(s) fisico(s), "
+          f"{len(pl['sinais'])} sinal(is), {len(pl['cruzamentos'])} cruzamento(s); "
+          f"coerencia com o stderr: {f['coerencia_com_stderr']['status']})")
+    for x in pl["cruzamentos"]:
+        s = next((s for s in pl["sinais"] if s["id"] == x["sinal"]), {})
+        print(f"            {x['id']} {s.get('regra', '?'):<34} log: {x.get('ligacao_plano_log', '-'):<26} "
+              f"script: {x.get('ligacao_plano_script', '-')}")
+    for a in f["avisos"]:
+        print(f"            [aviso] {a}")
+
+
 def main() -> None:
     args = ler_argumentos()
     try:
         perfil = args.resumo or ("compacto" if args.ia == "groq" else "padrao")
         output, saida, sanitizador = processar(resolver_log(args), args.saida, perfil,
-                                               args.script, args.script_modo)
+                                               args.script, args.script_modo, args.stdout)
     except (FileNotFoundError, ValueError) as e:
         raise SystemExit(f"Erro: {e}")
 
@@ -316,6 +363,7 @@ def main() -> None:
     print(f"Resumo para IA: '{resumo}' ({resumo.stat().st_size / 1024:.1f} KB)")
     print(f"Hosts mascarados: {len(sanitizador.host_map)} | Paths mascarados: {len(sanitizador.path_map)}")
     imprimir_script(resumo)
+    imprimir_plano(resumo)
 
     if args.ia:
         if not output["consistencia"]["ok"] and not args.forcar_ia:
@@ -328,4 +376,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main()

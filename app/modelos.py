@@ -32,6 +32,11 @@ class Gargalo(_Base):
     indicacao: str = Field(min_length=10, description="O que a metrica sugere e o que investigar, "
                                                       "em linguagem de hipotese.")
     prioridade: Literal["Alta", "Media", "Baixa"]
+    candidata: str | None = Field(default=None, pattern=r"^C\d+$",
+                                  description="(v4) id da candidata de plano.candidatas que originou o gargalo")
+    como_confirmar: str | None = Field(
+        default=None, description="(v3) teste concreto que confirma ou descarta a hipotese: o que rodar "
+                                  "ou olhar, e qual resultado confirmaria. Opcional nas versoes v1/v2.")
 
     @field_validator("prioridade", mode="before")
     @classmethod
@@ -46,6 +51,9 @@ class Recomendacao(_Base):
         description="investigar = confirmar uma hipotese; otimizar = mudanca concreta sustentada pela evidencia")
     texto: str = Field(min_length=10)
     sustentada_por: list[str] = Field(min_length=1, description="ids dos gargalos (G1...) que justificam")
+    linhas_script: list[int] | None = Field(
+        default=None, description="(v3) linhas do script onde a mudanca seria feita; so linhas que "
+                                  "existem em script.linhas ou nos cruzamentos do plano.")
 
 
 class AnaliseIA(_Base):
@@ -74,4 +82,4 @@ class AnaliseIA(_Base):
 
 def schema_json() -> dict:
     """JSON Schema do contrato: vai no prompt e pode ir para o README."""
-    return AnaliseIA.model_json_schema()
+    return AnaliseIA.model_json_schema()

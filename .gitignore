@@ -4,6 +4,8 @@
 
 # Logs brutos do Spark/EMR (IPs, buckets S3, nomes internos)
 logs/
+# stdout dos jobs (plano do explain): caminhos S3 e valores de filtros
+log_stdout/
 *.log
 *.log.*
 *.gz
@@ -68,4 +70,4 @@ dist/
 .idea/
 Thumbs.db
 desktop.ini
-.DS_Store
+.DS_Store

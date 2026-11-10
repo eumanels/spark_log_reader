@@ -24,7 +24,6 @@ from .sanitizador import Sanitizador
 SCRIPT_VERSION = "1.0"
 PASTA_SCRIPTS = Path("scripts")
 
-MAX_LINHAS_COMPLETO = 600     # acima disso o script ja sai em modo "trechos"
 MAX_CHARS_LINHA = 300
 CONTEXTO_VINCULO = 3          # linhas antes/depois de uma linha citada pelo log
 CONTEXTO_PALAVRA = 1          # linhas antes/depois de uma operacao Spark
@@ -155,7 +154,10 @@ def montar_script(caminho: Path, relatorio: dict, sanitizador: Sanitizador,
                   modo: str | None = None) -> dict:
     """Le, limpa e mascara o script; devolve o bloco ``script`` do resumo.
 
-    ``modo``: "completo", "trechos" ou None (automatico pelo tamanho).
+    ``modo``: "completo" (padrao) ou "trechos". O script sai completo por padrao,
+    qualquer que seja o tamanho: a reducao para "trechos" so acontece quando o
+    usuario pede (--script-modo trechos) ou quando o resumo passa do limite de
+    tokens do provedor (main.ajustar_resumo_ao_limite).
     """
     caminho = Path(caminho)
     bruto = caminho.read_bytes()
@@ -183,8 +185,6 @@ def montar_script(caminho: Path, relatorio: dict, sanitizador: Sanitizador,
         "modo": "completo",
         "linhas": limpas,
     }
-    if modo is None:
-        modo = "completo" if len(limpas) <= MAX_LINHAS_COMPLETO else "trechos"
     return reduzir_script(script) if modo == "trechos" else _fechar(script)
 
 

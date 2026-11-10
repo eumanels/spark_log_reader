@@ -108,6 +108,30 @@ def revisar(analise: AnaliseIA, resumo: dict) -> list[dict]:
             add("OMISSAO_ALTA", "-", a["id"], "(nao mencionado)",
                 f"Achado ALTA '{a.get('regra')}' nao virou gargalo nem foi citado.")
 
+    # LINHA_INEXISTENTE (v3): linhas_script fora do script enviado
+    linhas_enviadas = set((resumo.get("script") or {}).get("linhas", {}).keys())
+    for r in analise.recomendacoes:
+        if r.linhas_script and linhas_enviadas:
+            fora = [l for l in r.linhas_script if str(l) not in linhas_enviadas]
+            if fora:
+                add("LINHA_INEXISTENTE", "20", r.id, str(r.linhas_script),
+                    f"Linha(s) {', '.join(map(str, fora))} nao existem no script enviado (ou sao vazias).")
+        if resumo.get("plano") and r.tipo == "otimizar" and not r.linhas_script:
+            add("OTIMIZAR_SEM_LOCAL", "20", r.id, r.texto,
+                "Recomendacao 'otimizar' sem linhas_script: a regra 20 do prompt v3 exige o local no codigo.")
+
+    # CANDIDATA_IGNORADA (v4): toda candidata vira gargalo ou e descartada com motivo
+    cands = [c["id"] for c in (resumo.get("plano") or {}).get("candidatas", [])]
+    usadas = {g.candidata for g in analise.gargalos if g.candidata}
+    texto_desc = " ".join(analise.dados_insuficientes)
+    for c in cands:
+        if c not in usadas and c not in texto_desc:
+            add("CANDIDATA_IGNORADA", "E1", c, "(nao mencionada)",
+                f"A candidata {c} nao virou gargalo nem foi descartada com motivo.")
+    if cands and len(analise.gargalos) > 5:
+        add("RESPOSTA_LONGA", "E3", "gargalos", str(len(analise.gargalos)),
+            "Mais de 5 gargalos: a regra E3 do prompt v4 limita a 5.")
+
     # SEM_LIMITACOES
     if resumo.get("metricas_nao_disponiveis") and not analise.dados_insuficientes:
         add("SEM_LIMITACOES", "6", "dados_insuficientes", "[]",
@@ -136,4 +160,4 @@ def rascunho_markdown(candidatos: list[dict], log_nome: str, meta_ia: dict) -> s
             "- **O que mudou (prompt, regra ou código), se algo mudou:** _(preencha)_",
             "",
         ]
-    return "\n".join(md)
+    return "\n".join(md)

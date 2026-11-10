@@ -13,6 +13,7 @@ from .modelos import AnaliseIA, schema_json
 PASTA_PROMPTS = Path(__file__).resolve().parents[1] / "prompts"
 VERSAO_PROMPT_PADRAO = "analise_v1"
 VERSAO_PROMPT_COM_SCRIPT = "analise_v2"   # usada quando o resumo traz a chave "script"
+VERSAO_PROMPT_COM_PLANO = "analise_v4"    # usada quando o resumo traz a chave "plano" (stdout); v3 via --prompt
 MODELO_PADRAO = "claude-sonnet-5-5"   # sobrescreva com ANTHROPIC_MODEL no .env
 MAX_TENTATIVAS = 2                    # 1 resposta + 1 pedido de correcao
 
@@ -25,9 +26,11 @@ class ErroAnalise(Exception):
 
 # --------------------------------------------------------------------- prompt
 def versao_para(resumo: dict, pedida: str | None = None) -> str:
-    """Versao pedida explicitamente; senao v2 se o resumo traz o script, v1 caso contrario."""
+    """Versao pedida explicitamente; senao v4 com plano, v2 com script, v1 so com o log."""
     if pedida:
         return pedida
+    if resumo.get("plano"):
+        return VERSAO_PROMPT_COM_PLANO
     return VERSAO_PROMPT_COM_SCRIPT if resumo.get("script") else VERSAO_PROMPT_PADRAO
 
 
@@ -174,6 +177,41 @@ def provedor_groq(modelo: str | None = None, max_tokens: int = 3000) -> ChamarMo
     return chamar
 
 
+ 
+
+
+def provedor_openai(modelo: str | None = None, max_tokens: int = 16000) -> ChamarModelo:
+    """Chama a API da OpenAI. Requer `pip install openai` e OPENAI_API_KEY.
+
+    * response_format=json_object: a saida vem como JSON valido (o schema continua
+      sendo conferido pelo Pydantic, como nos outros provedores).
+    * Sem temperature: os modelos de raciocinio da OpenAI so aceitam o valor padrao.
+    * max_completion_tokens inclui os tokens de raciocinio; por isso o teto e maior
+      que o do Groq, para a resposta nao ser cortada no meio do JSON.
+    * OPENAI_BASE_URL (opcional) aponta para um endpoint compativel (ex.: proxy da empresa).
+    """
+    from openai import OpenAI   
+
+    modelo = modelo or os.getenv("OPENAI_MODEL")
+    cliente = OpenAI()          # le OPENAI_API_KEY (e OPENAI_BASE_URL, se houver) do ambiente
+
+    def chamar(system: str, mensagens: list[dict]) -> str:
+        r = cliente.chat.completions.create(
+            model=modelo,
+            messages=[{"role": "system", "content": system}, *mensagens],
+            response_format={"type": "json_object"},
+            max_completion_tokens=max_tokens,
+        )
+        escolha = r.choices[0]
+        if escolha.finish_reason == "length":
+            raise RuntimeError(f"resposta cortada pelo limite de {max_tokens} tokens de saida "
+                               "(aumente max_tokens em provedor_openai).")
+        return escolha.message.content or ""
+
+    chamar.descricao = f"openai:{modelo}"
+    return chamar
+
+
 def estimar_tokens(resumo: dict, versao: str = VERSAO_PROMPT_PADRAO) -> int:
     """Estimativa grosseira (JSON e texto em PT ~ 3,5 caracteres por token)."""
     return int((len(carregar_prompt(versao)) + len(montar_mensagem(resumo))) / 3.5)
@@ -215,6 +253,8 @@ def gravar_resultado(resultado: ResultadoIA, resumo: dict, destino: Path, proved
             "erros_de_validacao": resultado.erros,
             "script": ({k: resumo["script"].get(k) for k in ("nome", "sha256", "modo", "linhas_enviadas")}
                        if resumo.get("script") else None),
+            "stdout": ({k: resumo["plano"]["fonte"].get(k) for k in ("arquivo", "sha256", "planos_encontrados")}
+                       if resumo.get("plano") else None),
         },
         "analise": resultado.analise.model_dump(mode="json") if resultado.analise else None,
     }

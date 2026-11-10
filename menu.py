@@ -1,14 +1,15 @@
 """Menu interativo (CLI) para rodar o pipeline sobre os logs da pasta logs/.
 
 Uso (sempre a partir da RAIZ do repositorio):
-    python menu.py                          # logs de ./logs, scripts de ./scripts
-    python menu.py --pasta X --scripts Y    # outras pastas
+    python menu.py                          # logs de ./logs, scripts de ./scripts, stdout de ./log_stdout
+    python menu.py --pasta X --scripts Y --stdout Z    # outras pastas
 
 Reaproveita as funcoes do main.py: o resultado e o mesmo de rodar
-`python main.py --log <arquivo> [--script <script.py>] --ia <modo>`.
+`python main.py --log <arquivo> [--script <script.py>] [--stdout <stdout>] --ia <modo>`.
 """
 from __future__ import annotations
 import argparse
+import re
 from pathlib import Path
 
 from app import imprimir_resumo
@@ -19,18 +20,22 @@ from main import (
     executar_ia,
     gerar_relatorio_legivel,
     imprimir_consistencia,
+    imprimir_plano,
     imprimir_script,
     processar,
 )
 
 PASTA_LOGS = Path("logs")
+PASTA_STDOUT = Path("log_stdout")
+_TOKENS_TIPO = re.compile(r"(?i)(^|[_\-.])(stderr|stdout|log|logs)(?=$|[_\-.])")
 EXTENSOES = {".txt", ".log", ".stderr"}
 
 OPCOES = {
     "1": ("Gerar o resumo/prompt para colar na IA (manual)", "manual"),
     "2": ("Gerar analise com Anthropic", "anthropic"),
-    "3": ("Gerar analise com Groq", "groq"),
-    "4": ("Sair", None),
+    "3": ("Gerar analise com OpenAI", "openai"),
+    "4": ("Gerar analise com Groq", "groq"),
+    "5": ("Sair", None),
 }
 
 
@@ -80,7 +85,7 @@ def escolher_opcao(log: Path) -> str:
         r = _perguntar("\nEscolha uma opcao: ")
         if r in OPCOES:
             return r
-        print("  Opcao invalida. Digite 1, 2, 3 ou 4.")
+        print(f"  Opcao invalida. Digite um numero de 1 a {len(OPCOES)}.")
 
 
 def escolher_script(log: Path, pasta: Path) -> Path | None:
@@ -106,6 +111,35 @@ def escolher_script(log: Path, pasta: Path) -> Path | None:
         print(f"  Opcao invalida. Digite um numero de 0 a {len(scripts)}.")
 
 
+def _base(nome: str) -> str:
+    """'stderr_IDSAC' / 'stdout_IDSAC' / 'LOG_IDSAC' -> 'idsac' (para sugerir o par)."""
+    return _TOKENS_TIPO.sub(r"\1", nome).strip("_-. ").lower()
+
+
+def escolher_stdout(log: Path, pasta: Path) -> Path | None:
+    """Pergunta qual stdout (com o plano do explain) acompanha o log. Enter aceita a sugestao."""
+    arquivos = listar_logs(pasta)
+    if not arquivos:
+        return None
+    alvo = _base(log.stem)
+    sugerido = next((a for a in arquivos if _base(a.stem) == alvo), None) or \
+        next((a for a in arquivos if alvo and (alvo in _base(a.stem) or _base(a.stem) in alvo)), None)
+
+    print(f"\n=== Enviar o stdout com o plano de execucao? (pasta {pasta}/) ===")
+    for i, a in enumerate(arquivos, start=1):
+        marca = "  <- sugerido" if a == sugerido else ""
+        print(f"  {i:>2} - {a.name}  ({_tamanho(a.stat().st_size)}){marca}")
+    print("   0 - Sem stdout")
+    padrao = arquivos.index(sugerido) + 1 if sugerido else 0
+    while True:
+        r = _perguntar(f"\nEscolha o stdout [Enter = {padrao}]: ") or str(padrao)
+        if r == "0":
+            return None
+        if r.isdigit() and 1 <= int(r) <= len(arquivos):
+            return arquivos[int(r) - 1]
+        print(f"  Opcao invalida. Digite um numero de 0 a {len(arquivos)}.")
+
+
 def _args_ia(modo: str, resposta: Path | None = None) -> argparse.Namespace:
     """Mesmos campos que o main.py le em executar_ia/ajustar_resumo_ao_limite."""
     return argparse.Namespace(ia=modo, resposta_ia=resposta, modelo=None, prompt=None,
@@ -113,11 +147,11 @@ def _args_ia(modo: str, resposta: Path | None = None) -> argparse.Namespace:
 
 
 # ------------------------------------------------------------------- execucao
-def rodar(log: Path, modo: str, script: Path | None) -> None:
+def rodar(log: Path, modo: str, script: Path | None, stdout: Path | None = None) -> None:
     perfil = "compacto" if modo == "groq" else "padrao"
-    extra = f" + script '{script.name}'" if script else ""
+    extra = (f" + script '{script.name}'" if script else "") + (f" + stdout '{stdout.name}'" if stdout else "")
     print(f"\nProcessando '{log.name}'{extra} (resumo '{perfil}')...")
-    output, saida, sanitizador = processar(log, None, perfil, script)
+    output, saida, sanitizador = processar(log, None, perfil, script, None, stdout)
 
     imprimir_resumo(output)
     sc = output["score"]
@@ -129,6 +163,7 @@ def rodar(log: Path, modo: str, script: Path | None) -> None:
     print(f"Resumo para IA: '{caminho_resumo(saida)}'")
     print(f"Hosts mascarados: {len(sanitizador.host_map)} | Paths mascarados: {len(sanitizador.path_map)}")
     imprimir_script(caminho_resumo(saida))
+    imprimir_plano(caminho_resumo(saida))
 
     if not output["consistencia"]["ok"]:
         print("\n[IA] Nao executada: a consistencia tem erro(s), entao o resumo nao e confiavel.")
@@ -162,6 +197,8 @@ def main() -> None:
                    help=f"pasta com os logs .txt/.log (padrao: {PASTA_LOGS}/)")
     p.add_argument("--scripts", type=Path, default=PASTA_SCRIPTS,
                    help=f"pasta com os scripts .py executados no EMR (padrao: {PASTA_SCRIPTS}/)")
+    p.add_argument("--stdout", type=Path, default=PASTA_STDOUT,
+                   help=f"pasta com o stdout dos jobs (plano do explain) (padrao: {PASTA_STDOUT}/)")
     args = p.parse_args()
 
     while True:
@@ -177,9 +214,10 @@ def main() -> None:
         if modo is None:
             break
         script = escolher_script(log, args.scripts)
+        stdout = escolher_stdout(log, args.stdout)
 
         try:
-            rodar(log, modo, script)
+            rodar(log, modo, script, stdout)
         except SystemExit as e:        # executar_ia usa SystemExit para erros de API/limite
             if e.code not in (None, 0):
                 print(e.code)
@@ -187,7 +225,7 @@ def main() -> None:
             print(f"\nErro: pacote '{e.name}' nao instalado. Rode: pip install -r requirements.txt")
         except Exception as e:          # chave ausente, arquivo invalido etc.: volta ao menu
             print(f"\nErro: {type(e).__name__}: {e}")
-            if modo in ("anthropic", "groq"):
+            if modo in ("anthropic", "openai", "groq"):
                 print(f"  Confira {modo.upper()}_API_KEY no .env.")
 
         _perguntar("\nEnter para voltar a lista de logs...")

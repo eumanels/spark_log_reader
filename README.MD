@@ -192,8 +192,26 @@ python menu.py
 # Linha de comando
 python main.py --log logs/<log>.txt --ia manual            # gera o prompt para colar no chat
 python main.py --log logs/<log>.txt --script scripts/<script>.py --ia anthropic
+python main.py --log logs/<log>.txt --script scripts/<script>.py --ia openai
 python main.py --log logs/<log>.txt --script scripts/<script>.py --ia groq
 ```
+
+Com o plano de execucao (prompt v3):
+
+```bash
+python main.py --log logs/<stderr>.txt --script scripts/<script>.py --stdout log_stdout/<stdout>.txt --ia manual
+```
+
+Chaves e modelos no `.env` (so o do provedor usado e obrigatorio):
+
+| Provedor | Chave | Modelo (opcional) | Padrao |
+|---|---|---|---|
+| Anthropic | `ANTHROPIC_API_KEY` | `ANTHROPIC_MODEL` | `claude-sonnet-5-5` |
+| OpenAI | `OPENAI_API_KEY` (e `OPENAI_BASE_URL`, se usar proxy) | `OPENAI_MODEL` | `gpt-5.4-mini` |
+| Groq | `GROQ_API_KEY` | `GROQ_MODEL` | `openai/gpt-oss-120b` |
+
+Sem limite de tokens por padrao na Anthropic e na OpenAI; no Groq o padrao e 6000
+(`--max-tokens-entrada` ou `IA_MAX_TOKENS_ENTRADA` mudam isso).
 
 ## Analise com o script executado (`--script`)
 
@@ -214,7 +232,7 @@ para o arquivo do script (ex.: `count at etl.py:12`), a linha fica ligada aos jo
 e aos stages. Na DataFrame API o PySpark costuma registrar `NativeMethodAccessorImpl.java:0`;
 nesse caso nao ha ligacao e o prompt proibe a IA de afirma-la.
 
-**Modos**: `completo` (padrao ate 600 linhas) ou `trechos` (linhas citadas pelo log +-3 e
+**Modos**: `completo` (padrao, qualquer tamanho) ou `trechos` (linhas citadas pelo log +-3 e
 linhas com operacoes Spark +-1). No limite de tokens o pipeline reduz primeiro o resumo e
 depois o script, nesta ordem: padrao/completo -> compacto/completo -> padrao/trechos ->
 compacto/trechos -> minimo/trechos.
@@ -226,3 +244,60 @@ Todo gargalo ainda precisa de pelo menos uma evidencia vinda das metricas.
 **Limitacoes**: nomes de buckets montados por concatenacao (`"s3://" + bucket`), nomes de
 pessoas fora de comentarios e dados de negocio em strings nao sao mascarados; revise o
 script antes de usar um provedor externo.
+
+## Analise com o plano de execucao (`--stdout`, prompt v3)
+
+Com o stdout do job contendo a saida de `df.explain(True)`, o pipeline cruza as tres fontes
+de forma deterministica (`app/plano.py`) antes de chamar a IA:
+
+| Fonte | Responde | Exemplo |
+|---|---|---|
+| stderr (log) | quanto custou | 3 stages de 54 tasks, 16,3 s, skew 72x |
+| stdout (plano) | o que o Spark executou | tabela X lida 3 vezes, com o mesmo shuffle repetido |
+| script | onde mudar | DataFrame da linha 271 usado nas linhas 321, 340 e 412 sem cache |
+
+**Plano**: so o plano FISICO e lido (as secoes logicas sao descartadas). Do plano saem nos
+estruturados (operador, chaves, estrategia de join, particoes), nunca o texto: literais de
+filtros, caminhos S3 e listas de colunas nao vao para a IA.
+
+**Sinais do plano**: tabela lida varias vezes, `Expand` (count distinct), `SortAggregate`,
+broadcast de DataFrame em memoria, leitura sem filtro de particao, joins por estrategia,
+janelas e shuffles (com o numero de particoes).
+
+**Cruzamentos** (cada um com o grau da ligacao, que o prompt v3 usa para limitar o quanto a IA
+afirma):
+
+- plano x log: `multiplicidade` (ex.: 3 leituras no plano = 3 scans do mesmo tamanho no log),
+  `valor` (stages com o numero de tasks igual as particoes do plano), `tipo`;
+- plano x script (via `ast`): `nome` (tabela, chave de join, dropDuplicates, countDistinct,
+  Window, createDataFrame), alem do DataFrame reutilizado sem cache e das linhas que o usam.
+
+**Coerencia**: os horarios das mensagens do stdout sao comparados com a janela do stderr; se
+nao baterem, o stdout pode ser de outra execucao e o prompt manda nao usar os cruzamentos.
+
+**Resposta v3**: cada gargalo traz `como_confirmar` (o teste que confirma a hipotese) e cada
+recomendacao `otimizar` traz `linhas_script` (onde mudar). A revisao critica aponta linhas que
+nao existem no script e recomendacoes `otimizar` sem local.
+
+**Limitacoes**: `explain("formatted")` ainda nao e lido; o plano impresso antes da execucao
+(`isFinalPlan=false`) pode diferir do final por causa do AQE; nomes de tabela longos saem
+truncados no plano (aumente `spark.sql.maxMetadataStringLength`).
+
+## Candidatas, fases e resposta enxuta (prompt v4)
+
+Com o stdout, o pipeline tambem monta (`app/plano.py`, sem IA):
+
+- **Fases**: as mensagens do proprio script no stdout (`log.info(...)`) dividem a execucao em
+  trechos; cada fase traz duracao, jobs/stages do stderr que rodaram nela, as linhas do script
+  entre as duas mensagens e as operacoes do trecho (ex.: `vacuum` na linha 520). Achados do log
+  que caem numa fase ganham local no script.
+- **Candidatas**: recomendacoes prontas, ordenadas por custo, cada uma com custo (log), mecanismo
+  (plano ou operacao), local (linhas), acao e como confirmar. Hoje: releitura sem cache,
+  DataFrame em memoria com muitas particoes no broadcast, manutencao Delta no job e acoes no
+  driver.
+
+O prompt v4 (padrao quando ha stdout; o v3 continua disponivel com `--prompt analise_v3`) parte
+das candidatas e limita a resposta: no maximo 5 gargalos, frases curtas, toda candidata usada ou
+descartada com motivo. O relatorio abre com **O que fazer** e **Onde o tempo foi**; o restante
+(evidencias, plano, achados, stages, limitacoes) fica recolhido. Sem IA, o "O que fazer" mostra
+as candidatas.

@@ -1,0 +1,276 @@
+{
+  "meta_ia": {
+    "prompt_versao": "analise_v4",
+    "provedor": "openai:gpt-6-luna",
+    "gerado_em": "2026-11-10T15:02:33-03:00",
+    "resumo_enviado_sha256": "c83636cbd7989a0ce5eceb791f3f49def51e8848663c4b10171b9a6b97a407ef",
+    "tentativas": 2,
+    "valida": true,
+    "erros_de_validacao": [
+      "- gargalos.2.evidencias.2.valor.constrained-str: Input should be a valid string\n- gargalos.2.evidencias.2.valor.int: Input should be a valid integer\n- gargalos.2.evidencias.2.valor.float: Input should be a valid number\n- gargalos.2.evidencias.2.valor.bool: Input should be a valid boolean\n- gargalos.2.evidencias.3.valor.constrained-str: Input should be a valid string\n- gargalos.2.evidencias.3.valor.int: Input should be a valid integer\n- gargalos.2.evidencias.3.valor.float: Input should be a valid number\n- gargalos.2.evidencias.3.valor.bool: Input should be a valid boolean"
+    ],
+    "script": {
+      "nome": "IDSAC.py",
+      "sha256": "368e20e0576b4e01ccc94df6b188b80057abb2f109f4a5f1c953be5625e31b48",
+      "modo": "completo",
+      "linhas_enviadas": 462
+    },
+    "stdout": {
+      "arquivo": "stdout_IDSAC.txt",
+      "sha256": "4dc43817e68b6610fc98a93ba029e9cd58abfe15f2421aa3f67fcbe22b641839",
+      "planos_encontrados": 1
+    }
+  },
+  "analise": {
+    "classificacao": "degradada",
+    "justificativa_classificacao": "A execução terminou com exit_code 0, mas há achado ALTA (A1) e achados MEDIA (A2 e A3).",
+    "evidencias_classificacao": [
+      {
+        "caminho": "execucao.exit_code",
+        "valor": "0"
+      },
+      {
+        "caminho": "achados[A1].severidade",
+        "valor": "ALTA"
+      },
+      {
+        "caminho": "achados[A2].severidade",
+        "valor": "MEDIA"
+      },
+      {
+        "caminho": "achados[A3].severidade",
+        "valor": "MEDIA"
+      }
+    ],
+    "gargalos": [
+      {
+        "id": "G1",
+        "titulo": "Manutenção Delta no trecho após a escrita",
+        "evidencias": [
+          {
+            "caminho": "plano.candidatas[C1].custo_s",
+            "valor": 17.0
+          },
+          {
+            "caminho": "plano.fases[F6].duracao_s",
+            "valor": 17.0
+          },
+          {
+            "caminho": "achados[A1].evidencia.num_tasks",
+            "valor": 10000
+          },
+          {
+            "caminho": "achados[A1].evidencia.duration_s",
+            "valor": 8.543
+          },
+          {
+            "caminho": "script.linhas.520",
+            "valor": "delta_table.vacuum(72)"
+          },
+          {
+            "caminho": "script.linhas.521",
+            "valor": "delta_table.generate(\"symlink_format_manifest\")"
+          }
+        ],
+        "achado_relacionado": "A1",
+        "indicacao": "A fase F6, entre a conclusão da escrita e a criação do manifesto, durou 17.0 s e inclui vacuum e generate; o stage 104.0 teve 10000 tasks e durou 8.543 s. Isso sugere que a manutenção Delta contribui para o tempo do trecho, mas não atribui o stage a uma operação específica.",
+        "prioridade": "Alta",
+        "candidata": "C1",
+        "como_confirmar": "Rodar sem vacuum (ou com ele em rotina separada) e comparar a duração da fase F6 (17.0 s) e os jobs/stages dela no log."
+      },
+      {
+        "id": "G2",
+        "titulo": "Releituras de atendimento_genesis",
+        "evidencias": [
+          {
+            "caminho": "plano.candidatas[C2].custo_s",
+            "valor": 16.341
+          },
+          {
+            "caminho": "plano.cruzamentos[X1].log.scans",
+            "valor": 3
+          },
+          {
+            "caminho": "plano.cruzamentos[X1].log.arquivos_por_scan",
+            "valor": 54
+          },
+          {
+            "caminho": "plano.cruzamentos[X1].log.duracao_stages_s",
+            "valor": 16.341
+          },
+          {
+            "caminho": "plano.sinais[S1.1].leituras",
+            "valor": 3
+          },
+          {
+            "caminho": "script.linhas.271",
+            "valor": "atendimento_genesis = ("
+          },
+          {
+            "caminho": "script.linhas.311",
+            "valor": ")"
+          }
+        ],
+        "achado_relacionado": null,
+        "indicacao": "O plano lê REP_WORKER_A... 3 vezes, correspondendo a 3 scans de 54 arquivos no log e 16.341 s de stages. O cruzamento X1 liga essas leituras à definição de atendimento_genesis na linha 271 e aos usos nas linhas 321, 340 e 412.",
+        "prioridade": "Media",
+        "candidata": "C2",
+        "como_confirmar": "Na próxima execução o log deve ter 1 scan de 54 arquivos em vez de 3, e o plano deve trocar as leituras por InMemoryTableScan."
+      },
+      {
+        "id": "G3",
+        "titulo": "Broadcast de DataFrame criado em memória",
+        "evidencias": [
+          {
+            "caminho": "plano.candidatas[C3].custo_s",
+            "valor": 6.974
+          },
+          {
+            "caminho": "plano.candidatas[C3].onde.create_dataframe[0]",
+            "valor": 186
+          },
+          {
+            "caminho": "plano.cruzamentos[X2].log.tasks_por_stage[0]",
+            "valor": 400
+          },
+          {
+            "caminho": "plano.cruzamentos[X2].log.tasks_por_stage[1]",
+            "valor": 400
+          },
+          {
+            "caminho": "plano.sinais[S1.4].ocorrencias",
+            "valor": 4
+          },
+          {
+            "caminho": "script.linhas.186",
+            "valor": "spark.createDataFrame("
+          }
+        ],
+        "achado_relacionado": null,
+        "indicacao": "Dois stages com 400 tasks são compatíveis com a materialização de broadcasts; a candidata associa a eles 6.974 s. Como a ligação do log ao plano é do tipo, isso sugere conferir as partições do DataFrame criado na linha 186.",
+        "prioridade": "Media",
+        "candidata": "C3",
+        "como_confirmar": "Executar df.rdd.getNumPartitions() no DataFrame da linha 186; após o ajuste, os stages de 400 tasks devem cair para 1 task."
+      },
+      {
+        "id": "G4",
+        "titulo": "Scans com muitos arquivos por leitura",
+        "evidencias": [
+          {
+            "caminho": "achados[A2].evidencia.ocorrencias",
+            "valor": 3
+          },
+          {
+            "caminho": "achados[A2].evidencia.max_arquivos_em_um_scan",
+            "valor": 54
+          },
+          {
+            "caminho": "plano.cruzamentos[X1].log.duracao_stages_s",
+            "valor": 16.341
+          },
+          {
+            "caminho": "script.linhas.214",
+            "valor": ".load(rep_wrk_att_path)"
+          }
+        ],
+        "achado_relacionado": "A2",
+        "indicacao": "O log registra 3 scans, com até 54 arquivos em um scan, e o cruzamento X1 relaciona esses scans a 16.341 s de stages. Isso sugere investigar arquivos pequenos na origem, embora o custo de abertura não esteja separado do custo das releituras de G2.",
+        "prioridade": "Media",
+        "candidata": null,
+        "como_confirmar": "Identificar a tabela lida no scan e verificar, com DESCRIBE DETAIL, a contagem de arquivos e o tamanho médio."
+      },
+      {
+        "id": "G5",
+        "titulo": "Baixa ocupação estimada durante a execução",
+        "evidencias": [
+          {
+            "caminho": "achados[A3].evidencia.ocupacao_pct",
+            "valor": 39.9
+          },
+          {
+            "caminho": "execucao.duracao_total_s",
+            "valor": 95.0
+          },
+          {
+            "caminho": "plano.fases[F1].duracao_s",
+            "valor": 30.0
+          },
+          {
+            "caminho": "plano.fases[F1].stages",
+            "valor": 0
+          },
+          {
+            "caminho": "plano.fases[F1].tempo_em_stages_s",
+            "valor": 0
+          }
+        ],
+        "achado_relacionado": "A3",
+        "indicacao": "As tasks ocuparam 39.9% da capacidade estimada; a fase F1 durou 30.0 s sem stages. Isso pode indicar tempo fora da execução de tasks, mas não identifica por si só a causa.",
+        "prioridade": "Media",
+        "candidata": null,
+        "como_confirmar": "Comparar as durações dos jobs em call_sites com a duração total e conferir os executores que realmente tiveram tasks."
+      }
+    ],
+    "recomendacoes": [
+      {
+        "id": "R1",
+        "tipo": "investigar",
+        "texto": "Avaliar tirar vacuum e generate do caminho crítico do job, movendo-os para rotina separada ou menor frequência, no trecho entre as linhas 517 e 522.",
+        "sustentada_por": [
+          "G1"
+        ],
+        "linhas_script": [
+          520,
+          521
+        ]
+      },
+      {
+        "id": "R2",
+        "tipo": "otimizar",
+        "texto": "Persistir atendimento_genesis ao fim da definição (linha 311) e liberar com unpersist após a última ação que o usa.",
+        "sustentada_por": [
+          "G2"
+        ],
+        "linhas_script": [
+          311
+        ]
+      },
+      {
+        "id": "R3",
+        "tipo": "investigar",
+        "texto": "Verificar o número de partições do DataFrame criado na linha 186 e, se for alto para poucas linhas, reduzir com coalesce(1) antes do broadcast.",
+        "sustentada_por": [
+          "G3"
+        ],
+        "linhas_script": [
+          186
+        ]
+      },
+      {
+        "id": "R4",
+        "tipo": "investigar",
+        "texto": "Identificar a tabela de origem e contar arquivos e tamanho médio na leitura da linha 214 antes de decidir por compactação.",
+        "sustentada_por": [
+          "G4"
+        ],
+        "linhas_script": [
+          214
+        ]
+      },
+      {
+        "id": "R5",
+        "tipo": "investigar",
+        "texto": "Comparar as durações dos jobs com o tempo total e examinar os intervalos sem stages, incluindo a fase F1, antes de propor mudança no código.",
+        "sustentada_por": [
+          "G5"
+        ],
+        "linhas_script": null
+      }
+    ],
+    "dados_insuficientes": [
+      "O stage 104.0 é atribuído pelo log a código interno do engine; a fase F6 o localiza no trecho de manutenção, mas não permite atribuí-lo a vacuum ou generate individualmente.",
+      "O log não separa o custo de abertura dos arquivos do custo das releituras de G2.",
+      "A ligação entre os stages de broadcast e o log é do tipo; a origem exata dos jobs não está confirmada."
+    ]
+  }
+}
